@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.rayllanderson.entities.enums.Status;
 
@@ -17,7 +20,12 @@ public class Game implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+  
+    @NotBlank(message = "nome não pode ser vazio")
+    @NotEmpty(message = "nome não pode ser vazio")
     private String name;
+    
+    @NotNull(message = "status deve ser informado")
     private Status status;
 
     public Game() {
