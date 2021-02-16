@@ -1,0 +1,36 @@
+package com.rayllanderson.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.rayllanderson.entities.Game;
+import com.rayllanderson.repositories.GameRepository;
+import com.rayllanderson.services.GameService;
+
+@RestController
+@RequestMapping("/games")
+public class GameController {
+    
+    @Autowired
+    private GameRepository repository;
+   
+    @Autowired
+    private GameService service;
+    
+    @GetMapping
+    public ResponseEntity<List<Game>> findAll(){
+	return ResponseEntity.ok(repository.findAll());
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Game> findById(@PathVariable Long id){
+	return ResponseEntity.ok(service.findById(id));
+    }
+
+}
