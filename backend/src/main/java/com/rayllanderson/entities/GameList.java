@@ -18,29 +18,28 @@ public class GameList {
     }
 
     public List<Game> getCompletedGames() {
-	List<Game> completedGames = games;
+	List<Game> completedGames = new ArrayList<>(games);
 	completedGames.removeIf(x -> !(x.getStatus().equals(Status.COMPLETED)));
 	return completedGames;
     }
 
     public List<Game> getPlayingGames() {
-	List<Game> playingGames = games;
+	List<Game> playingGames = new ArrayList<>(games);
 	playingGames.removeIf(x -> !(x.getStatus().equals(Status.PLAYING)));
 	return playingGames;
     }
 
     public List<Game> getWishedGames() {
-	List<Game> whisedGames = games;
+	List<Game> whisedGames = new ArrayList<>(games);
 	whisedGames.removeIf(x -> !(x.getStatus().equals(Status.WISHED)));
 	return whisedGames;
     }
 
-    public void addGame(Game game) {
+    public void add(Game game) {
 	this.games.add(game);
     }
 
     public void addAll(Collection<? extends Game> c) {
 	this.games.addAll(c);
     }
-
 }
