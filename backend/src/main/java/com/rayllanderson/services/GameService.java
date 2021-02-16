@@ -2,6 +2,7 @@ package com.rayllanderson.services;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,14 @@ public class GameService {
 
     public void deleteById(Long id) throws ObjectNotFoundException {
 	repository.delete(this.findById(id));
+    }
+    
+    /**
+     * Seta os dados do objeto @source no objeto @target
+     * @param source - objeto que contém os novos dados
+     * @param target - objeto que receberá os novos dados
+     */
+    public void updateData(Game source, Game target) {
+    	BeanUtils.copyProperties(source, target, "id"); 
     }
 }
