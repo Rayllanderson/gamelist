@@ -79,10 +79,25 @@ public class GameController {
 	service.setStatus(id, GameStatus.COMPLETED);
 	return ResponseEntity.ok().build();
     }
-    
-    @GetMapping("search-by")
-    public ResponseEntity<List<Game>> searchByName(@RequestParam String name){
+
+    @GetMapping("/search-by")
+    public ResponseEntity<List<Game>> searchByName(@RequestParam String name) {
 	return ResponseEntity.ok(service.searchByName(name));
     }
-    
+
+    @GetMapping("/wished")
+    public ResponseEntity<List<Game>> findWished() {
+	return ResponseEntity.ok(repository.findByStatus(GameStatus.WISHED));
+    }
+
+    @GetMapping("/playing")
+    public ResponseEntity<List<Game>> findPlaying() {
+	return ResponseEntity.ok(repository.findByStatus(GameStatus.PLAYING));
+    }
+
+    @GetMapping("/completed")
+    public ResponseEntity<List<Game>> findCompleted() {
+	return ResponseEntity.ok(repository.findByStatus(GameStatus.COMPLETED));
+    }
+
 }

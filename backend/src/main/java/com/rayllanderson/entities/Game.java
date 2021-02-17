@@ -3,6 +3,8 @@ package com.rayllanderson.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +28,7 @@ public class Game implements Serializable{
     private String name;
     
     @NotNull(message = "status deve ser informado")
+    @Enumerated(EnumType.STRING)
     private GameStatus status;
 
     public Game() {
