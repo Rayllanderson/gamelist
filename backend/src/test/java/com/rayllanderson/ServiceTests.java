@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.enums.Status;
+import com.rayllanderson.entities.enums.GameStatus;
 import com.rayllanderson.services.GameService;
 import com.rayllanderson.services.exceptions.ObjectNotFoundException;
 
@@ -27,7 +27,7 @@ class ServiceTests {
 
     @BeforeAll
     void instantiateGames() {
-	id = service.save(new Game(null, "Death Stranding", Status.WISHED)).getId();
+	id = service.save(new Game(null, "Death Stranding", GameStatus.WISHED)).getId();
     }
 
     @Test

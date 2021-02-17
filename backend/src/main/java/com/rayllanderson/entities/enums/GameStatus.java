@@ -1,6 +1,6 @@
 package com.rayllanderson.entities.enums;
 
-public enum Status {
+public enum GameStatus {
 
     WISHED,
     PLAYING,

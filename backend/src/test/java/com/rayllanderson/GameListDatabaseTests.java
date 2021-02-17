@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.rayllanderson.entities.Game;
 import com.rayllanderson.entities.GameList;
-import com.rayllanderson.entities.enums.Status;
+import com.rayllanderson.entities.enums.GameStatus;
 import com.rayllanderson.repositories.GameRepository;
 
 @SpringBootTest
@@ -26,10 +26,10 @@ class GameListDatabaseTests {
 
     @BeforeAll
     void instantiateGames() {
-	gameList.add(new Game(null, "Death Stranding", Status.WISHED));
-	gameList.add(new Game(null, "Little Nightmares", Status.WISHED));
-	gameList.add(new Game(null, "GTA V", Status.COMPLETED));
-	gameList.add(new Game(null, "Nier Automata", Status.PLAYING));
+	gameList.add(new Game(null, "Death Stranding", GameStatus.WISHED));
+	gameList.add(new Game(null, "Little Nightmares", GameStatus.WISHED));
+	gameList.add(new Game(null, "GTA V", GameStatus.COMPLETED));
+	gameList.add(new Game(null, "Nier Automata", GameStatus.PLAYING));
 	repository.saveAll(gameList.getGames());
     }
 
