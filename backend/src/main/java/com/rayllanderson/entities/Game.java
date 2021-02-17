@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.rayllanderson.entities.enums.Status;
+import com.rayllanderson.entities.enums.GameStatus;
 
 @Entity
 public class Game implements Serializable{
@@ -26,12 +26,12 @@ public class Game implements Serializable{
     private String name;
     
     @NotNull(message = "status deve ser informado")
-    private Status status;
+    private GameStatus status;
 
     public Game() {
     }
 
-    public Game(Long id, String name, Status status) {
+    public Game(Long id, String name, GameStatus status) {
 	this.id = id;
 	this.name = name;
 	this.status = status;
@@ -53,11 +53,11 @@ public class Game implements Serializable{
 	this.name = name;
     }
 
-    public Status getStatus() {
+    public GameStatus getStatus() {
 	return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(GameStatus status) {
 	this.status = status;
     }
 

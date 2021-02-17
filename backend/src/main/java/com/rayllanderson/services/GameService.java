@@ -1,5 +1,7 @@
 package com.rayllanderson.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
@@ -7,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.enums.Status;
+import com.rayllanderson.entities.enums.GameStatus;
 import com.rayllanderson.repositories.GameRepository;
 import com.rayllanderson.services.exceptions.ObjectNotFoundException;
 
@@ -39,10 +41,14 @@ public class GameService {
     	BeanUtils.copyProperties(source, target, "id"); 
     }
 
-    public void setStatus(Long id, Status status) {
+    public void setStatus(Long id, GameStatus status) {
 	Game game = this.findById(id);
 	game.setStatus(status);
 	repository.save(game);
+    }
+    
+    public List<Game> searchByName(String name){
+	return repository.findByNameIgnoreCaseContaining(name);
     }
 
 }

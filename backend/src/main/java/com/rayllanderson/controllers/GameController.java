@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.enums.Status;
+import com.rayllanderson.entities.enums.GameStatus;
 import com.rayllanderson.repositories.GameRepository;
 import com.rayllanderson.services.GameService;
 
@@ -63,20 +64,25 @@ public class GameController {
 
     @PutMapping("/{id}/wished")
     public ResponseEntity<Void> setWished(@PathVariable Long id) {
-	service.setStatus(id, Status.WISHED);
+	service.setStatus(id, GameStatus.WISHED);
 	return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/playing")
     public ResponseEntity<Void> setPlaying(@PathVariable Long id) {
-	service.setStatus(id, Status.PLAYING);
+	service.setStatus(id, GameStatus.PLAYING);
 	return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/completed")
     public ResponseEntity<Void> setCompleted(@PathVariable Long id) {
-	service.setStatus(id, Status.COMPLETED);
+	service.setStatus(id, GameStatus.COMPLETED);
 	return ResponseEntity.ok().build();
     }
-
+    
+    @GetMapping("search-by")
+    public ResponseEntity<List<Game>> searchByName(@RequestParam String name){
+	return ResponseEntity.ok(service.searchByName(name));
+    }
+    
 }

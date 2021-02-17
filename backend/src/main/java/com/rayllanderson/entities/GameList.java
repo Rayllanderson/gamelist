@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.rayllanderson.entities.enums.Status;
+import com.rayllanderson.entities.enums.GameStatus;
 
 public class GameList {
 
@@ -19,19 +19,19 @@ public class GameList {
 
     public List<Game> getCompletedGames() {
 	List<Game> completedGames = new ArrayList<>(games);
-	completedGames.removeIf(x -> !(x.getStatus().equals(Status.COMPLETED)));
+	completedGames.removeIf(x -> !(x.getStatus().equals(GameStatus.COMPLETED)));
 	return completedGames;
     }
 
     public List<Game> getPlayingGames() {
 	List<Game> playingGames = new ArrayList<>(games);
-	playingGames.removeIf(x -> !(x.getStatus().equals(Status.PLAYING)));
+	playingGames.removeIf(x -> !(x.getStatus().equals(GameStatus.PLAYING)));
 	return playingGames;
     }
 
     public List<Game> getWishedGames() {
 	List<Game> whisedGames = new ArrayList<>(games);
-	whisedGames.removeIf(x -> !(x.getStatus().equals(Status.WISHED)));
+	whisedGames.removeIf(x -> !(x.getStatus().equals(GameStatus.WISHED)));
 	return whisedGames;
     }
 
