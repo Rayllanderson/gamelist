@@ -16,38 +16,39 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rayllanderson.entities.Game;
+import com.rayllanderson.entities.enums.Status;
 import com.rayllanderson.repositories.GameRepository;
 import com.rayllanderson.services.GameService;
 
 @RestController
 @RequestMapping("/games")
 public class GameController {
-    
+
     @Autowired
     private GameRepository repository;
-   
+
     @Autowired
     private GameService service;
-    
+
     @GetMapping
-    public ResponseEntity<List<Game>> findAll(){
+    public ResponseEntity<List<Game>> findAll() {
 	return ResponseEntity.ok(repository.findAll());
     }
-    
+
     @GetMapping("/{id}")
-    public ResponseEntity<Game> findById(@PathVariable Long id){
+    public ResponseEntity<Game> findById(@PathVariable Long id) {
 	return ResponseEntity.ok(service.findById(id));
     }
-    
+
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody Game game){
+    public ResponseEntity<Void> save(@RequestBody Game game) {
 	game = service.save(game);
 	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(game.getId()).toUri();
 	return ResponseEntity.created(uri).build();
     }
-    
+
     @PutMapping("/{id}")
-    public ResponseEntity<Void> save(@PathVariable Long id, @RequestBody Game game){
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody Game game) {
 	Game gameFromDatabase = service.findById(id);
 	service.updateData(game, gameFromDatabase);
 	service.save(gameFromDatabase);
@@ -55,9 +56,27 @@ public class GameController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> save(@PathVariable Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 	service.deleteById(id);
 	return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/wished")
+    public ResponseEntity<Void> setWished(@PathVariable Long id) {
+	service.setStatus(id, Status.WISHED);
+	return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/playing")
+    public ResponseEntity<Void> setPlaying(@PathVariable Long id) {
+	service.setStatus(id, Status.PLAYING);
+	return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/completed")
+    public ResponseEntity<Void> setCompleted(@PathVariable Long id) {
+	service.setStatus(id, Status.COMPLETED);
+	return ResponseEntity.ok().build();
     }
 
 }

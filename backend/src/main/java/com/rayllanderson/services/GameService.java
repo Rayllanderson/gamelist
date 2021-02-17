@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rayllanderson.entities.Game;
+import com.rayllanderson.entities.enums.Status;
 import com.rayllanderson.repositories.GameRepository;
 import com.rayllanderson.services.exceptions.ObjectNotFoundException;
 
@@ -37,4 +38,11 @@ public class GameService {
     public void updateData(Game source, Game target) {
     	BeanUtils.copyProperties(source, target, "id"); 
     }
+
+    public void setStatus(Long id, Status status) {
+	Game game = this.findById(id);
+	game.setStatus(status);
+	repository.save(game);
+    }
+
 }
