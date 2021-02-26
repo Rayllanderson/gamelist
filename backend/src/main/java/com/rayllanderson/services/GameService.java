@@ -2,11 +2,11 @@ package com.rayllanderson.services;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rayllanderson.entities.Game;
 import com.rayllanderson.entities.enums.GameStatus;
@@ -24,6 +24,7 @@ public class GameService {
 	return repository.save(game);
     }
 
+    @Transactional(readOnly = true)
     public Game findById(Long id) throws ObjectNotFoundException {
 	return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
