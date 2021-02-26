@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,29 +16,33 @@ import javax.validation.constraints.NotNull;
 import com.rayllanderson.entities.enums.GameStatus;
 
 @Entity
-public class Game implements Serializable{
+public class Game implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-  
+
     @NotBlank(message = "nome não pode ser vazio")
     @NotEmpty(message = "nome não pode ser vazio")
     private String name;
-    
+
     @NotNull(message = "status deve ser informado")
     @Enumerated(EnumType.STRING)
     private GameStatus status;
 
+    @ManyToOne
+    private User user;
+
     public Game() {
     }
 
-    public Game(Long id, String name, GameStatus status) {
+    public Game(Long id, String name, GameStatus status, User user) {
 	this.id = id;
 	this.name = name;
 	this.status = status;
+	this.user = user;
     }
 
     public Long getId() {
@@ -62,6 +67,14 @@ public class Game implements Serializable{
 
     public void setStatus(GameStatus status) {
 	this.status = status;
+    }
+
+    public User getUser() {
+	return user;
+    }
+
+    public void setUser(User user) {
+	this.user = user;
     }
 
     @Override

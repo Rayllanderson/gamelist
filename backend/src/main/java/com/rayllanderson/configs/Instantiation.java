@@ -5,27 +5,33 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.GameList;
+import com.rayllanderson.entities.User;
 import com.rayllanderson.entities.enums.GameStatus;
 import com.rayllanderson.repositories.GameRepository;
+import com.rayllanderson.repositories.UserRepository;
 
 @Configuration
 public class Instantiation implements CommandLineRunner {
 
     @Autowired
-    private GameRepository repository;
+    private GameRepository gameRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void run(String... args) throws Exception {
-	repository.deleteAll();
+	gameRepository.deleteAll();
 
-	GameList gameList = new GameList();
-	gameList.add(new Game(null, "Death Stranding", GameStatus.WISHED));
-	gameList.add(new Game(null, "Little Nightmares", GameStatus.WISHED));
-	gameList.add(new Game(null, "GTA V", GameStatus.COMPLETED));
-	gameList.add(new Game(null, "Nier Automata", GameStatus.PLAYING));
+	User user = new User(1L, "rayllanderson@gmail.com", "whatever123");
+	userRepository.save(user);
 	
-	repository.saveAll(gameList.getGames());
+	user.addGame(new Game(null, "Death Stranding", GameStatus.WISHED, user));
+	user.addGame(new Game(null, "Little Nightmares", GameStatus.WISHED, user));
+	user.addGame(new Game(null, "GTA V", GameStatus.COMPLETED, user));
+	user.addGame(new Game(null, "Nier Automata", GameStatus.PLAYING, user));
+	
+	gameRepository.saveAll(user.getGames());
     }
 
 }

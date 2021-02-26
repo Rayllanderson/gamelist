@@ -1,4 +1,4 @@
-package com.rayllanderson;
+package com.rayllanderson.game;
 
 import java.util.Arrays;
 
@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import com.rayllanderson.entities.Game;
 import com.rayllanderson.entities.GameList;
+import com.rayllanderson.entities.User;
 import com.rayllanderson.entities.enums.GameStatus;
 
 class GameListApplicationTests {
@@ -15,10 +16,12 @@ class GameListApplicationTests {
 
     @BeforeEach
     void instantiateGames() {
-	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISHED);
-	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISHED);
-	Game g3 = new Game(3L, "GTA V", GameStatus.COMPLETED);
-	Game g4 = new Game(4L, "Nier Automata", GameStatus.PLAYING);
+	User user = new User(2L, "rayllanderson@gmail.com", "whatever123");
+	
+	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISHED, user);
+	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISHED, user);
+	Game g3 = new Game(3L, "GTA V", GameStatus.COMPLETED, user);
+	Game g4 = new Game(4L, "Nier Automata", GameStatus.PLAYING, user);
 
 	gameList.addAll(Arrays.asList(g1, g2, g3, g4));
     }

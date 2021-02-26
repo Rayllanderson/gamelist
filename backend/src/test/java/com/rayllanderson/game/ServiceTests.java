@@ -1,4 +1,4 @@
-package com.rayllanderson;
+package com.rayllanderson.game;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.rayllanderson.entities.Game;
+import com.rayllanderson.entities.User;
 import com.rayllanderson.entities.enums.GameStatus;
 import com.rayllanderson.services.GameService;
 import com.rayllanderson.services.exceptions.ObjectNotFoundException;
@@ -27,7 +28,8 @@ class ServiceTests {
 
     @BeforeAll
     void instantiateGames() {
-	id = service.save(new Game(null, "Death Stranding", GameStatus.WISHED)).getId();
+	User user = new User(1L, "rayllanderson@gmail.com", "whatever123");
+	id = service.save(new Game(null, "Death Stranding", GameStatus.WISHED, user)).getId();
     }
 
     @Test
