@@ -1,4 +1,4 @@
-package com.rayllanderson;
+package com.rayllanderson.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.rayllanderson.entities.Game;
 import com.rayllanderson.entities.GameList;
+import com.rayllanderson.entities.User;
 import com.rayllanderson.entities.enums.GameStatus;
 import com.rayllanderson.repositories.GameRepository;
 
@@ -26,10 +27,11 @@ class GameListDatabaseTests {
 
     @BeforeAll
     void instantiateGames() {
-	gameList.add(new Game(null, "Death Stranding", GameStatus.WISHED));
-	gameList.add(new Game(null, "Little Nightmares", GameStatus.WISHED));
-	gameList.add(new Game(null, "GTA V", GameStatus.COMPLETED));
-	gameList.add(new Game(null, "Nier Automata", GameStatus.PLAYING));
+	User user = new User(1L, "rayllanderson@gmail.com", "whatever123");
+	gameList.add(new Game(null, "Death Stranding", GameStatus.WISHED, user));
+	gameList.add(new Game(null, "Little Nightmares", GameStatus.WISHED, user));
+	gameList.add(new Game(null, "GTA V", GameStatus.COMPLETED, user));
+	gameList.add(new Game(null, "Nier Automata", GameStatus.PLAYING, user));
 	repository.saveAll(gameList.getGames());
     }
 

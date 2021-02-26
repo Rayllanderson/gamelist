@@ -1,4 +1,4 @@
-package com.rayllanderson;
+package com.rayllanderson.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
