@@ -1,8 +1,12 @@
 package com.rayllanderson.game;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.rayllanderson.model.dtos.GameDTO;
+import com.rayllanderson.model.dtos.UserDTO;
+import com.rayllanderson.model.services.UserService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -10,54 +14,47 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.User;
-import com.rayllanderson.entities.enums.GameStatus;
-import com.rayllanderson.services.GameService;
-import com.rayllanderson.services.exceptions.ObjectNotFoundException;
+import com.rayllanderson.model.entities.Game;
+import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.entities.enums.GameStatus;
+import com.rayllanderson.model.services.GameService;
+import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 
 @SpringBootTest
-@TestInstance(Lifecycle.PER_CLASS)
 class ServiceTests {
 
     @Autowired
     private GameService service;
 
-    private Long id;
-    private final Long INEXISTENT_ID = 99899898L;
-
-    @BeforeAll
-    void instantiateGames() {
-	User user = new User(1L, "rayllanderson@gmail.com", "whatever123");
-	id = service.save(new Game(null, "Death Stranding", GameStatus.WISHED, user)).getId();
-    }
+    @Autowired
+    private UserService userService;
 
     @Test
-    void findById() {
-	assertEquals("Death Stranding", service.findById(id).getName());
-    }
+   void crud (){
+        User user = new User(null, "rayllanderson@gmail.com", "whatever123", "Ray");
+        user = userService.fromDTO(userService.save(UserDTO.create(user)));
+        Game  game = new Game(null, "Nier automata", GameStatus.COMPLETED, user);
+        GameDTO gameDTO = service.save(GameDTO.create(game));
 
-    @Test
-    void findAnInexistentId() {
-	assertThatThrownBy(() -> {
-	    service.findById(INEXISTENT_ID);
-	}).isInstanceOf(ObjectNotFoundException.class);
-    }
+        assertNotNull(gameDTO);
+        assertTrue(gameDTO.getId() >= 1);
 
-    @Test
-    void deleteAnInexistentId() {
-	assertThatThrownBy(() -> {
-	    service.deleteById(INEXISTENT_ID);
-	}).isInstanceOf(ObjectNotFoundException.class);
-    }
+        Long id = gameDTO.getId();
+        GameDTO gameFromDatabase = service.findById(id);
 
-    @Test
-    void deleteById() {
-	service.deleteById(id);
+        assertNotNull(gameFromDatabase);
+        assertEquals(id, gameFromDatabase.getId());
 
-	assertThatThrownBy(() -> {
-	    service.findById(id);
-	}).isInstanceOf(ObjectNotFoundException.class);
-    }
+        gameFromDatabase.setName("GTA V");
+        gameFromDatabase = service.save(gameFromDatabase);
+
+        assertEquals("GTA V", gameFromDatabase.getName());
+
+        service.deleteById(id);
+
+        assertThatThrownBy(() -> {
+            service.findById(id);
+        }).isInstanceOf(ObjectNotFoundException.class);
+   }
 
 }

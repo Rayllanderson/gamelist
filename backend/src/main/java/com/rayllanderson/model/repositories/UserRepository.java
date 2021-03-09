@@ -1,4 +1,4 @@
-package com.rayllanderson.repositories;
+package com.rayllanderson.model.repositories;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rayllanderson.entities.User;
+import com.rayllanderson.model.entities.User;
 
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
