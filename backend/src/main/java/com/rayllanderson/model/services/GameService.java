@@ -1,9 +1,11 @@
 package com.rayllanderson.model.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import com.rayllanderson.model.dtos.GameDTO;
+import com.rayllanderson.model.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class GameService {
 
     @Autowired
     private GameRepository repository;
+
+    @Autowired
+    private UserService userService;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public GameDTO save(GameDTO game) {
@@ -53,7 +58,7 @@ public class GameService {
         return repository.findByNameIgnoreCaseContainingAndUserId(name, userId);
     }
 
-    public Game fromDTO(GameDTO dto){
+    public Game fromDTO(GameDTO dto) {
         return new ModelMapper().map(dto, Game.class);
     }
 

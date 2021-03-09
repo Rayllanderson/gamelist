@@ -2,15 +2,16 @@ package com.rayllanderson.model.services;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.rayllanderson.model.dtos.UserDTO;
+import com.rayllanderson.model.dtos.GameDTO;
+import com.rayllanderson.model.dtos.user.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rayllanderson.model.entities.Game;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
@@ -32,9 +33,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Game> findGames(Long id) throws ObjectNotFoundException {
+    public List<GameDTO> findGamesByUserId(Long id) throws ObjectNotFoundException {
         User user = repository.findByIdWithGames(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on database"));
-        return user.getGames();
+        return user.getGames().stream().map(GameDTO::create).collect(Collectors.toList());
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
