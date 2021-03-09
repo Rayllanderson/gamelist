@@ -16,10 +16,10 @@ class GameListApplicationTests {
 
     @BeforeEach
     void instantiateGames() {
-	User user = new User(2L, "rayllanderson@gmail.com", "whatever123");
+	User user = new User(2L, "rayllanderson@gmail.com", "whatever123", "Ray");
 	
-	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISHED, user);
-	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISHED, user);
+	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISH, user);
+	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISH, user);
 	Game g3 = new Game(3L, "GTA V", GameStatus.COMPLETED, user);
 	Game g4 = new Game(4L, "Nier Automata", GameStatus.PLAYING, user);
 

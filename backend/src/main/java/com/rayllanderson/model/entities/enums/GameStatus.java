@@ -2,7 +2,7 @@ package com.rayllanderson.model.entities.enums;
 
 public enum GameStatus {
 
-    WISHED,
+    WISH,
     PLAYING,
     COMPLETED
 }

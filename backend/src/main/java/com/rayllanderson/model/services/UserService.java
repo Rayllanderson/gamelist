@@ -3,6 +3,8 @@ package com.rayllanderson.model.services;
 
 import java.util.List;
 
+import com.rayllanderson.model.dtos.UserDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,13 +22,13 @@ public class UserService {
     private UserRepository repository;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public User save(User User) {
-        return repository.save(User);
+    public UserDTO save(UserDTO user) {
+        return UserDTO.create(repository.save(fromDTO(user)));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findById(Long id) throws ObjectNotFoundException {
-        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on database"));
+    public UserDTO findById(Long id) throws ObjectNotFoundException {
+        return UserDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on database")));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -37,7 +39,12 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteById(Long id) throws ObjectNotFoundException {
-        repository.delete(this.findById(id));
+        findById(id);
+        repository.deleteById(id);
+    }
+
+    private User fromDTO(UserDTO dto){
+        return new ModelMapper().map(dto, User.class);
     }
 
 }

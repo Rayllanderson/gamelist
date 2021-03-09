@@ -23,11 +23,11 @@ public class Instantiation implements CommandLineRunner {
     public void run(String... args) throws Exception {
         gameRepository.deleteAll();
 
-        User user = new User(1L, "rayllanderson@gmail.com", "whatever123");
+        User user = new User(1L, "rayllanderson@gmail.com", "whatever123", "Ray");
         userRepository.save(user);
 
-        user.addGame(new Game(null, "Death Stranding", GameStatus.WISHED, user));
-        user.addGame(new Game(null, "Little Nightmares", GameStatus.WISHED, user));
+        user.addGame(new Game(null, "Death Stranding", GameStatus.WISH, user));
+        user.addGame(new Game(null, "Little Nightmares", GameStatus.WISH, user));
         user.addGame(new Game(null, "GTA V", GameStatus.COMPLETED, user));
         user.addGame(new Game(null, "Nier Automata", GameStatus.PLAYING, user));
 

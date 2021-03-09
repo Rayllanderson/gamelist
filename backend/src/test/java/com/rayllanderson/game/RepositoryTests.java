@@ -35,10 +35,10 @@ class RepositoryTests {
     @BeforeAll
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void instantiateEntities() {
-	User user = new User(null, "rayllanderson@gmail.com", "whatever123");
+	User user = new User(null, "rayllanderson@gmail.com", "whatever123", "Ray");
 	userId  = userRepository.save(user).getId();
-	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISHED, user);
-	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISHED, user);
+	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISH, user);
+	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISH, user);
 	Game g3 = new Game(3L, "GTA V", GameStatus.COMPLETED, user);
 	Game g4 = new Game(4L, "Nier Automata", GameStatus.PLAYING, user);
 	repository.saveAll(Arrays.asList(g1, g2, g3, g4));
@@ -75,7 +75,7 @@ class RepositoryTests {
     @Test
     @Transactional(readOnly = true)
     void searchByStatus2() {
-	List<Game> games = repository.findByStatusAndUserId(GameStatus.WISHED, userId);
+	List<Game> games = repository.findByStatusAndUserId(GameStatus.WISH, userId);
 	assertEquals(2, games.size());
     }
     

@@ -31,7 +31,7 @@ public class GameList {
 
     public List<Game> getWishedGames() {
 	List<Game> whisedGames = new ArrayList<>(games);
-	whisedGames.removeIf(x -> !(x.getStatus().equals(GameStatus.WISHED)));
+	whisedGames.removeIf(x -> !(x.getStatus().equals(GameStatus.WISH)));
 	return whisedGames;
     }
 
