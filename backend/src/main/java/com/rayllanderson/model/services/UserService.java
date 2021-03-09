@@ -43,7 +43,7 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    private User fromDTO(UserDTO dto){
+    public User fromDTO(UserDTO dto){
         return new ModelMapper().map(dto, User.class);
     }
 

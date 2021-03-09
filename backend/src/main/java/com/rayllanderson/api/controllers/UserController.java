@@ -20,29 +20,28 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
-	return null;
+        return null;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id) {
-	return null;
+        return null;
     }
 
     @GetMapping("/{id}/games")
     public ResponseEntity<List<Game>> findGamesByUserId(@PathVariable Long id) {
-	return null;
+        return null;
     }
-    
+
     @PostMapping("/register")
     public ResponseEntity<List<Game>> register(@RequestBody User user) {
-	return null;
+        return null;
     }
-    
+
     @PutMapping("/edit/{id}")
     public ResponseEntity<List<Game>> edit(@PathVariable Long id) {
-	return null;
+        return null;
     }
-    
-    
+
 
 }
