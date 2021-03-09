@@ -3,6 +3,8 @@ package com.rayllanderson.model.services;
 import java.util.List;
 
 
+import com.rayllanderson.model.dtos.GameDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +23,19 @@ public class GameService {
     private GameRepository repository;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Game save(Game game) {
-        return repository.save(game);
+    public GameDTO save(GameDTO game) {
+        return GameDTO.create(repository.save(fromDTO(game)));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Game findById(Long id) throws ObjectNotFoundException {
-        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+    public GameDTO findById(Long id) throws ObjectNotFoundException {
+        return GameDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado")));
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteById(Long id) throws ObjectNotFoundException {
-        repository.delete(this.findById(id));
+        findById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -41,20 +44,17 @@ public class GameService {
      * @param source - objeto que contém os novos dados
      * @param target - objeto que receberá os novos dados
      */
-    public void updateData(Game source, Game target) {
+    public void updateData(GameDTO source, Game target) {
         BeanUtils.copyProperties(source, target, "id");
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void setStatus(Long id, GameStatus status, Long userId) {
-        Game game = this.findById(id);
-        game.setStatus(status);
-        repository.save(game);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Game> searchByName(String name, Long userId) {
         return repository.findByNameIgnoreCaseContainingAndUserId(name, userId);
+    }
+
+    public Game fromDTO(GameDTO dto){
+        return new ModelMapper().map(dto, Game.class);
     }
 
 }
