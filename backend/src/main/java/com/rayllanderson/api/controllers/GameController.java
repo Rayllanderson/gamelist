@@ -64,7 +64,7 @@ public class GameController {
 
     @PutMapping("/{id}/wished")
     public ResponseEntity<Void> setWished(@PathVariable Long id) {
-	service.setStatus(id, GameStatus.WISHED, id);
+	service.setStatus(id, GameStatus.WISH, id);
 	return ResponseEntity.ok().build();
     }
 
@@ -87,7 +87,7 @@ public class GameController {
 
     @GetMapping("/wished")
     public ResponseEntity<List<Game>> findWished(@RequestParam Long userId) {
-	return ResponseEntity.ok(repository.findByStatusAndUserId(GameStatus.WISHED, userId));
+	return ResponseEntity.ok(repository.findByStatusAndUserId(GameStatus.WISH, userId));
     }
 
     @GetMapping("/playing")

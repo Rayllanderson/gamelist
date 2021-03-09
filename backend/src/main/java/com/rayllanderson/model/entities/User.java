@@ -15,7 +15,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
@@ -24,6 +31,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Email(message = "Email must be a valid email.")
@@ -32,73 +40,23 @@ public class User implements Serializable {
     @NotBlank(message = "Password must not be empty or null")
     private String password;
 
+    private String name;
+
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
     private List<Game> games = new ArrayList<>();
 
-    public User() {
-    }
-
-    public User(Long id, String email, String password) {
+    public User(Long id, String email, String password, String name) {
         this.id = id;
         this.email = email;
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<Game> getGames() {
-        return games;
+        this.name = name;
     }
 
     public void addGame(Game game) {
         this.games.add(game);
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+    public void addGames(List<Game> games){
+        games.addAll(games);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
-
 }

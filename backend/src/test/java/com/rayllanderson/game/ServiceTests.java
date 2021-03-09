@@ -28,8 +28,8 @@ class ServiceTests {
 
     @BeforeAll
     void instantiateGames() {
-	User user = new User(1L, "rayllanderson@gmail.com", "whatever123");
-	id = service.save(new Game(null, "Death Stranding", GameStatus.WISHED, user)).getId();
+	User user = new User(1L, "rayllanderson@gmail.com", "whatever123", "Ray");
+	id = service.save(new Game(null, "Death Stranding", GameStatus.WISH, user)).getId();
     }
 
     @Test
