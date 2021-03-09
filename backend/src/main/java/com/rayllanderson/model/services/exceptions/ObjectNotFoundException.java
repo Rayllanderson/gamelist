@@ -1,4 +1,4 @@
-package com.rayllanderson.services.exceptions;
+package com.rayllanderson.model.services.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException{
 
