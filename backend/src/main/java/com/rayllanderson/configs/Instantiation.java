@@ -10,6 +10,8 @@ import com.rayllanderson.model.entities.enums.GameStatus;
 import com.rayllanderson.model.repositories.GameRepository;
 import com.rayllanderson.model.repositories.UserRepository;
 
+import java.util.Arrays;
+
 @Configuration
 public class Instantiation implements CommandLineRunner {
 
@@ -24,14 +26,19 @@ public class Instantiation implements CommandLineRunner {
         gameRepository.deleteAll();
 
         User user = new User(1L, "rayllanderson@gmail.com", "whatever123", "Ray");
+        User user2 = new User(null, "João@gmail.com", "whatever123", "João");
+        User user3 = new User(null, "José@gmail.com", "123", "José");
+
         userRepository.save(user);
+        userRepository.save(user2);
+        userRepository.save(user3);
 
-        user.addGame(new Game(null, "Death Stranding", GameStatus.WISH, user));
-        user.addGame(new Game(null, "Little Nightmares", GameStatus.WISH, user));
-        user.addGame(new Game(null, "GTA V", GameStatus.COMPLETED, user));
-        user.addGame(new Game(null, "Nier Automata", GameStatus.PLAYING, user));
+        Game g1 = new Game(null, "Death Stranding", GameStatus.WISH, user);
+        Game g2 = new Game(null, "Little Nightmares", GameStatus.WISH, user2);
+        Game g3 = new Game(null, "GTA V", GameStatus.COMPLETED, user3);
+        Game g4 = new Game(null, "Nier Automata", GameStatus.PLAYING, user);
 
-        gameRepository.saveAll(user.getGames());
+        gameRepository.saveAll(Arrays.asList(g1, g2, g3, g4));
     }
 
 }
