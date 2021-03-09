@@ -1,4 +1,4 @@
-package com.rayllanderson.entities.enums;
+package com.rayllanderson.model.entities.enums;
 
 public enum GameStatus {
 
