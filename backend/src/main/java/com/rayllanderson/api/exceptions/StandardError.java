@@ -1,4 +1,4 @@
-package com.rayllanderson.controllers.exceptions;
+package com.rayllanderson.api.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -13,7 +13,7 @@ public class StandardError implements Serializable{
     private String message;
     private String path;
     
-    public StandardError() {};
+    public StandardError() {}
 
     public StandardError(Instant timestamp, Integer status, String error, String message, String path) {
 	this.timestamp = timestamp;
@@ -21,6 +21,14 @@ public class StandardError implements Serializable{
 	this.error = error;
 	this.message = message;
 	this.path = path;
+    }
+
+    public StandardError(Integer status, String error, String message, String path) {
+        this.timestamp = Instant.now();
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.path = path;
     }
 
     public Instant getTimestamp() {

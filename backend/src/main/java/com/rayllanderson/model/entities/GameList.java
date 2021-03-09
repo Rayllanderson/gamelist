@@ -1,10 +1,10 @@
-package com.rayllanderson.entities;
+package com.rayllanderson.model.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.rayllanderson.entities.enums.GameStatus;
+import com.rayllanderson.model.entities.enums.GameStatus;
 
 public class GameList {
 

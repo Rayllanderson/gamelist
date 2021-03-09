@@ -10,11 +10,11 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.GameList;
-import com.rayllanderson.entities.User;
-import com.rayllanderson.entities.enums.GameStatus;
-import com.rayllanderson.repositories.GameRepository;
+import com.rayllanderson.model.entities.Game;
+import com.rayllanderson.model.entities.GameList;
+import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.entities.enums.GameStatus;
+import com.rayllanderson.model.repositories.GameRepository;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)

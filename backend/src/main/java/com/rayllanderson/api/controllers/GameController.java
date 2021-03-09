@@ -1,8 +1,9 @@
-package com.rayllanderson.controllers;
+package com.rayllanderson.api.controllers;
 
 import java.net.URI;
 import java.util.List;
 
+import com.rayllanderson.model.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.enums.GameStatus;
-import com.rayllanderson.repositories.GameRepository;
-import com.rayllanderson.services.GameService;
+import com.rayllanderson.model.entities.Game;
+import com.rayllanderson.model.entities.enums.GameStatus;
+import com.rayllanderson.model.repositories.GameRepository;
 
 @RestController
-@RequestMapping("/games")
+@RequestMapping("/api/v1.0/games")
 public class GameController {
 
     @Autowired
@@ -57,47 +57,47 @@ public class GameController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id, @RequestParam Long userId) {
 	service.deleteById(id);
 	return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/wished")
     public ResponseEntity<Void> setWished(@PathVariable Long id) {
-	service.setStatus(id, GameStatus.WISHED);
+	service.setStatus(id, GameStatus.WISHED, id);
 	return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/playing")
     public ResponseEntity<Void> setPlaying(@PathVariable Long id) {
-	service.setStatus(id, GameStatus.PLAYING);
+	service.setStatus(id, GameStatus.PLAYING, null);
 	return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/completed")
     public ResponseEntity<Void> setCompleted(@PathVariable Long id) {
-	service.setStatus(id, GameStatus.COMPLETED);
+	service.setStatus(id, GameStatus.COMPLETED, null);
 	return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/search-by")
-    public ResponseEntity<List<Game>> searchByName(@RequestParam String name) {
-	return ResponseEntity.ok(service.searchByName(name));
+    @GetMapping("/search")
+    public ResponseEntity<List<Game>> searchByName(@RequestParam String name, @RequestParam Long userId) {
+	return ResponseEntity.ok(service.searchByName(name, userId));
     }
 
     @GetMapping("/wished")
-    public ResponseEntity<List<Game>> findWished() {
-	return ResponseEntity.ok(repository.findByStatus(GameStatus.WISHED));
+    public ResponseEntity<List<Game>> findWished(@RequestParam Long userId) {
+	return ResponseEntity.ok(repository.findByStatusAndUserId(GameStatus.WISHED, userId));
     }
 
     @GetMapping("/playing")
-    public ResponseEntity<List<Game>> findPlaying() {
-	return ResponseEntity.ok(repository.findByStatus(GameStatus.PLAYING));
+    public ResponseEntity<List<Game>> findPlaying(@RequestParam Long userId) {
+	return ResponseEntity.ok(repository.findByStatusAndUserId(GameStatus.PLAYING, userId));
     }
 
     @GetMapping("/completed")
-    public ResponseEntity<List<Game>> findCompleted() {
-	return ResponseEntity.ok(repository.findByStatus(GameStatus.COMPLETED));
+    public ResponseEntity<List<Game>> findCompleted(@RequestParam Long userId) {
+	return ResponseEntity.ok(repository.findByStatusAndUserId(GameStatus.COMPLETED, userId));
     }
 
 }

@@ -4,19 +4,20 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.User;
-import com.rayllanderson.entities.enums.GameStatus;
-import com.rayllanderson.repositories.GameRepository;
-import com.rayllanderson.repositories.UserRepository;
-import com.rayllanderson.services.UserService;
+import com.rayllanderson.model.entities.Game;
+import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.entities.enums.GameStatus;
+import com.rayllanderson.model.repositories.GameRepository;
+import com.rayllanderson.model.repositories.UserRepository;
+import com.rayllanderson.model.services.UserService;
+import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 
 @SpringBootTest
 public class CrudUserTest {
@@ -33,6 +34,7 @@ public class CrudUserTest {
     private User user;
 
     @BeforeEach
+    @Transactional
     public void instantiateEntities() {
 	User user = new User(null, "rayllanderson@gmail.com", "whatever123");
 	user = service.save(user);
@@ -47,14 +49,14 @@ public class CrudUserTest {
     @Test
     public void save() {
 	User user = new User(null, "rayllanderson@gmail.com", "whatever123");
-	repository.save(user);
+	service.save(user);
     }
 
     @Test
     public void editUser() {
 	User user = repository.findById(this.user.getId()).get();
 	user.setEmail("aa@gmail.com");
-	repository.save(user);
+	service.save(user);
 
 	assertEquals("aa@gmail.com", user.getEmail());
 	assertEquals(4, gameRepository.findGamesByUserId(user.getId()).size());
@@ -64,12 +66,12 @@ public class CrudUserTest {
     @Test
     public void deleteUser() {
 	Long id = user.getId();
-	repository.deleteById(id);
+	service.deleteById(id);
 
 	assertThatThrownBy(() -> {
-	    repository.findById(id).get();
-	}).isInstanceOf(NoSuchElementException.class);
+	    service.findById(id);
+	}).isInstanceOf(ObjectNotFoundException.class);
 
-	assertEquals(0, gameRepository.findGamesByUserId(id).size());
+	//assertEquals(0, gameRepository.findGamesByUserId(id).size());
     }
 }

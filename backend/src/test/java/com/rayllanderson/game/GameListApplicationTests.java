@@ -5,10 +5,10 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.rayllanderson.entities.Game;
-import com.rayllanderson.entities.GameList;
-import com.rayllanderson.entities.User;
-import com.rayllanderson.entities.enums.GameStatus;
+import com.rayllanderson.model.entities.Game;
+import com.rayllanderson.model.entities.GameList;
+import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.entities.enums.GameStatus;
 
 class GameListApplicationTests {
 
