@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.rayllanderson.model.dtos.GameDTO;
-import com.rayllanderson.model.dtos.user.UserDTO;
+import com.rayllanderson.model.dtos.user.SaveUserDTO;
 import com.rayllanderson.model.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ class ServiceTests {
     @Test
    void crud (){
         User user = new User(null, "rayllanderson@gmail.com", "whatever123", "Ray");
-        user = userService.fromDTO(userService.save(UserDTO.create(user)));
+        user = userService.fromDTO(userService.save(SaveUserDTO.create(user)));
         Game  game = new Game(null, "Nier automata", GameStatus.COMPLETED, user);
         GameDTO gameDTO = service.save(GameDTO.create(game));
 
