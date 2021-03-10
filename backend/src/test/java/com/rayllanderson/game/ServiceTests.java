@@ -31,7 +31,7 @@ class ServiceTests {
         User user = new User(null, "rayllanderson@gmail.com", "whatever123", "Ray");
         user = userService.fromDTO(userService.save(UserDTO.create(user)));
         Game  game = new Game(null, "Nier automata", GameStatus.COMPLETED, user);
-        GameDTO gameDTO = service.save(GameDTO.create(game));
+        GameDTO gameDTO = service.save(GameDTO.create(game), user.getId());
 
         assertNotNull(gameDTO);
         assertTrue(gameDTO.getId() >= 1);
@@ -43,7 +43,7 @@ class ServiceTests {
         assertEquals(id, gameFromDatabase.getId());
 
         gameFromDatabase.setName("GTA V");
-        gameFromDatabase = service.save(gameFromDatabase);
+        gameFromDatabase = service.update(gameFromDatabase, id, user.getId());
 
         assertEquals("GTA V", gameFromDatabase.getName());
 
