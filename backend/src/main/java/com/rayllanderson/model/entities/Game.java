@@ -1,6 +1,7 @@
 package com.rayllanderson.model.entities;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -28,16 +29,17 @@ public class Game implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotBlank(message = "nome não pode ser vazio")
-    @NotEmpty(message = "nome não pode ser vazio")
+    @NotBlank(message = "Name must not be empty or null")
+    @NotEmpty(message = "Name must not be empty or null")
     private String name;
 
-    @NotNull(message = "status deve ser informado")
+    @NotNull(message = "GameStatus invalid")
     @Enumerated(EnumType.STRING)
     private GameStatus status;
 
     @ManyToOne
     @JsonIgnore
+    @NotNull
     private User user;
 
 }

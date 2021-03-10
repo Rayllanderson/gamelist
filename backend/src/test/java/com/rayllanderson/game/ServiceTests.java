@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.rayllanderson.model.dtos.GameDTO;
+import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.services.UserService;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class ServiceTests {
 
         assertEquals("GTA V", gameFromDatabase.getName());
 
-        service.deleteById(id);
+        service.deleteById(id, user.getId());
 
         assertThatThrownBy(() -> {
             service.findById(id);
