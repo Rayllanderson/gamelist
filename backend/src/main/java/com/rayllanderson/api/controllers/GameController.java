@@ -3,6 +3,9 @@ package com.rayllanderson.api.controllers;
 import java.net.URI;
 import java.util.List;
 
+import com.rayllanderson.model.dtos.GameDTO;
+import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,17 +32,25 @@ public class GameController {
     private GameRepository repository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private GameService service;
 
+   private Long authUserId = 1L;
+
     @GetMapping
-    public ResponseEntity<List<Game>> findAll() {
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<List<GameDTO>> findAll() {
+        //get user autenticado aqui
+        return ResponseEntity.ok(service.findAll(authUserId));
     }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Game> findById(@PathVariable Long id) {
-//        return ResponseEntity.ok(service.findById(id));
-//    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GameDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id, authUserId));
+    }
+
 //
 //    @PostMapping
 //    public ResponseEntity<Void> save(@RequestBody Game game) {
