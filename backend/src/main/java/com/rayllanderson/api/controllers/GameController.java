@@ -54,13 +54,13 @@ public class GameController {
         service.update(game, id, authUserId);
         return ResponseEntity.noContent().build();
     }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-//        service.deleteById(id);
-//        return ResponseEntity.noContent().build();
-//    }
-//
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        service.deleteById(id, authUserId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/{id}/{status}")
     public ResponseEntity<Void> setWished(@PathVariable Long id, @PathVariable GameStatus status) {
         service.updateStatus(id, status, authUserId);

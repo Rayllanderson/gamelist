@@ -47,7 +47,7 @@ class ServiceTests {
 
         assertEquals("GTA V", gameFromDatabase.getName());
 
-        service.deleteById(id);
+        service.deleteById(id, user.getId());
 
         assertThatThrownBy(() -> {
             service.findById(id);
