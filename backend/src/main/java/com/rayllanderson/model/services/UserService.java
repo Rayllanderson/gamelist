@@ -8,6 +8,7 @@ import com.rayllanderson.model.dtos.GameDTO;
 import com.rayllanderson.model.dtos.user.SaveUserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,13 +25,20 @@ public class UserService {
     private UserRepository repository;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserDetailsDTO save(SaveUserDTO user) {
+    public UserDetailsDTO save(SaveUserDTO user) throws IllegalArgumentException {
+        verifyUser(user);
         return UserDetailsDTO.create(repository.save(fromDTO(user)));
+    }
+
+    public UserDetailsDTO register(SaveUserDTO user) throws IllegalArgumentException {
+       if (user.getId() != null) throw new IllegalArgumentException("id must be null");
+        return this.save(user);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public UserDetailsDTO findById(Long id) throws ObjectNotFoundException {
-        return UserDetailsDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on database")));
+        return UserDetailsDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on " +
+                "database")));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -45,12 +53,17 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public User fromDTO(SaveUserDTO dto){
+    public User fromDTO(SaveUserDTO dto) {
         return new ModelMapper().map(dto, User.class);
     }
 
-    public User fromDTO(UserDetailsDTO dto){
+    public User fromDTO(UserDetailsDTO dto) {
         return new ModelMapper().map(dto, User.class);
     }
 
+    private void verifyUser(SaveUserDTO user) throws IllegalArgumentException {
+        Assert.notNull(user.getEmail(), "email");
+        Assert.notNull(user.getName(), "name");
+        Assert.notNull(user.getPassword(), "password");
+    }
 }
