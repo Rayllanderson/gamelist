@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1.0/users")
 public class UserController {
@@ -42,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDetailsDTO> register(@RequestBody UserDTO user) {
+    public ResponseEntity<UserDetailsDTO> register(@Valid @RequestBody UserDTO user) {
         UserDetailsDTO dto = userService.register(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).build();
