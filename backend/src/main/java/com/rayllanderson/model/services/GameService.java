@@ -67,9 +67,9 @@ public class GameService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void deleteById(Long id) throws ObjectNotFoundException {
-        findById(id);
-        repository.deleteById(id);
+    public void deleteById(Long id, Long userId) throws ObjectNotFoundException {
+        findById(id, userId);
+        repository.deleteByIdAndUserId(id, userId);
     }
 
     /**
