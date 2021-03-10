@@ -1,11 +1,10 @@
 package com.rayllanderson.model.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-
-import com.rayllanderson.model.dtos.GameDTO;
-import com.rayllanderson.model.repositories.UserRepository;
+import com.rayllanderson.model.dtos.game.GameDTO;
+import com.rayllanderson.model.entities.Game;
+import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.repositories.GameRepository;
+import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rayllanderson.model.entities.Game;
-import com.rayllanderson.model.entities.enums.GameStatus;
-import com.rayllanderson.model.repositories.GameRepository;
-import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -30,6 +27,14 @@ public class GameService {
     @Transactional(propagation = Propagation.REQUIRED)
     public GameDTO save(GameDTO game) {
         return GameDTO.create(repository.save(fromDTO(game)));
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public GameDTO save(GameDTO dto, Long userId) {
+        Game game = fromDTO(dto);
+        User user = userService.fromDTO(userService.findById(userId));
+        game.setUser(user);
+        return GameDTO.create(repository.save(game));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
