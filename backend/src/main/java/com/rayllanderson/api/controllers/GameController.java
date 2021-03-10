@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import com.rayllanderson.model.dtos.game.GameDTO;
+import com.rayllanderson.model.entities.enums.GameStatus;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class GameController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody GameDTO game) {
         service.update(game, id, authUserId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 //
 //    @DeleteMapping("/{id}")
@@ -60,11 +61,11 @@ public class GameController {
 //        return ResponseEntity.noContent().build();
 //    }
 //
-//    @PutMapping("/{id}/wished")
-//    public ResponseEntity<Void> setWished(@PathVariable Long id) {
-//        service.setStatus(id, GameStatus.WISH, id);
-//        return ResponseEntity.ok().build();
-//    }
+    @PutMapping("/{id}/{status}")
+    public ResponseEntity<Void> setWished(@PathVariable Long id, @PathVariable GameStatus status) {
+        service.updateStatus(id, status, authUserId);
+        return ResponseEntity.noContent().build();
+    }
 //
 //    @PutMapping("/{id}/playing")
 //    public ResponseEntity<Void> setPlaying(@PathVariable Long id) {
