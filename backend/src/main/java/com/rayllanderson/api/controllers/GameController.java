@@ -27,20 +27,23 @@ public class GameController {
     @Autowired
     private GameService service;
 
-   private Long authUserId = 1L;
+    //user autenticado aqui. setar depois com spring secutiry
+    private Long authUserId = 1L;
 
     @GetMapping
     public ResponseEntity<List<GameDTO>> findAll() {
-        //get user autenticado aqui
         return ResponseEntity.ok(service.findAll(authUserId));
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<GameDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id, authUserId));
     }
 
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<GameDTO>> findByStatus(@PathVariable GameStatus status) {
+        return ResponseEntity.ok(service.findByStatus(status, authUserId));
+    }
 
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody GameDTO game) {
@@ -55,34 +58,21 @@ public class GameController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/{status}")
+    public ResponseEntity<Void> setWished(@PathVariable Long id, @PathVariable GameStatus status) {
+        service.updateStatus(id, status, authUserId);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         service.deleteById(id, authUserId);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/{status}")
-    public ResponseEntity<Void> setWished(@PathVariable Long id, @PathVariable GameStatus status) {
-        service.updateStatus(id, status, authUserId);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/search")
+    public ResponseEntity<List<GameDTO>> searchByName(@RequestParam String q) {
+        return ResponseEntity.ok(service.searchByName(q, authUserId));
     }
-//
-//    @PutMapping("/{id}/playing")
-//    public ResponseEntity<Void> setPlaying(@PathVariable Long id) {
-//        service.setStatus(id, GameStatus.PLAYING, null);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @PutMapping("/{id}/completed")
-//    public ResponseEntity<Void> setCompleted(@PathVariable Long id) {
-//        service.setStatus(id, GameStatus.COMPLETED, null);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @GetMapping("/search")
-//    public ResponseEntity<List<Game>> searchByName(@RequestParam String q) {
-//        Long userId = 1L;
-//        return ResponseEntity.ok(service.searchByName(q, userId));
-//    }
 
 }
