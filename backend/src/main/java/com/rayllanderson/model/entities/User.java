@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -28,14 +29,17 @@ public class User implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Email(message = "Email must be a valid email.")
-    @NotBlank(message = "Email must not be empty or null")
+    @Email
+    @NotBlank
+    @Size(max = 150)
     private String email;
 
-    @NotBlank(message = "Password must not be empty or null")
+    @NotBlank
+    @Size(min = 3, max = 150)
     private String password;
 
-    @NotBlank(message = "Name must not be empty or null")
+    @NotBlank
+    @Size(min = 1, max = 150)
     private String name;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")

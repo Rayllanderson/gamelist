@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rayllanderson.model.entities.enums.GameStatus;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "games")
 public class Game implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,8 +30,8 @@ public class Game implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotBlank(message = "Name must not be empty or null")
-    @NotEmpty(message = "Name must not be empty or null")
+    @NotBlank
+    @Size(min = 1, max = 150)
     private String name;
 
     @NotNull(message = "GameStatus invalid")

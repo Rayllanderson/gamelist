@@ -37,13 +37,13 @@ public class CrudServiceTest {
         assertTrue(userDTO.getId() >= 1);
 
         Long id = userDTO.getId();
-        UserDetailsDTO userFromDatabase = service.findById(id);
+        UserDTO userFromDatabase = service.find(id);
 
         assertNotNull(userFromDatabase);
         assertEquals(id, userFromDatabase.getId());
 
         userFromDatabase.setName("João");
-        userFromDatabase = service.save(UserDTO.create(userFromDatabase));
+        userFromDatabase = UserDTO.create(service.save(userFromDatabase));
 
         assertEquals("João", userFromDatabase.getName());
 
