@@ -37,6 +37,12 @@ public class GameService {
         return GameDTO.create(repository.save(game));
     }
 
+    public GameDTO update(GameDTO game, Long id, Long userId){
+        GameDTO gameFromDatabase = findById(id);
+        updateData(game, gameFromDatabase);
+        return this.save(gameFromDatabase, userId);
+    }
+
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<GameDTO> findAll(Long userId) {
         return repository.findGamesByUserId(userId).stream().map(GameDTO::create).collect(Collectors.toList());
@@ -65,7 +71,7 @@ public class GameService {
      * @param source - objeto que contém os novos dados
      * @param target - objeto que receberá os novos dados
      */
-    public void updateData(GameDTO source, Game target) {
+    public void updateData(GameDTO source, GameDTO target) {
         BeanUtils.copyProperties(source, target, "id");
     }
 
