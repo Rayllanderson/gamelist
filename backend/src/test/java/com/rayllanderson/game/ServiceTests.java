@@ -5,12 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.rayllanderson.model.dtos.GameDTO;
-import com.rayllanderson.model.dtos.UserDTO;
+import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.services.UserService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
