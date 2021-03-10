@@ -1,7 +1,7 @@
 package com.rayllanderson.model.services;
 
 
-import com.rayllanderson.model.dtos.GameDTO;
+import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import com.rayllanderson.model.entities.User;
