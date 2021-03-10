@@ -3,6 +3,7 @@ package com.rayllanderson.model.services;
 import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.entities.Game;
 import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.entities.enums.GameStatus;
 import com.rayllanderson.model.repositories.GameRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -41,6 +42,12 @@ public class GameService {
         GameDTO gameFromDatabase = findById(id);
         updateData(game, gameFromDatabase);
         return this.save(gameFromDatabase, userId);
+    }
+
+    public void updateStatus(Long id, GameStatus status, Long userId) {
+        GameDTO game = findById(id);
+        game.setStatus(status);
+        this.save(game, userId);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -83,5 +90,4 @@ public class GameService {
     public Game fromDTO(GameDTO dto) {
         return new ModelMapper().map(dto, Game.class);
     }
-
 }
