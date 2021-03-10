@@ -38,7 +38,7 @@ public class GameService {
         return GameDTO.create(repository.save(game));
     }
 
-    public GameDTO update(GameDTO game, Long id, Long userId){
+    public GameDTO update(GameDTO game, Long id, Long userId) {
         GameDTO gameFromDatabase = findById(id);
         updateData(game, gameFromDatabase);
         return this.save(gameFromDatabase, userId);
@@ -56,6 +56,11 @@ public class GameService {
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public List<GameDTO> findByStatus(GameStatus status, Long userId) {
+        return repository.findByStatusAndUserId(status, userId).stream().map(GameDTO::create).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public GameDTO findById(Long id) throws ObjectNotFoundException {
         return GameDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found")));
     }
@@ -66,10 +71,19 @@ public class GameService {
                 " not found")));
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public List<GameDTO> searchByName(String name, Long userId) {
+        return repository.findByNameIgnoreCaseContainingAndUserId(name, userId).stream().map(GameDTO::create).collect(Collectors.toList());
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteById(Long id, Long userId) throws ObjectNotFoundException {
         findById(id, userId);
         repository.deleteByIdAndUserId(id, userId);
+    }
+
+    public Game fromDTO(GameDTO dto) {
+        return new ModelMapper().map(dto, Game.class);
     }
 
     /**
@@ -78,16 +92,7 @@ public class GameService {
      * @param source - objeto que contém os novos dados
      * @param target - objeto que receberá os novos dados
      */
-    public void updateData(GameDTO source, GameDTO target) {
+    private void updateData(GameDTO source, GameDTO target) {
         BeanUtils.copyProperties(source, target, "id");
-    }
-
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Game> searchByName(String name, Long userId) {
-        return repository.findByNameIgnoreCaseContainingAndUserId(name, userId);
-    }
-
-    public Game fromDTO(GameDTO dto) {
-        return new ModelMapper().map(dto, Game.class);
     }
 }
