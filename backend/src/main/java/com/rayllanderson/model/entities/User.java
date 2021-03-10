@@ -29,11 +29,13 @@ public class User implements Serializable {
     private Long id;
 
     @Email(message = "Email must be a valid email.")
+    @NotBlank(message = "Email must not be empty or null")
     private String email;
 
     @NotBlank(message = "Password must not be empty or null")
     private String password;
 
+    @NotBlank(message = "Name must not be empty or null")
     private String name;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")

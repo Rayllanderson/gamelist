@@ -2,6 +2,8 @@ package com.rayllanderson.api.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StandardError implements Serializable{
 
@@ -12,7 +14,9 @@ public class StandardError implements Serializable{
     private String error;
     private String message;
     private String path;
-    
+
+    private Map<String, String> messages = new HashMap<>();
+
     public StandardError() {}
 
     public StandardError(Instant timestamp, Integer status, String error, String message, String path) {
@@ -28,6 +32,14 @@ public class StandardError implements Serializable{
         this.status = status;
         this.error = error;
         this.message = message;
+        this.path = path;
+    }
+
+    public StandardError(Integer status, String error, Map<String, String> messages, String path) {
+        this.timestamp = Instant.now();
+        this.status = status;
+        this.error = error;
+        this.messages = messages;
         this.path = path;
     }
 
