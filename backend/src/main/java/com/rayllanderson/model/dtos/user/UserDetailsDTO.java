@@ -17,7 +17,7 @@ public class UserDetailsDTO {
         return new ModelMapper().map(user, UserDetailsDTO.class);
     }
 
-    public static UserDetailsDTO create(SaveUserDTO user){
+    public static UserDetailsDTO create(UserDTO user){
         return new ModelMapper().map(user, UserDetailsDTO.class);
     }
 }

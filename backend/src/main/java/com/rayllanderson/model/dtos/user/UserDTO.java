@@ -7,18 +7,18 @@ import org.modelmapper.ModelMapper;
 
 @Getter
 @Setter
-public class SaveUserDTO {
+public class UserDTO {
 
     private Long id;
     private String email;
     private String password;
     private String name;
 
-    public static SaveUserDTO create(User user){
-        return new ModelMapper().map(user, SaveUserDTO.class);
+    public static UserDTO create(User user){
+        return new ModelMapper().map(user, UserDTO.class);
     }
 
-    public static SaveUserDTO create(UserDetailsDTO user){
-        return new ModelMapper().map(user, SaveUserDTO.class);
+    public static UserDTO create(UserDetailsDTO user){
+        return new ModelMapper().map(user, UserDTO.class);
     }
 }

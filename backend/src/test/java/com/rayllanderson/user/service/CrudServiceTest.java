@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.rayllanderson.model.dtos.user.SaveUserDTO;
+import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.repositories.GameRepository;
@@ -31,7 +31,7 @@ public class CrudServiceTest {
     @Test
     public void crud() {
         User user = new User(null, "rayllanderson@gmail.com", "whatever123", "Ray");
-        UserDetailsDTO userDTO = service.save(SaveUserDTO.create(user));
+        UserDetailsDTO userDTO = service.save(UserDTO.create(user));
 
         assertNotNull(userDTO);
         assertTrue(userDTO.getId() >= 1);
@@ -43,7 +43,7 @@ public class CrudServiceTest {
         assertEquals(id, userFromDatabase.getId());
 
         userFromDatabase.setName("João");
-        userFromDatabase = service.save(SaveUserDTO.create(userFromDatabase));
+        userFromDatabase = service.save(UserDTO.create(userFromDatabase));
 
         assertEquals("João", userFromDatabase.getName());
 
