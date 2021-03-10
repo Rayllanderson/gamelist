@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.rayllanderson.model.dtos.GameDTO;
-import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,8 +37,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
-        return null;
+    public ResponseEntity<UserDetailsDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findById(id));
     }
 
     @GetMapping("/{id}/games")

@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.rayllanderson.model.dtos.GameDTO;
-import com.rayllanderson.model.dtos.user.UserDTO;
+import com.rayllanderson.model.dtos.user.SaveUserDTO;
+import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +24,13 @@ public class UserService {
     private UserRepository repository;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserDTO save(UserDTO user) {
-        return UserDTO.create(repository.save(fromDTO(user)));
+    public UserDetailsDTO save(SaveUserDTO user) {
+        return UserDetailsDTO.create(repository.save(fromDTO(user)));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public UserDTO findById(Long id) throws ObjectNotFoundException {
-        return UserDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on database")));
+    public UserDetailsDTO findById(Long id) throws ObjectNotFoundException {
+        return UserDetailsDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on database")));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -44,7 +45,11 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public User fromDTO(UserDTO dto){
+    public User fromDTO(SaveUserDTO dto){
+        return new ModelMapper().map(dto, User.class);
+    }
+
+    public User fromDTO(UserDetailsDTO dto){
         return new ModelMapper().map(dto, User.class);
     }
 
