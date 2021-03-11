@@ -1,8 +1,10 @@
 package com.rayllanderson.configs;
 
 import com.rayllanderson.model.entities.Game;
+import com.rayllanderson.model.entities.Role;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.GameStatus;
+import com.rayllanderson.model.entities.enums.RoleType;
 import com.rayllanderson.model.repositories.GameRepository;
 import com.rayllanderson.model.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +30,18 @@ public class Instantiation implements CommandLineRunner {
 
         String password = encoder.encode("123");
 
+        Role admin = new Role(1L, RoleType.ROLE_ADMIN);
+        Role padrao = new Role(2L, RoleType.ROLE_USER);
+
         User user = new User(1L, "rayllanderson@gmail.com", "rayllanderson", password, "Ray");
+        user.getRoles().add(admin);
+        user.getRoles().add(padrao);
+
         User user2 = new User(null, "João@gmail.com", "joao", password, "João");
+        user2.getRoles().add(padrao);
+
         User user3 = new User(null, "José@gmail.com", "jose", password, "José");
+        user3.getRoles().add(padrao);
 
         userRepository.save(user);
         userRepository.save(user2);
