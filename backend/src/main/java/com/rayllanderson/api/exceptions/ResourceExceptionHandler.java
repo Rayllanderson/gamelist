@@ -3,6 +3,7 @@ package com.rayllanderson.api.exceptions;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+import com.google.gson.Gson;
 import com.rayllanderson.model.entities.enums.GameStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -45,21 +46,20 @@ public class ResourceExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    ResponseEntity<StandardError> handleInvalidGameStatus(HttpMessageNotReadableException e, HttpServletRequest request){
+    ResponseEntity<StandardError> handleInvalidGameStatus(HttpMessageNotReadableException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         String error = "Invalid Game Status. Status avaliable = " + Arrays.asList(GameStatus.values());
         StandardError err = new StandardError(status.value(), "Bad Request", Arrays.asList(error), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 
-    private List<String> getValidationsErrors(ConstraintViolationException e) {
-        StringBuilder msg = new StringBuilder();
-        List<String> erros = new ArrayList<>();
-        e.getConstraintViolations().forEach(System.out::println);
+    private List<Map<String, String>> getValidationsErrors(ConstraintViolationException e) {
+        List<Map<String, String>> errors = new ArrayList<>();
         e.getConstraintViolations().forEach(x -> {
-            String errorMessage = x.getPropertyPath().toString() + " = " + x.getMessage();
-            erros.add(errorMessage);
+            Map<String, String> error = new HashMap<>();
+            error.put(x.getPropertyPath().toString(), x.getMessage());
+            errors.add(error);
         });
-        return erros;
+        return errors;
     }
 }
