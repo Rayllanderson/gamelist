@@ -5,6 +5,7 @@ import com.rayllanderson.model.entities.Game;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.GameStatus;
 import com.rayllanderson.model.repositories.GameRepository;
+import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +26,9 @@ public class GameService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Transactional(propagation = Propagation.REQUIRED)
     public GameDTO save(GameDTO game) {
         return GameDTO.create(repository.save(fromDTO(game)));
@@ -33,7 +37,8 @@ public class GameService {
     @Transactional(propagation = Propagation.REQUIRED)
     public GameDTO save(GameDTO dto, Long userId) {
         Game game = fromDTO(dto);
-        User user = userService.fromDTO(userService.findById(userId));
+        User user = new User();
+        user.setId(userId);
         game.setUser(user);
         return GameDTO.create(repository.save(game));
     }

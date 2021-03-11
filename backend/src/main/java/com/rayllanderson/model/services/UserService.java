@@ -71,7 +71,6 @@ public class UserService {
         return this.save(userFromDataBase);
     }
 
-
     public User fromDTO(UserDTO dto) {
         return new ModelMapper().map(dto, User.class);
     }

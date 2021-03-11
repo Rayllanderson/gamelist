@@ -38,7 +38,7 @@ public class Game implements Serializable {
     @Enumerated(EnumType.STRING)
     private GameStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @NotNull
     private User user;
