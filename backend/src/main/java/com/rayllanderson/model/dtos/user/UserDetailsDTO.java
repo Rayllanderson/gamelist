@@ -11,6 +11,7 @@ public class UserDetailsDTO {
 
     private Long id;
     private String email;
+    private String username;
     private String name;
 
     public static UserDetailsDTO create(User user){
