@@ -27,7 +27,7 @@ class GameListDatabaseTests {
 
     @BeforeAll
     void instantiateGames() {
-	User user = new User(1L, "rayllanderson@gmail.com", "whatever123", "Ray");
+	User user = new User(1L, "rayllanderson@gmail.com", "rayllanderson", "whatever123", "Ray");
 	gameList.add(new Game(null, "Death Stranding", GameStatus.WISH, user));
 	gameList.add(new Game(null, "Little Nightmares", GameStatus.WISH, user));
 	gameList.add(new Game(null, "GTA V", GameStatus.COMPLETED, user));

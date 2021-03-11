@@ -30,7 +30,7 @@ public class CrudServiceTest {
 
     @Test
     public void crud() {
-        User user = new User(null, "rayllanderson@gmail.com", "whatever123", "Ray");
+        User user = new User(null, "rayllanderson@gmail.com", "rayllanderson", "whatever123", "Ray");
         UserDetailsDTO userDTO = service.save(UserDTO.create(user));
 
         assertNotNull(userDTO);
