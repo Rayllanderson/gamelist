@@ -15,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByIdWithGames(Long id);
 
     Optional<User> findByUsername(String username);
+
+    @Query("select u.id from User as u where u.username = ?1")
+    Optional<Long> getIdByUsername(String username);
+
 }
