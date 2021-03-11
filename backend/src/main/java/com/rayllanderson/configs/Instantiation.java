@@ -1,14 +1,15 @@
 package com.rayllanderson.configs;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Configuration;
-
 import com.rayllanderson.model.entities.Game;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.GameStatus;
 import com.rayllanderson.model.repositories.GameRepository;
 import com.rayllanderson.model.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 
@@ -23,11 +24,13 @@ public class Instantiation implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        gameRepository.deleteAll();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        User user = new User(1L, "rayllanderson@gmail.com", "whatever123", "Ray");
-        User user2 = new User(null, "João@gmail.com", "whatever123", "João");
-        User user3 = new User(null, "José@gmail.com", "123", "José");
+        String password = encoder.encode("123");
+
+        User user = new User(1L, "rayllanderson@gmail.com", "rayllanderson", password, "Ray");
+        User user2 = new User(null, "João@gmail.com", "joao", password, "João");
+        User user3 = new User(null, "José@gmail.com", "jose", password, "José");
 
         userRepository.save(user);
         userRepository.save(user2);
