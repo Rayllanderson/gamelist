@@ -35,7 +35,7 @@ class RepositoryTests {
     @BeforeAll
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void instantiateEntities() {
-	User user = new User(null, "rayllanderson@gmail.com", "whatever123", "Ray");
+	User user = new User(null, "rayllanderson@gmail.com", "rayllanderson", "whatever123", "Ray");
 	userId  = userRepository.save(user).getId();
 	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISH, user);
 	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISH, user);
