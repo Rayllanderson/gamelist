@@ -21,8 +21,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests((requests) -> requests.anyRequest().authenticated());
-        http.formLogin(); // habilita o form login
+        http.formLogin();
         http.httpBasic().and().csrf().disable();
+
+        //pra usar o h2. deve ser comentado em produção
+        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+        http.headers().frameOptions().disable();
     }
 
     @Override
