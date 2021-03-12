@@ -42,7 +42,9 @@ public class UserService {
     }
 
     public UserDetailsDTO registerAnAdmin(UserDTO userDTO) throws IllegalArgumentException {
-        User user = fromDTO(this.register(userDTO));
+        validateUser(userDTO);
+        User user = fromDTO(userDTO);
+        user.addRole(new Role(RoleType.ROLE_USER));
         user.addRole(new Role(RoleType.ROLE_ADMIN));
         return UserDetailsDTO.create(repository.save(user));
     }
