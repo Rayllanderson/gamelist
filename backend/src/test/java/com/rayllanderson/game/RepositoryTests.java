@@ -45,35 +45,30 @@ class RepositoryTests {
     }
     
     @Test
-    @Transactional(readOnly = true)
     void search() {
 	List<Game> games = repository.findByNameIgnoreCaseContainingAndUserId("a", userId);
 	assertEquals(4, games.size());
     }
 
     @Test
-    @Transactional(readOnly = true)
     void search2() {
 	List<Game> games = repository.findByNameIgnoreCaseContainingAndUserId("G", userId);
 	assertEquals(3, games.size());
     }
 
     @Test
-    @Transactional(readOnly = true)
     void search3() {
 	List<Game> games = repository.findByNameIgnoreCaseContainingAndUserId("nier", userId);
 	assertEquals(1, games.size());
     }
     
     @Test
-    @Transactional(readOnly = true)
     void searchByStatus() {
 	List<Game> games = repository.findByStatusAndUserId(GameStatus.PLAYING, userId);
 	assertEquals(1, games.size());
     }
     
     @Test
-    @Transactional(readOnly = true)
     void searchByStatus2() {
 	List<Game> games = repository.findByStatusAndUserId(GameStatus.WISH, userId);
 	assertEquals(2, games.size());
@@ -81,7 +76,6 @@ class RepositoryTests {
     
     
     @Test
-    @Transactional(readOnly = true)
     void searchByStatus3() {
 	List<Game> games = repository.findByStatusAndUserId(GameStatus.COMPLETED, userId);
 	assertEquals(1, games.size());
