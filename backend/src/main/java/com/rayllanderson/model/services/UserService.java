@@ -4,7 +4,10 @@ package com.rayllanderson.model.services;
 import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
+import com.rayllanderson.model.entities.Role;
 import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.entities.enums.RoleType;
+import com.rayllanderson.model.exceptions.UsernameExistsException;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -25,9 +28,11 @@ public class UserService {
     private UserRepository repository;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserDetailsDTO save(UserDTO user) throws IllegalArgumentException {
-        verifyUser(user);
-        return UserDetailsDTO.create(repository.save(fromDTO(user)));
+    public UserDetailsDTO save(UserDTO userDto) throws IllegalArgumentException {
+        validateUser(userDto);
+        User user = fromDTO(userDto);
+        user.addRole(new Role(RoleType.ROLE_USER));
+        return UserDetailsDTO.create(repository.save(user));
     }
 
     public UserDetailsDTO register(UserDTO user) throws IllegalArgumentException {
@@ -35,6 +40,13 @@ public class UserService {
             throw new IllegalArgumentException("id must be null");
         return this.save(user);
     }
+
+    public UserDetailsDTO registerAnAdmin(UserDTO userDTO) throws IllegalArgumentException {
+        User user = fromDTO(this.register(userDTO));
+        user.addRole(new Role(RoleType.ROLE_ADMIN));
+        return UserDetailsDTO.create(repository.save(user));
+    }
+
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public UserDetailsDTO findById(Long id) throws ObjectNotFoundException {
@@ -79,10 +91,11 @@ public class UserService {
         return new ModelMapper().map(dto, User.class);
     }
 
-    private void verifyUser(UserDTO user) throws IllegalArgumentException {
+    private void validateUser(UserDTO user) throws IllegalArgumentException, UsernameExistsException {
         Assert.notNull(user.getEmail(), "email");
         Assert.notNull(user.getName(), "name");
         Assert.notNull(user.getPassword(), "password");
+        com.rayllanderson.model.util.Assert.usernameNotExists(user.getUsername(), repository);
     }
 
     private void updateUsernameOrEmail(UserDetailsDTO source, UserDTO target) {
