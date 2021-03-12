@@ -81,5 +81,18 @@ public class CrudServiceTest {
         }).isInstanceOf(UsernameExistsException.class);
     }
 
+    @Test
+    public void registerAdmin() {
+        String username = "rayllanderson1";
+        User u = new User(null, "rayllanderson@gmail.com", username, "whatever123", "Ray");
+        UserDetailsDTO userDTO = service.registerAnAdmin(UserDTO.create(u));
+
+        User user = (User) userDetailsService.loadUserByUsername(username);
+
+        assertTrue(user.getRoles().contains(new Role(RoleType.ROLE_USER)));
+        assertTrue(user.getRoles().contains(new Role(RoleType.ROLE_ADMIN)));
+
+        assertEquals("Ray", user.getName());
+    }
 
 }
