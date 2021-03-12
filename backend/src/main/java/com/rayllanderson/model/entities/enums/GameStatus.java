@@ -1,8 +1,11 @@
 package com.rayllanderson.model.entities.enums;
 
-public enum GameStatus {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-    WISH,
-    PLAYING,
-    COMPLETED
+public enum GameStatus {
+    WISH, PLAYING, COMPLETED
 }
+
+
+

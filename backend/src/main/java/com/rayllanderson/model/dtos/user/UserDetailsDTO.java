@@ -2,11 +2,13 @@ package com.rayllanderson.model.dtos.user;
 
 import com.rayllanderson.model.entities.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserDetailsDTO {
 
     private Long id;
