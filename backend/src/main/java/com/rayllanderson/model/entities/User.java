@@ -49,7 +49,7 @@ public class User implements Serializable, UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+            inverseJoinColumns = @JoinColumn(name = "role_name"))
     private Set<Role> roles = new HashSet<>();
 
     public User(Long id, String email, String username, String password, String name) {
@@ -66,6 +66,10 @@ public class User implements Serializable, UserDetails {
 
     public void addGames(List<Game> games){
         games.addAll(games);
+    }
+
+    public void addRole(Role role){
+        this.roles.add(role);
     }
 
     @Override
