@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rayllanderson.model.entities.enums.GameStatus;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class Game implements Serializable {
     @Size(min = 1, max = 150)
     private String name;
 
-    @NotNull(message = "GameStatus invalid")
+    @NotNull
     @Enumerated(EnumType.STRING)
     private GameStatus status;
 

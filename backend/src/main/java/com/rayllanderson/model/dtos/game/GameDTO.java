@@ -1,7 +1,7 @@
 package com.rayllanderson.model.dtos.game;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rayllanderson.model.entities.Game;
-import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.GameStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
