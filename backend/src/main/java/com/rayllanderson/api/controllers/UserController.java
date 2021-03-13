@@ -57,7 +57,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/update/username")
+    @PutMapping("/update")
     public ResponseEntity<Void> updateNameOrUsername(@RequestBody UserDetailsDTO user, @AuthenticationPrincipal UserDetails userDetails) {
         userService.update(user, UserUtil.getUserId(userDetails, userRepository));
         return ResponseEntity.noContent().build();

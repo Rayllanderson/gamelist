@@ -1,9 +1,9 @@
 package com.rayllanderson.model.util;
 
-import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.dtos.user.UserDTO;
+import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import com.rayllanderson.model.exceptions.UsernameExistsException;
 import com.rayllanderson.model.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class Assert {
 
@@ -40,6 +40,18 @@ public class Assert {
 
         if (reference.trim().isEmpty())
             throw new IllegalArgumentException(parameterName + " cannot be null");
+    }
+
+    public static void validUser(UserDTO user) throws IllegalArgumentException, UsernameExistsException {
+        Assert.notBlank(user.getEmail(), "email");
+        Assert.notBlank(user.getName(), "name");
+        Assert.notBlank(user.getPassword(), "password");
+    }
+
+    public static void validUser(UserDetailsDTO user) throws IllegalArgumentException, UsernameExistsException {
+        Assert.notBlank(user.getEmail(), "email");
+        Assert.notBlank(user.getName(), "name");
+        Assert.notBlank(user.getUsername(), "username");
     }
 
 }
