@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.in;
@@ -31,6 +32,9 @@ public class CrudServiceTest {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -109,7 +113,7 @@ public class CrudServiceTest {
 
         assertNotNull(userId);
 
-        String password = "321";
+        String password = encoder.encode("321");
         UserDTO userDTO = new UserDTO();
         userDTO.setPassword(password);
         service.updatePassword(userDTO, userId);
@@ -118,7 +122,7 @@ public class CrudServiceTest {
 
         assertNotNull(newUser);
         assertEquals(newUser.getUsername(), username);
-        assertEquals(password, newUser.getPassword());
+        assertTrue(encoder.matches(password, newUser.getPassword()));
 
         String existingUsername = "rayllanderson";
 

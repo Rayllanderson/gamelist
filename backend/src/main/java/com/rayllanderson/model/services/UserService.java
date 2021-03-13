@@ -14,6 +14,7 @@ import com.rayllanderson.model.util.Assert;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +28,16 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Transactional(propagation = Propagation.REQUIRED)
     public UserDetailsDTO save(UserDTO userDto) throws IllegalArgumentException {
-        validateUser(userDto);
+        Assert.validUser(userDto);
+        Assert.usernameNotExists(userDto.getUsername(), repository);
         User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
+        user.setPassword(encoder.encode(user.getPassword()));
         return UserDetailsDTO.create(repository.save(user));
     }
 
@@ -42,10 +48,12 @@ public class UserService {
     }
 
     public UserDetailsDTO registerAnAdmin(UserDTO userDTO) throws IllegalArgumentException {
-        validateUser(userDTO);
+        Assert.validUser(userDTO);
+        Assert.usernameNotExists(userDTO.getUsername(), repository);
         User user = fromDTO(userDTO);
         user.addRole(new Role(RoleType.ROLE_USER));
         user.addRole(new Role(RoleType.ROLE_ADMIN));
+        user.setPassword(encoder.encode(user.getPassword()));
         return UserDetailsDTO.create(repository.save(user));
     }
 
@@ -83,10 +91,11 @@ public class UserService {
      * @throws UsernameExistsException - if user update username and username has already taken.
      */
     public UserDetailsDTO update(UserDetailsDTO user, Long userId) throws UsernameExistsException {
+        Assert.validUser(user);
         UserDTO userFromDataBase = this.find(userId);
         boolean hasUpdateUsername = !Assert.sameUsername(user.getUsername(), userFromDataBase.getUsername());
         if (hasUpdateUsername) {
-            com.rayllanderson.model.util.Assert.usernameNotExists(user.getUsername(), repository);
+            Assert.usernameNotExists(user.getUsername(), repository);
         }
         updateData(user, userFromDataBase);
         return update(userFromDataBase);
@@ -106,6 +115,7 @@ public class UserService {
         UserDTO userFromDataBase = this.find(userId);
         Assert.notBlank(user.getPassword(), "password");
         updatePassword(user, userFromDataBase);
+        userFromDataBase.setPassword(encoder.encode(userFromDataBase.getPassword()));
         return this.update(userFromDataBase);
     }
 
@@ -117,11 +127,9 @@ public class UserService {
         return new ModelMapper().map(dto, User.class);
     }
 
-    private void validateUser(UserDTO user) throws IllegalArgumentException, UsernameExistsException {
-        Assert.notBlank(user.getEmail(), "email");
-        Assert.notBlank(user.getName(), "name");
-        Assert.notBlank(user.getPassword(), "password");
-        Assert.usernameNotExists(user.getUsername(), repository);
+    @Transactional(propagation = Propagation.REQUIRED)
+    private UserDetailsDTO update(UserDTO userDto) throws IllegalArgumentException {
+        return UserDetailsDTO.create(repository.save(fromDTO(userDto)));
     }
 
     private void updateData(UserDetailsDTO source, UserDTO target) {
@@ -131,10 +139,4 @@ public class UserService {
     private void updatePassword(UserDTO source, UserDTO target) {
         BeanUtils.copyProperties(source, target, "id", "name", "email", "username");
     }
-
-    @Transactional(propagation = Propagation.REQUIRED)
-    private UserDetailsDTO update(UserDTO userDto) throws IllegalArgumentException {
-        return UserDetailsDTO.create(repository.save(fromDTO(userDto)));
-    }
-
 }
