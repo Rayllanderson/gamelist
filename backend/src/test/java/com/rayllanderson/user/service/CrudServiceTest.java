@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.in;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -38,20 +38,20 @@ public class CrudServiceTest {
 
     @Test
     public void crud() {
-        User user = new User(null, "rayllanderson@gmail.com", "rayllanderson1", "whatever123", "Ray");
+        User user = new User(null, "rayllanderson@gmail.com", "rayllanderson154", "whatever123", "Ray");
         UserDetailsDTO userDTO = service.save(UserDTO.create(user));
 
         assertNotNull(userDTO);
         assertTrue(userDTO.getId() >= 1);
 
         Long id = userDTO.getId();
-        UserDTO userFromDatabase = service.find(id);
+        UserDetailsDTO userFromDatabase = service.findById(id);
 
         assertNotNull(userFromDatabase);
         assertEquals(id, userFromDatabase.getId());
 
         userFromDatabase.setName("João");
-        userFromDatabase = UserDTO.create(service.save(userFromDatabase));
+        userFromDatabase = service.update(userFromDatabase, id);
 
         assertEquals("João", userFromDatabase.getName());
 
@@ -64,7 +64,7 @@ public class CrudServiceTest {
 
     @Test
     public void register() {
-        String username = "rayllanderson1";
+        String username = "rayllanderson12";
         User u = new User(null, "rayllanderson@gmail.com", username, "whatever123", "Ray");
         UserDetailsDTO userDTO = service.register(UserDTO.create(u));
 
@@ -93,6 +93,50 @@ public class CrudServiceTest {
         assertTrue(user.getRoles().contains(new Role(RoleType.ROLE_ADMIN)));
 
         assertEquals("Ray", user.getName());
+    }
+
+    @Test
+    public void update(){
+        String username = "joao321";
+        User user = new User();
+        user.setUsername(username);
+        user.setName("whatever");
+        user.setEmail("bla@gmail.com");
+        user.setPassword("123");
+
+        UserDetailsDTO userDetailsDTO = service.save(UserDTO.create(user));
+        Long userId = userDetailsDTO.getId();
+
+        assertNotNull(userId);
+
+        String password = "321";
+        UserDTO userDTO = new UserDTO();
+        userDTO.setPassword(password);
+        service.updatePassword(userDTO, userId);
+
+        UserDTO newUser = service.find(userId);
+
+        assertNotNull(newUser);
+        assertEquals(newUser.getUsername(), username);
+        assertEquals(password, newUser.getPassword());
+
+        String existingUsername = "rayllanderson";
+
+        newUser.setUsername(existingUsername);
+
+        assertThatThrownBy(() ->{
+            service.update(UserDetailsDTO.create(newUser), userId);
+        }).isInstanceOf(UsernameExistsException.class);
+
+        //verificando se realmente não mudou
+        assertEquals(service.find(userId).getUsername(), username);
+
+        //agora vamos mudar
+        String inexistentUsername = "432424242d";
+        newUser.setUsername(inexistentUsername);
+
+        assertNotNull(service.update(UserDetailsDTO.create(newUser), userId));
+        assertEquals(service.find(userId).getUsername(), inexistentUsername);
     }
 
 }
