@@ -10,8 +10,8 @@ import com.rayllanderson.model.entities.enums.RoleType;
 import com.rayllanderson.model.exceptions.UsernameExistsException;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
+import com.rayllanderson.model.util.Assert;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,6 @@ public class UserService {
         return UserDetailsDTO.create(repository.save(user));
     }
 
-
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public UserDetailsDTO findById(Long id) throws ObjectNotFoundException {
         return UserDetailsDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on " +
@@ -73,16 +72,41 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public UserDetailsDTO updateUsernameOrEmail(UserDetailsDTO user, Long userId) {
+    /**
+     * Use this method if you want to update username, email or name
+     *
+     * @param user user from the body;
+     * @param userId recovery data from old data
+     *
+     * @return user updated
+     *
+     * @throws UsernameExistsException - if user update username and username has already taken.
+     */
+    public UserDetailsDTO update(UserDetailsDTO user, Long userId) throws UsernameExistsException {
         UserDTO userFromDataBase = this.find(userId);
-        updateUsernameOrEmail(user, userFromDataBase);
-        return save(userFromDataBase);
+        boolean hasUpdateUsername = !Assert.sameUsername(user.getUsername(), userFromDataBase.getUsername());
+        if (hasUpdateUsername) {
+            com.rayllanderson.model.util.Assert.usernameNotExists(user.getUsername(), repository);
+        }
+        updateData(user, userFromDataBase);
+        return update(userFromDataBase);
     }
 
-    public UserDetailsDTO updatePassword(UserDTO user, Long userId) {
+    /**
+     * Use this method if you want to update ONLY password.
+     *
+     * @param user
+     * @param userId
+     *
+     * @return
+     *
+     * @throws IllegalArgumentException if password is empty or null
+     */
+    public UserDetailsDTO updatePassword(UserDTO user, Long userId) throws IllegalArgumentException {
         UserDTO userFromDataBase = this.find(userId);
+        Assert.notBlank(user.getPassword(), "password");
         updatePassword(user, userFromDataBase);
-        return this.save(userFromDataBase);
+        return this.update(userFromDataBase);
     }
 
     public User fromDTO(UserDTO dto) {
@@ -94,18 +118,23 @@ public class UserService {
     }
 
     private void validateUser(UserDTO user) throws IllegalArgumentException, UsernameExistsException {
-        Assert.notNull(user.getEmail(), "email");
-        Assert.notNull(user.getName(), "name");
-        Assert.notNull(user.getPassword(), "password");
-        com.rayllanderson.model.util.Assert.usernameNotExists(user.getUsername(), repository);
+        Assert.notBlank(user.getEmail(), "email");
+        Assert.notBlank(user.getName(), "name");
+        Assert.notBlank(user.getPassword(), "password");
+        Assert.usernameNotExists(user.getUsername(), repository);
     }
 
-    private void updateUsernameOrEmail(UserDetailsDTO source, UserDTO target) {
+    private void updateData(UserDetailsDTO source, UserDTO target) {
         BeanUtils.copyProperties(source, target, "id", "password");
     }
 
     private void updatePassword(UserDTO source, UserDTO target) {
-        BeanUtils.copyProperties(source, target, "id", "name", "email");
+        BeanUtils.copyProperties(source, target, "id", "name", "email", "username");
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    private UserDetailsDTO update(UserDTO userDto) throws IllegalArgumentException {
+        return UserDetailsDTO.create(repository.save(fromDTO(userDto)));
     }
 
 }

@@ -1,9 +1,6 @@
 package com.rayllanderson.api.controllers;
 
-import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.rayllanderson.api.util.UserUtil;
 import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
@@ -11,9 +8,14 @@ import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1.0/users")
@@ -48,15 +50,16 @@ public class UserController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping("/{id}/update/password")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody UserDTO user) {
-        userService.updatePassword(user, id);
+    @PutMapping("/update/password")
+    public ResponseEntity<Void> updatePassword(@RequestBody UserDTO user,
+                                               @AuthenticationPrincipal UserDetails userDetails) {
+        userService.updatePassword(user, UserUtil.getUserId(userDetails, userRepository));
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/update/data")
-    public ResponseEntity<Void> updateNameOrUsername(@PathVariable Long id, @RequestBody UserDetailsDTO user) {
-        userService.updateUsernameOrEmail(user, id);
+    @PutMapping("/update/username")
+    public ResponseEntity<Void> updateNameOrUsername(@RequestBody UserDetailsDTO user, @AuthenticationPrincipal UserDetails userDetails) {
+        userService.update(user, UserUtil.getUserId(userDetails, userRepository));
         return ResponseEntity.noContent().build();
     }
 
