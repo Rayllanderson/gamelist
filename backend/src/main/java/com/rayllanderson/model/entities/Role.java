@@ -17,12 +17,9 @@ import javax.persistence.*;
 @Entity(name = "roles")
 public class Role implements GrantedAuthority {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
-    private Long id;
-
     @Enumerated(EnumType.STRING)
+    @Id
     @Column(name = "name")
     private RoleType roleName;
 

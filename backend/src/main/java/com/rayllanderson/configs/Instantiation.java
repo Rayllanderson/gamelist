@@ -30,8 +30,8 @@ public class Instantiation implements CommandLineRunner {
 
         String password = encoder.encode("123");
 
-        Role admin = new Role(1L, RoleType.ROLE_ADMIN);
-        Role padrao = new Role(2L, RoleType.ROLE_USER);
+        Role admin = new Role(RoleType.ROLE_ADMIN);
+        Role padrao = new Role(RoleType.ROLE_USER);
 
         User user = new User(1L, "rayllanderson@gmail.com", "rayllanderson", password, "Ray");
         user.getRoles().add(admin);

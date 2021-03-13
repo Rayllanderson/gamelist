@@ -4,13 +4,17 @@ package com.rayllanderson.model.services;
 import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
+import com.rayllanderson.model.entities.Role;
 import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.entities.enums.RoleType;
+import com.rayllanderson.model.exceptions.UsernameExistsException;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
+import com.rayllanderson.model.util.Assert;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +28,33 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserDetailsDTO save(UserDTO user) throws IllegalArgumentException {
-        verifyUser(user);
-        return UserDetailsDTO.create(repository.save(fromDTO(user)));
+    public UserDetailsDTO save(UserDTO userDto) throws IllegalArgumentException {
+        Assert.validUser(userDto);
+        Assert.usernameNotExists(userDto.getUsername(), repository);
+        User user = fromDTO(userDto);
+        user.addRole(new Role(RoleType.ROLE_USER));
+        user.setPassword(encoder.encode(user.getPassword()));
+        return UserDetailsDTO.create(repository.save(user));
     }
 
     public UserDetailsDTO register(UserDTO user) throws IllegalArgumentException {
         if (user.getId() != null)
             throw new IllegalArgumentException("id must be null");
         return this.save(user);
+    }
+
+    public UserDetailsDTO registerAnAdmin(UserDTO userDTO) throws IllegalArgumentException {
+        Assert.validUser(userDTO);
+        Assert.usernameNotExists(userDTO.getUsername(), repository);
+        User user = fromDTO(userDTO);
+        user.addRole(new Role(RoleType.ROLE_USER));
+        user.addRole(new Role(RoleType.ROLE_ADMIN));
+        user.setPassword(encoder.encode(user.getPassword()));
+        return UserDetailsDTO.create(repository.save(user));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -59,16 +80,43 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public UserDetailsDTO updateUsernameOrEmail(UserDetailsDTO user, Long userId) {
+    /**
+     * Use this method if you want to update username, email or name
+     *
+     * @param user user from the body;
+     * @param userId recovery data from old data
+     *
+     * @return user updated
+     *
+     * @throws UsernameExistsException - if user update username and username has already taken.
+     */
+    public UserDetailsDTO update(UserDetailsDTO user, Long userId) throws UsernameExistsException {
+        Assert.validUser(user);
         UserDTO userFromDataBase = this.find(userId);
-        updateUsernameOrEmail(user, userFromDataBase);
-        return save(userFromDataBase);
+        boolean hasUpdateUsername = !Assert.sameUsername(user.getUsername(), userFromDataBase.getUsername());
+        if (hasUpdateUsername) {
+            Assert.usernameNotExists(user.getUsername(), repository);
+        }
+        updateData(user, userFromDataBase);
+        return update(userFromDataBase);
     }
 
-    public UserDetailsDTO updatePassword(UserDTO user, Long userId) {
+    /**
+     * Use this method if you want to update ONLY password.
+     *
+     * @param user
+     * @param userId
+     *
+     * @return
+     *
+     * @throws IllegalArgumentException if password is empty or null
+     */
+    public UserDetailsDTO updatePassword(UserDTO user, Long userId) throws IllegalArgumentException {
         UserDTO userFromDataBase = this.find(userId);
+        Assert.notBlank(user.getPassword(), "password");
         updatePassword(user, userFromDataBase);
-        return this.save(userFromDataBase);
+        userFromDataBase.setPassword(encoder.encode(userFromDataBase.getPassword()));
+        return this.update(userFromDataBase);
     }
 
     public User fromDTO(UserDTO dto) {
@@ -79,18 +127,16 @@ public class UserService {
         return new ModelMapper().map(dto, User.class);
     }
 
-    private void verifyUser(UserDTO user) throws IllegalArgumentException {
-        Assert.notNull(user.getEmail(), "email");
-        Assert.notNull(user.getName(), "name");
-        Assert.notNull(user.getPassword(), "password");
+    @Transactional(propagation = Propagation.REQUIRED)
+    private UserDetailsDTO update(UserDTO userDto) throws IllegalArgumentException {
+        return UserDetailsDTO.create(repository.save(fromDTO(userDto)));
     }
 
-    private void updateUsernameOrEmail(UserDetailsDTO source, UserDTO target) {
+    private void updateData(UserDetailsDTO source, UserDTO target) {
         BeanUtils.copyProperties(source, target, "id", "password");
     }
 
     private void updatePassword(UserDTO source, UserDTO target) {
-        BeanUtils.copyProperties(source, target, "id", "name", "email");
+        BeanUtils.copyProperties(source, target, "id", "name", "email", "username");
     }
-
 }
