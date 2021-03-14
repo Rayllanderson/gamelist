@@ -55,29 +55,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         AuthenticationManager authManager = authenticationManager();
-        http
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/v1.0/login").permitAll()
-                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**, /users/**")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, GET_USER_BY_ID, GET_USERS)
-                .permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1.0/users/")
-                .permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().authenticated()
-                .and().csrf().disable()
-                .addFilter(new JwtAuthenticationFilter(authManager))
-                .addFilter(new JwtAuthorizationFilter(authManager, userDetailsService))
-                .exceptionHandling()
-                .accessDeniedHandler(accessDeniedHandler)
-                .authenticationEntryPoint(unauthorizedHandler)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1.0/login").permitAll().antMatchers("/v2/api-docs",
+                "/configuration/**", "/swagger*/**", "/webjars/**, /users/**").permitAll().antMatchers(HttpMethod.GET,
+                GET_USER_BY_ID, GET_USERS).permitAll().antMatchers(HttpMethod.POST, "/api/v1.0/users/").permitAll().antMatchers("/h2" +
+                "-console/**").permitAll().anyRequest().authenticated().and().csrf().disable().addFilter(new JwtAuthenticationFilter(authManager)).addFilter(new JwtAuthorizationFilter(authManager, userDetailsService)).exceptionHandling().accessDeniedHandler(accessDeniedHandler).authenticationEntryPoint(unauthorizedHandler).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         //pra usar o h2. deve ser comentado em produção
-//        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
-//        http.headers().frameOptions().disable();
+        //        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+        //        http.headers().frameOptions().disable();
     }
 
     @Override
@@ -92,10 +77,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        final String CLIENT_URL = "http://localhost:8080/";
+        final String CLIENT_URL = "http://localhost:3000/";
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(CLIENT_URL));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
