@@ -8,6 +8,7 @@ import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findById(id));
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/{id}/games")
     public ResponseEntity<List<GameDTO>> findGamesByUserId(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findGamesByUserId(id));
