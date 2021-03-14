@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.springframework.http.HttpMethod.*;
@@ -35,13 +36,17 @@ public abstract class BaseApiTest {
 
     @Before
     public void setupTest() {
-        // Le usuário
-        UserDetails user = userDetailsService.loadUserByUsername("rayllanderson");
-        assertNotNull(user);
-
-        // Gera token
-        jwtToken = JwtUtil.createToken(user);
-        assertNotNull(jwtToken);
+        UserDetails user = null;
+        try {
+            user = userDetailsService.loadUserByUsername("rayllanderson");
+        } catch (UsernameNotFoundException e) {
+            user = userDetailsService.loadUserByUsername("joao");
+        } finally {
+            assertNotNull(user);
+            // Gera token
+            jwtToken = JwtUtil.createToken(user);
+            assertNotNull(jwtToken);
+        }
     }
 
     <T> ResponseEntity<T> post(String url, Object body, Class<T> responseType) {
@@ -57,5 +62,10 @@ public abstract class BaseApiTest {
     <T> ResponseEntity<T> delete(String url, Class<T> responseType) {
         HttpHeaders headers = getHeaders();
         return rest.exchange(url, DELETE, new HttpEntity<>(headers), responseType);
+    }
+
+    <T> ResponseEntity<T> put(String url, Object body, Class<T> responseType) {
+        HttpHeaders headers = getHeaders();
+        return rest.exchange(url, PUT, new HttpEntity<>(body, headers), responseType);
     }
 }
