@@ -1,23 +1,16 @@
 package com.rayllanderson.api.exceptions;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
-
-import com.google.gson.Gson;
 import com.rayllanderson.model.entities.enums.GameStatus;
-import org.springframework.http.HttpHeaders;
+import com.rayllanderson.model.exceptions.UsernameExistsException;
+import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.util.*;
 
 
@@ -50,6 +43,13 @@ public class ResourceExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         String error = "Invalid Game Status. Status avaliable = " + Arrays.asList(GameStatus.values());
         StandardError err = new StandardError(status.value(), "Bad Request", Arrays.asList(error), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(UsernameExistsException.class)
+    ResponseEntity<StandardError> handleUsernameExists(UsernameExistsException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(status.value(), "Bad Request", Arrays.asList(e.getMessage()), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 
