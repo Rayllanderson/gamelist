@@ -28,12 +28,15 @@ public class Instantiation implements CommandLineRunner {
     public void run(String... args) throws Exception {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+        userRepository.deleteAll();
+        gameRepository.deleteAll();
+
         String password = encoder.encode("123");
 
         Role admin = new Role(RoleType.ROLE_ADMIN);
         Role padrao = new Role(RoleType.ROLE_USER);
 
-        User user = new User(1L, "rayllanderson@gmail.com", "rayllanderson", password, "Ray");
+        User user = new User(null, "rayllanderson@gmail.com", "rayllanderson", password, "Ray");
         user.getRoles().add(admin);
         user.getRoles().add(padrao);
 
