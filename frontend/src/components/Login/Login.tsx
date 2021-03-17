@@ -1,5 +1,6 @@
-
-import styles from '../../../styles/components/login.module.css';
+import { ForgetPasswordModal } from '../Modal/ForgetPassModalBody';
+import { LoginModalBody } from '../Modal/LoginModalBody';
+import { Modal } from '../Modal/Modal';
 import { Button } from './Button';
 import { InputGroup } from './InputGroup';
 import { LinkGroup } from './LinkGroup';
@@ -12,6 +13,14 @@ export function Login() {
       <InputGroup/>
       <Button>Login</Button>
       <LinkGroup/>
+      <Modal title="Cadastrar" id="registerModal" successBtnText="Cadastrar">
+        <LoginModalBody/>
+      </Modal>
+      <Modal title="Esqueceu sua senha?" id="forgetPasswordModal" successBtnText="Enviar Email">
+        <ForgetPasswordModal/>
+      </Modal>
+
+      
     </div>
   );
 }
