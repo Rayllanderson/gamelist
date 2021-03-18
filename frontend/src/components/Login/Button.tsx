@@ -1,7 +1,7 @@
 import styles from '../../../styles/components/login.module.css';
 
 interface Props  {
-  children: string
+  children: string;
 }
 
 export function Button(props: Props){
