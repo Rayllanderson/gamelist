@@ -8,7 +8,7 @@ export function Nav() {
     <div>
       <ul className="nav nav-pills nav-fill">
        {navItems.map(text => (
-         <NavItem text={text} />
+         <NavItem text={text} key={Math.random()} />
        ))}
       </ul>
       <div className={styles.footerBar}></div>

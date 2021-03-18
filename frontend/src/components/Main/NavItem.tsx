@@ -7,8 +7,8 @@ interface Props{
 export function NavItem(props: Props){
   return (
     <li className="nav-item">
-      <a href="#">
-        <a className={`nav-link ${styles.menuItem} ${styles.textActive}`} href="#">{props.text}</a>
+      <a href="#" style={{textDecoration: "none"}}>
+        <span className={`nav-link ${styles.menuItem} ${styles.textActive}`}>{props.text}</span>
         <div className={`${styles.menuItemFooter} ${styles.footerActive}`}></div>
       </a>
     </li>
