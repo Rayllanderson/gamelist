@@ -12,7 +12,7 @@ export function Login() {
       <Logo/>
       <InputGroup/>
       <Button >Login</Button>
-      <a href={"main"}>Login</a>
+      <a href={"mainpage"}>Login</a>
       <LinkGroup/>
       <Modal title="Cadastrar" id="registerModal" successBtnText="Cadastrar">
         <LoginModalBody/>
