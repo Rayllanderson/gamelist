@@ -139,6 +139,7 @@ a {
 
 .modal-content label,
 .modal-content h5,
+.modal-content p,
 .modal-content .close {
     color: var(--foreground)
 }
