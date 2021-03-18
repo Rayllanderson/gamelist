@@ -14,7 +14,7 @@ export function Table() {
       </thead>
       <tbody>
         {mockTableItem.map(item => (
-          <TableItem game={item}/>
+          <TableItem game={item} key={Math.random()}/>
         ))}
         
       </tbody>
