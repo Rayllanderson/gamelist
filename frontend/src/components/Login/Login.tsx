@@ -11,7 +11,8 @@ export function Login() {
     <div className="container mt-5">
       <Logo/>
       <InputGroup/>
-      <Button>Login</Button>
+      <Button >Login</Button>
+      <a href={"main"}>Login</a>
       <LinkGroup/>
       <Modal title="Cadastrar" id="registerModal" successBtnText="Cadastrar">
         <LoginModalBody/>
@@ -19,8 +20,6 @@ export function Login() {
       <Modal title="Esqueceu sua senha?" id="forgetPasswordModal" successBtnText="Enviar Email">
         <ForgetPasswordModal/>
       </Modal>
-
-      
     </div>
   );
 }

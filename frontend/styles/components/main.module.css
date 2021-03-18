@@ -1,0 +1,136 @@
+    .footerBar {
+        background-color: var(--foreground);
+        height: 2px;
+    }
+    
+    .menu {
+        display: inline-block;
+    }
+    
+    .navItem {
+        width: 8rem;
+    }
+    
+    .menuItem {
+        text-decoration: none;
+        font-size: 1.5rem;
+        color: var(--foreground);
+        margin: 0 auto;
+    }
+    
+    .menuItem:hover {
+        color: var(--pink)
+    }
+    
+    .menuItemFooter {
+        width: 8rem;
+        margin: 0 auto;
+        background-color: var(--background);
+        height: 1.5px;
+    }
+    
+    .textActive {
+        color: var(--pink);
+    }
+    
+    .footerActive {
+        background-color: var(--pink);
+    }
+    
+    .inputSearch {
+        width: 70%;
+        margin: 6rem auto;
+        margin-bottom: 3rem;
+    }
+    
+    .table {
+        background-color: var(--current-line)
+    }
+    
+    .table {
+        font-size: 1.4rem;
+        border-radius: 1.5rem;
+        padding: 2rem;
+    }
+    
+    .table th {
+        color: var(--pink)
+    }
+    
+    .table td {
+        color: var(--foreground)
+    }
+    
+    .table td a {
+        color: var(--foreground)
+    }
+    
+    .table td a:hover {
+        color: var(--pink)
+    }
+    
+    .tableBtn {
+        margin: auto;
+    }
+    
+    .fixedButton {
+        position: fixed;
+        bottom: 2rem;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+    }
+    
+    @media(max-width: 768px) {
+        .fixedButton {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .ffixedButton:active {
+            transform: translateX(-50%);
+        }
+    }
+    /* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+    
+    @media (min-width: 1281px) {
+        .fixedButton {
+            left: 80%;
+        }
+    }
+    /* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+    
+    @media (min-width: 1025px) and (max-width: 1480px) {
+        .fixedButton {
+            left: 88%;
+        }
+    }
+    /* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+    
+    @media (min-width: 768px) and (max-width: 1024px) {
+        .fixedButton {
+            left: 90%;
+        }
+    }
+    
+    .footerFixed {
+        height: 8%;
+        width: 100%;
+        z-index: inherit;
+        background-color: rgba(56, 58, 89, 0.8);
+        position: fixed;
+        bottom: 0rem;
+    }
+    
+    .modalContent {
+        padding: 0.7rem;
+        border-radius: 1.3rem;
+    }
