@@ -4,9 +4,11 @@ import { AuthContext } from '../../contexts/AuthContext';
 
 export function InputGroup() {
 
-  const { signIn } = useContext(AuthContext)
+  const { user, signIn } = useContext(AuthContext)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  console.log(user)
 
   function handleUsernameChange(e) {
     setUsername(e.target.value)
