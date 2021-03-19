@@ -86,7 +86,7 @@
             left: 50%;
             transform: translateX(-50%);
         }
-        .ffixedButton:active {
+        .fixedButton:active {
             transform: translateX(-50%);
         }
     }
