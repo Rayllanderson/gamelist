@@ -1,12 +1,25 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styles from '../../../styles/components/login.module.css';
-import { LoginContext } from '../../contexts/LoginContext';
-import { login } from '../../services/login_service';
-import { LoginInputs } from '../../types/types';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export function InputGroup() {
 
-  const { username, password, handleUsernameChange, handlePassChange, handleSubmit} = useContext(LoginContext);
+  const { signIn } = useContext(AuthContext)
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  function handleUsernameChange(e) {
+    setUsername(e.target.value)
+  }
+  function handlePassChange(e) {
+    setPassword(e.target.value)
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const result = await signIn({ username, password });
+  }
+
   
   return (
     <div className={styles.inputs}>

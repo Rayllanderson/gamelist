@@ -1,18 +1,18 @@
 import Head from 'next/head'
 import React from 'react'
 import { Login } from '../components/Login/Login'
-import { LoginProvider } from '../contexts/LoginContext'
+import { AuthProvider } from "../contexts/AuthContext";
 
 export default function Home() {
   return (
     <div>
-      <LoginProvider>
-        <Head>
-          <title>Game List</title>
-        </Head>
-
+      <Head>
+        <title>Game List</title>
+      </Head>
+      
+      <AuthProvider>
         <Login />
-      </LoginProvider>
+      </AuthProvider>
     </div>
   )
 }

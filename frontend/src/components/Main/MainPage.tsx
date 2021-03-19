@@ -6,7 +6,8 @@ import { Nav } from "./Nav";
 import { Search } from "./Search";
 import { Table } from "./Table";
 
-export function MainPage() {
+
+export default function MainPage() {
   return (
     <div>
       <div>
