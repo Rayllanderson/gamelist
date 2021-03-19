@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 const baseConfig: AxiosRequestConfig = {
-  baseURL: "http://localhost:8080",
+  baseURL: "http://localhost:8080/api/v1.0",
 };
 
 export const post = (url: string, data: URLSearchParams) => {
