@@ -9,6 +9,7 @@ interface SignInCretendials {
 interface AuthContextData {
   user: object;
   signIn: (credentials: SignInCretendials) => Promise<void>
+  signOut: () => void;
 }
 interface AuthProviderProps {
   children: ReactNode;
@@ -47,8 +48,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setData({ token, user });
   }, [])
 
+  const signOut = useCallback(() => {
+    Cookie.remove('@GameList:token');
+    Cookie.remove('@GameList:user');
+    setData({} as AuthState)
+  }, [])
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   )
