@@ -1,9 +1,14 @@
-import { Game } from "../../types/types"
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
-type Props = {
-  game: Game
+interface Game  {
+  name: string;
 }
-export function TableItem({game}: Props) {
+interface Props {
+  game: Game;
+}
+
+
+export function TableItem({ game }: Props) {
   return (
     <tr>
       <td>{game.name}</td>
