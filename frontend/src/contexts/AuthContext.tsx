@@ -1,6 +1,5 @@
-import React, { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
+import React, { createContext, ReactNode, useCallback, useState } from 'react';
 import api from '../services/api';
-import Cookie from "js-cookie";
 
 interface SignInCretendials {
   username: string;
@@ -24,13 +23,9 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export function AuthProvider({ children }: AuthProviderProps) {
 
-  useEffect(function () {
-    localStorage
-  }, []);
-
   const [data, setData] = useState<AuthState>(() => {
-    const token = Cookie.get('@GameList:token');
-    const user = Cookie.get('@GameList:user');
+    const token = localStorage.getItem('@GameList:token');
+    const user = localStorage.getItem('@GameList:user');
     if (token && user && user !== 'undefined') {
       return { token, user: JSON.parse(user) };
     }
@@ -43,14 +38,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
     const { token, name } = response.data;
     const user = { username, name };
-    Cookie.set('@GameList:token', token);
-    Cookie.set('@GameList:user', JSON.stringify(user));
+    localStorage.setItem('@GameList:token', token);
+    localStorage.setItem('@GameList:user', JSON.stringify(user));
     setData({ token, user });
   }, [])
 
   const signOut = useCallback(() => {
-    Cookie.remove('@GameList:token');
-    Cookie.remove('@GameList:user');
+    localStorage.removeItem('@GameList:token');
+    localStorage.removeItem('@GameList:user');
     setData({} as AuthState)
   }, [])
 

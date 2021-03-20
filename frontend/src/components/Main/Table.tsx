@@ -1,10 +1,9 @@
 import { TableItem } from "./TableItem";
-import styles from '../../../styles/components/main.module.css';
 
 export function Table() {
   const mockTableItem = [{ name: "Gta v", id: 2 }, { name: "Horizon Zero Dawn", id: 4 }]
   return (
-    <table className={`${styles.table} table table-hover table-borderless`}>
+    <table className='table table-hover table-borderless'>
       <thead>
         <tr>
           <th scope="col">Nome</th>

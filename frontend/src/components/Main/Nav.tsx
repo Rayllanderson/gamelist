@@ -1,6 +1,5 @@
-import React from "react";
 import { NavItem } from "./NavItem";
-import styles from '../../../styles/components/main.module.css';
+import '../../styles/components/main.css';
 
 export function Nav() {
   const navItems = ['Todos', 'Jogando', 'Desejados', 'Finalizados'];
@@ -11,7 +10,7 @@ export function Nav() {
          <NavItem text={text} key={Math.random()} />
        ))}
       </ul>
-      <div className={styles.footerBar}></div>
+      <div className='footerBar'></div>
     </div>
   )
 }
