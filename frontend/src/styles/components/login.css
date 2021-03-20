@@ -12,6 +12,18 @@
     display: block;
 }
 
+.inputs input {
+    border: 2px solid #ffffff;
+    border-left: 0px solid;
+}
+
+.inputs span {
+    background-color: #ffffff;
+    border: 2px solid #ffffff;
+    border-right: 0px solid;
+    transition: 0.2s;
+}
+
 .inputs .formGroup,
 .loginButton {
     margin: 2rem auto;
