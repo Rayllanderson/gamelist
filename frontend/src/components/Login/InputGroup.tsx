@@ -1,6 +1,9 @@
 import { useContext, useState } from 'react';
 import '../../styles/components/login.css';
 import { AuthContext } from '../../contexts/AuthContext';
+import { FiLock, FiUser } from 'react-icons/fi';
+import { Icon } from './Icon';
+import { Input } from './Input';
 
 export function InputGroup() {
 
@@ -15,22 +18,27 @@ export function InputGroup() {
     setPassword(e.target.value)
   }
 
-  async function handleSubmit(e:any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
     await signIn({ username, password }).catch(err => alert(err.response.data.error));
   }
 
-  
+
   return (
     <div className='inputs'>
+
       <form onSubmit={handleSubmit}>
         <div className='form-group formGroup'>
-          <input className="form-control form-control-lg"
-            onChange={handleUsernameChange} value={username} type="text" placeholder="Username" />
+          <Input type='text' placeholder='Username'
+            handleChange={handleUsernameChange}
+            iconName='fa fa-user'
+            value={username} />
         </div>
         <div className='form-group formGroup'>
-          <input className="form-control form-control-lg"
-            onChange={handlePassChange} value={password} type="password" placeholder="Password" />
+          <Input type='password' placeholder='Password'
+            handleChange={handlePassChange}
+            iconName='fa fa-lock'
+            value={password} />
         </div>
         <div className='loginButton'>
           <button type="submit"

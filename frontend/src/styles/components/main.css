@@ -89,6 +89,12 @@
         .fixedButton:active {
             transform: translateX(-50%);
         }
+        .menuItem {
+            font-size: 1.1rem;
+        }
+        .menuItemFooter{
+            width: 6rem;
+        }
     }
     /* 
   ##Device = Desktops

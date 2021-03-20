@@ -12,6 +12,21 @@
     display: block;
 }
 
+.inputs input {
+    border: 2px solid #ffffff;
+    align-items: stretch;
+    padding-left: 38px;
+}
+
+.inputs span {
+    position: absolute;
+    margin-left: 12px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+}
+
 .inputs .formGroup,
 .loginButton {
     margin: 2rem auto;
