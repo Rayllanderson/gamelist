@@ -1,15 +1,20 @@
+import { FiUser } from "react-icons/fi";
 
-interface Props{
-  iconName: string;
+interface Props {
+  icon: React.ComponentType;
   isFocused: boolean;
   isFilled: boolean;
 }
 
-export function Icon({ iconName, isFocused, isFilled}: Props){
+export function Icon({ icon: Icon, isFocused, isFilled }: Props) {
   const color = isFocused || isFilled ? '#ff79c6' : '#6c757d';
+  const borderColor = isFocused ? '#ff79c6' : '#ffffff';
   return (
-    <span style={{ fontSize: '1.1rem', color: color, opacity: 1 }}>
-      <i className={iconName}></i>
+    <span className="input-group-text" style={{
+      fontSize: '1.2rem', color: color,
+      borderColor: borderColor
+    }}>
+      <Icon />
     </span>
   )
 }
