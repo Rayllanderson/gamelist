@@ -1,7 +1,7 @@
 interface Props {
   id: string;
   title: string;
-  children;
+  children: any;
   successBtnText: string;
 }
 export function Modal(props: Props) {
