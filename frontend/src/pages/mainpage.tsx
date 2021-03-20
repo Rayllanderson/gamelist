@@ -5,12 +5,15 @@ import { Footer } from "../components/Main/Footer";
 import { Search } from "../components/Main/Search";
 import { Table } from "../components/Main/Table";
 import { Nav } from "../components/Main/Nav";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 
 const MainPage = () => {
   const {signOut} = useContext(AuthContext)
+  useEffect(() => {
+    document.title = "Game List - Home"
+  }, []);
   return (
     <div>
       <div>
