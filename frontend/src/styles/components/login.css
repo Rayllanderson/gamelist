@@ -14,16 +14,13 @@
 
 .inputs input {
     border: 2px solid #ffffff;
-    align-items: stretch;
-    padding-left: 38px;
+    border-left: 0px solid;
 }
 
 .inputs span {
-    position: absolute;
-    margin-left: 12px;
-    height: 44px;
-    display: flex;
-    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #ffffff;
+    border-right: 0px solid;
     transition: 0.2s;
 }
 

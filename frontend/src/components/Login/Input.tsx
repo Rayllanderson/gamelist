@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react"
+import { FiUser } from "react-icons/fi";
 import { Icon } from "./Icon"
 
 interface Props {
@@ -6,10 +7,10 @@ interface Props {
   value: string;
   placeholder: string;
   type: string;
-  iconName: string;
+  icon: React.ComponentType;
 }
 
-export function Input({ handleChange, value, placeholder, type, iconName }: Props) {
+export function Input({ handleChange, value, placeholder, type, icon }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
@@ -21,8 +22,10 @@ export function Input({ handleChange, value, placeholder, type, iconName }: Prop
   }, []);
 
   return (
-    <div>
-      <Icon iconName={iconName} isFilled={isFilled} isFocused={isFocused} />
+    <div className="input-group">
+      <div className="input-group-prepend">
+      <Icon icon={icon} isFilled={isFilled} isFocused={isFocused} />
+      </div>
       <input className="form-control form-control-lg inner-addon left-addon"
         onChange={handleChange}
         value={value}

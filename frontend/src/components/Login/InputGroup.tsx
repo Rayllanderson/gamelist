@@ -31,13 +31,13 @@ export function InputGroup() {
         <div className='form-group formGroup'>
           <Input type='text' placeholder='Username'
             handleChange={handleUsernameChange}
-            iconName='fa fa-user'
+            icon={FiUser}
             value={username} />
         </div>
         <div className='form-group formGroup'>
           <Input type='password' placeholder='Password'
             handleChange={handlePassChange}
-            iconName='fa fa-lock'
+            icon={FiLock}
             value={password} />
         </div>
         <div className='loginButton'>
