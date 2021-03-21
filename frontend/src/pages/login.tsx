@@ -1,5 +1,5 @@
 import { Logo } from '../components/Login/Logo';
-import { InputGroup } from '../components/Login/InputGroup';
+import { Form } from '../components/Login/Form';
 import { LinkGroup } from '../components/Login/LinkGroup';
 import { Modal } from '../components/Modal/Modal';
 import { LoginModalBody } from '../components/Modal/LoginModalBody';
@@ -14,7 +14,7 @@ export function Login() {
   return (
     <div className="container mt-5">
       <Logo />
-      <InputGroup />
+      <Form />
       <LinkGroup />
       <Modal title="Cadastrar" id="registerModal" successBtnText="Cadastrar">
         <LoginModalBody />
