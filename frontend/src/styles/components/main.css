@@ -16,6 +16,7 @@
         font-size: 1.5rem;
         color: var(--foreground);
         margin: 0 auto;
+        font-weight: bold;
     }
     
     .menuItem:hover {
@@ -43,6 +44,10 @@
         margin-bottom: 3rem;
     }
     
+    .inputSearch input {
+        border: 2px solid #ffffff;
+    }
+    
     .table {
         background-color: var(--current-line)
     }
@@ -50,15 +55,16 @@
     .table {
         font-size: 1.4rem;
         border-radius: 1.5rem;
-        padding: 2rem;
     }
     
     .table th {
-        color: var(--pink)
+        color: var(--pink);
+        padding: 1.3rem!important;
     }
     
     .table td {
-        color: var(--foreground)
+        color: var(--foreground);
+        padding: 1.3rem!important;
     }
     
     .table td a {
@@ -92,7 +98,7 @@
         .menuItem {
             font-size: 1.1rem;
         }
-        .menuItemFooter{
+        .menuItemFooter {
             width: 6rem;
         }
     }

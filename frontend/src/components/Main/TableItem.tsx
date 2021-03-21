@@ -13,9 +13,9 @@ export function TableItem({ game }: Props) {
     <tr>
       <td>{game.name}</td>
       <td className="text-center">
-        <a href="#" data-toggle="modal" data-target="#gameModal"><i className="fas fa-pen"></i></a></td>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#gameModal"><i className="fas fa-pen"></i></a></td>
       <td className="text-center">
-        <a href="#" data-toggle="modal" data-target="#deleteModal"><i className="fas fa-times"></i></a>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal"><i className="fas fa-times"></i></a>
       </td>
     </tr>
   )
