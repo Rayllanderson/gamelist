@@ -2,6 +2,7 @@ import { Logo } from '../components/Login/Logo';
 import { Form } from '../components/Login/Form';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FiLogIn } from 'react-icons/fi';
 
 export function Login() {
   useEffect(() => {
@@ -9,13 +10,15 @@ export function Login() {
   }, [])
   
   return (
-    <div className="container mt-5">
+    <div className="container container-login mt-5">
       <Logo />
       <Form />
       <div className='links'>
-        <div className='linksContent d-flex justify-content-between'>
-          <Link to="/register">Cadastrar</Link>
-          <Link to="/register">Esqueceu sua senha?</Link>
+        <div className='d-flex justify-content-center'>
+          <Link to="/register">Esqueci minha senha</Link>
+        </div>
+        <div className="link-register d-flex justify-content-center">
+          <Link to="/register"><FiLogIn/> &nbsp; Criar Conta</Link>
         </div>
       </div>
     </div>

@@ -35,12 +35,8 @@
 }
 
 .links {
-    margin: 0 auto;
+    margin: 1.2rem auto;
     width: 20rem;
-}
-
-.linksContent {
-    text-align: center;
 }
 
 .links a {
@@ -50,5 +46,66 @@
 }
 
 .links a:hover {
-    transform: scale(1.03);
+    color: #d3d3d3ec
+}
+
+.link-register a {
+    margin-top: 2.4rem;
+    color: var(--pink);
+}
+
+.link-register a:hover {
+    color: #ec66b2;
+}
+
+@keyframes appearFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes appearFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes appearFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes appearFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.container-login {
+    animation: appearFromRight 1s;
+}
+
+.container-register {
+    animation: appearFromLeft 1s;
 }
