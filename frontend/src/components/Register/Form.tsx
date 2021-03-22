@@ -5,7 +5,7 @@ import { FiEdit2, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { Input } from '../Login/Input';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 export function Form() {
@@ -45,7 +45,7 @@ export function Form() {
       return;
     };
     await signUp({ name, email, username, password })
-      .then(() => {
+      .then((resp) => {
         history.push('/')
       })
       .catch(err => { alert(err.response.data.message); console.log(err.response.data) });

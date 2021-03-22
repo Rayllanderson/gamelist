@@ -41,7 +41,7 @@ export function Form() {
   return (
     <div className='inputs'>
 
-      <form onSubmit={handleSubmit} className="needs-validation">
+      <form onSubmit={handleSubmit}>
         <div className='form-group formGroup'>
           <Input type='text' placeholder='Username'
             handleChange={handleUsernameChange}
