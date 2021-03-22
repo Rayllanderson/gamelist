@@ -1,6 +1,5 @@
-import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react';
+import React, { createContext, ReactNode, useCallback, useState } from 'react';
 import api from '../services/api';
-import { ToastContext } from './ToastContext';
 
 interface SignInCretendials {
   username: string;

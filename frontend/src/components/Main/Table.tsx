@@ -1,7 +1,23 @@
+import { useCallback, useEffect, useState } from "react";
+import api, { getGames } from "../../services/api";
 import { TableItem } from "./TableItem";
 
+export interface Game {
+  id: number;
+  name: string;
+  status: string;
+}
+
 export function Table() {
-  const mockTableItem = [{ name: "Gta v", id: 2 }, { name: "Horizon Zero Dawn", id: 4 }]
+
+  const [games, setGames] = useState<Game[]>([])
+  useEffect(() => {
+    getGames().then(response => {
+      setGames(response.data)
+    }).catch(err => console.log(err))
+  }, [])
+
+
   return (
     <table className='table table-hover table-borderless'>
       <thead>
@@ -12,10 +28,10 @@ export function Table() {
         </tr>
       </thead>
       <tbody>
-        {mockTableItem.map(item => (
-          <TableItem game={item} key={Math.random()}/>
+        {games.map(game => (
+          <TableItem game={game} key={game.id} />
         ))}
-        
+
       </tbody>
     </table>
   );
