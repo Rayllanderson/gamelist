@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import api, { getGames } from "../../services/api";
+import {useEffect, useState } from "react";
+import ApiGame from "../../services/apiGame";
 import { TableItem } from "./TableItem";
 
 export interface Game {
@@ -9,12 +9,14 @@ export interface Game {
 }
 
 export function Table() {
-
+ 
   const [games, setGames] = useState<Game[]>([])
   useEffect(() => {
-    getGames().then(response => {
-      setGames(response.data)
-    }).catch(err => console.log(err))
+    const api = new ApiGame();
+    api.findAll()
+      .then(response => {
+        setGames(response.data)
+      }).catch(err => console.log(err))
   }, [])
 
 
