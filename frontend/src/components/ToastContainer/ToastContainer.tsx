@@ -1,12 +1,17 @@
-import { FiAlertCircle, FiXCircle } from "react-icons/fi";
 import './toast.css'
 import Toast from "./Toast";
-export default function ToastContainer() {
+import { ToastMessage } from "../../contexts/ToastContext";
+
+interface Props {
+  messages: ToastMessage[];
+}
+export default function ToastContainer({ messages }: Props) {
   return (
     <div className="toastContainer">
-      <Toast />
-      <Toast type="success" />
-      <Toast type="error" />
+      {messages.map((message) => (
+        <Toast message={message} key={message.id}/>
+      ))}
+
     </div>
   );
 }

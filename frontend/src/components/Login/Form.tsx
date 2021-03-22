@@ -36,7 +36,14 @@ export function Form() {
       console.log(getValidationErrors(err))
       return;
     };
-    await signIn({ username, password }).catch(err => alert(err.response.data.error));
+    await signIn({ username, password }).catch(err => {
+      alert(err.response.data.error);
+      addToast({
+        type: 'error',
+        title: 'Ocorreu um erro',
+        description: 'Ocorreu foi 50 erros aí. te vira pra arrumar',
+      })
+    });
   }
 
 
