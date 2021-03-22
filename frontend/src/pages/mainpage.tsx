@@ -7,17 +7,28 @@ import { Table } from "../components/Main/Table";
 import { Nav } from "../components/Main/Nav";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { ToastContext } from "../contexts/ToastContext";
 
 
 const MainPage = () => {
   const {signOut} = useContext(AuthContext)
+  const { addToast } = useContext(ToastContext)
   useEffect(() => {
     document.title = "Game List - Home"
   }, []);
+
+  function logout (){
+    signOut();
+    addToast({
+      type: 'info',
+      title: 'Logout',
+      description: "Você fez logout. Até mais!",
+    })
+  }
   return (
     <div>
       <div>
-        <button onClick={signOut}>Logout </button>
+        <button onClick={logout}>Logout </button>
         <div className="container mt-5">
           <Nav />
           <Search />

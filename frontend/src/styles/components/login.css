@@ -50,6 +50,7 @@
 }
 
 .link-register a {
+    font-size: 1.1rem;
     margin-top: 2.4rem;
     color: var(--pink);
 }

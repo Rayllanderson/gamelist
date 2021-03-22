@@ -5,12 +5,11 @@ import { ToastContext } from '../../contexts/ToastContext';
 import { FiLock, FiUser } from 'react-icons/fi';
 import { Input } from './Input';
 import * as Yup from 'yup';
-import getValidationErrors from '../../utils/getValidationErrors';
 
 export function Form() {
 
   const { signIn } = useContext(AuthContext)
-  const { addToast, removeToast } = useContext(ToastContext);
+  const { addToast } = useContext(ToastContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -33,15 +32,25 @@ export function Form() {
         abortEarly: false,
       })
     } catch (err) {
-      console.log(getValidationErrors(err))
-      return;
-    };
-    await signIn({ username, password }).catch(err => {
-      alert(err.response.data.error);
       addToast({
         type: 'error',
-        title: 'Ocorreu um erro',
-        description: 'Ocorreu foi 50 erros aí. te vira pra arrumar',
+        title: 'Erro',
+        description: err.message,
+      })
+      return;
+    };
+    await signIn({ username, password }).then(() => {
+      addToast({
+        type: 'success',
+        title: 'Bem vindo!',
+        description: "Login realizado com sucesso!",
+      })
+    }
+    ).catch(err => {
+      addToast({
+        type: 'error',
+        title: 'Erro',
+        description: err.response.data.error,
       })
     });
   }
@@ -49,7 +58,6 @@ export function Form() {
 
   return (
     <div className='inputs'>
-
       <form onSubmit={handleSubmit}>
         <div className='form-group formGroup'>
           <Input type='text' placeholder='Username'
