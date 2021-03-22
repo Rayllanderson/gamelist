@@ -6,10 +6,12 @@ import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { Input } from '../Login/Input';
 import { useHistory } from 'react-router-dom';
+import { ToastContext } from '../../contexts/ToastContext';
 
 
 export function Form() {
   const { signUp } = useContext(AuthContext)
+  const { addToast } = useContext(ToastContext)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -45,10 +47,21 @@ export function Form() {
       return;
     };
     await signUp({ name, email, username, password })
-      .then((resp) => {
+      .then(() => {
         history.push('/')
+        addToast({
+          type: "success",
+          title: "Cadastro realizado com sucesso!",
+          description: "Você já pode realizar o seu login na aplicação.",
+        })
       })
-      .catch(err => { alert(err.response.data.message); console.log(err.response.data) });
+      .catch(err => {
+        addToast({
+          type: "error",
+          title: "Erro",
+          description: err.response.data.message,
+        })
+      });
   }
 
 

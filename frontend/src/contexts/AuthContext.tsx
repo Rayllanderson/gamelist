@@ -1,14 +1,15 @@
-import React, { createContext, ReactNode, useCallback, useState } from 'react';
+import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
+import { ToastContext } from './ToastContext';
 
 interface SignInCretendials {
   username: string;
   password: string;
 }
 
-interface SignUpCretendials{
+interface SignUpCretendials {
   name: string;
-  email:string;
+  email: string;
   username: string;
   password: string;
 }
@@ -30,7 +31,6 @@ interface AuthState {
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@GameList:token');
     const user = localStorage.getItem('@GameList:user');
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setData({ token, user });
   }, [])
 
-  const signUp = useCallback(async ({ name, email,username, password }) => {
+  const signUp = useCallback(async ({ name, email, username, password }) => {
     await api.post('users', {
       name, email, username, password
     });
@@ -69,3 +69,4 @@ export function AuthProvider({ children }: AuthProviderProps) {
     </AuthContext.Provider>
   )
 }
+
