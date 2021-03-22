@@ -1,16 +1,20 @@
 import { useContext, useState } from 'react';
 import '../../styles/components/login.css';
 import { AuthContext } from '../../contexts/AuthContext';
-import { FiLock, FiUser } from 'react-icons/fi';
-import { Input } from './Input';
+import { FiEdit2, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { Input } from '../Login/Input';
+import { Redirect, useHistory } from 'react-router-dom';
+
 
 export function Form() {
-
-  const { signIn } = useContext(AuthContext)
+  const { signUp } = useContext(AuthContext)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const history = useHistory();
 
 
   function handleUsernameChange(e: any) {
@@ -18,6 +22,12 @@ export function Form() {
   }
   function handlePassChange(e: any) {
     setPassword(e.target.value)
+  }
+  function handleEmailChange(e: any) {
+    setEmail(e.target.value)
+  }
+  function handleNameChange(e: any) {
+    setName(e.target.value)
   }
 
   const handleSubmit = async (e: any) => {
@@ -34,29 +44,45 @@ export function Form() {
       console.log(getValidationErrors(err))
       return;
     };
-    await signIn({ username, password }).catch(err => alert(err.response.data.error));
+    await signUp({ name, email, username, password })
+      .then(() => {
+        history.push('/')
+      })
+      .catch(err => { alert(err.response.data.message); console.log(err.response.data) });
   }
 
 
   return (
     <div className='inputs'>
 
-      <form onSubmit={handleSubmit} className="needs-validation">
+      <form onSubmit={handleSubmit}>
+        <div className='form-group formGroup'>
+          <Input type='text' placeholder='Nome (Opcional)'
+            handleChange={handleNameChange}
+            icon={FiEdit2}
+            value={name} required={false} />
+        </div>
+        <div className='form-group formGroup'>
+          <Input type='text' placeholder='Email (Opcional)'
+            handleChange={handleEmailChange}
+            icon={FiMail}
+            value={email} required={false} />
+        </div>
         <div className='form-group formGroup'>
           <Input type='text' placeholder='Username'
             handleChange={handleUsernameChange}
             icon={FiUser}
-            value={username} required={true}/>
+            value={username} required={true} />
         </div>
         <div className='form-group formGroup'>
           <Input type='password' placeholder='Password'
             handleChange={handlePassChange}
             icon={FiLock}
-            value={password} required={true}/>
+            value={password} required={true} />
         </div>
         <div className='loginButton d-grid gap-2'>
           <button type="submit"
-            className="btn btn-pink btn-lg">Login</button>
+            className="btn btn-pink btn-lg">Registrar</button>
         </div>
       </form>
     </div>
