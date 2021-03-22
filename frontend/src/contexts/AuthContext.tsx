@@ -5,9 +5,17 @@ interface SignInCretendials {
   username: string;
   password: string;
 }
+
+interface SignUpCretendials{
+  name: string;
+  email:string;
+  username: string;
+  password: string;
+}
 interface AuthContextData {
   user: object;
   signIn: (credentials: SignInCretendials) => Promise<void>
+  signUp: (credentials: SignUpCretendials) => Promise<void>
   signOut: () => void;
 }
 interface AuthProviderProps {
@@ -43,6 +51,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setData({ token, user });
   }, [])
 
+  const signUp = useCallback(async ({ name, email,username, password }) => {
+    await api.post('users', {
+      name, email, username, password
+    });
+  }, [])
+
   const signOut = useCallback(() => {
     localStorage.removeItem('@GameList:token');
     localStorage.removeItem('@GameList:user');
@@ -50,7 +64,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut, signUp }}>
       {children}
     </AuthContext.Provider>
   )
