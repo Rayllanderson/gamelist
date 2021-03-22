@@ -36,7 +36,7 @@ export default function Toast({ message }: Props) {
   }, [removeToast, message.id])
 
   return (
-    <div className="toast-element" style={{ background: background, color: color }}>
+    <div className="toast-element toast-right" style={{ background: background, color: color }}>
       {icons[message.type || 'info']}
       <div>
         <strong> {message.title} </strong>
