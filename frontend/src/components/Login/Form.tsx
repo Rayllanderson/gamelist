@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import '../../styles/components/login.css';
 import { AuthContext } from '../../contexts/AuthContext';
+import { ToastContext } from '../../contexts/ToastContext';
 import { FiLock, FiUser } from 'react-icons/fi';
 import { Input } from './Input';
 import * as Yup from 'yup';
@@ -9,6 +10,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 export function Form() {
 
   const { signIn } = useContext(AuthContext)
+  const { addToast, removeToast } = useContext(ToastContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -46,13 +48,13 @@ export function Form() {
           <Input type='text' placeholder='Username'
             handleChange={handleUsernameChange}
             icon={FiUser}
-            value={username} required={true}/>
+            value={username} required={true} />
         </div>
         <div className='form-group formGroup'>
           <Input type='password' placeholder='Password'
             handleChange={handlePassChange}
             icon={FiLock}
-            value={password} required={true}/>
+            value={password} required={true} />
         </div>
         <div className='loginButton d-grid gap-2'>
           <button type="submit"
