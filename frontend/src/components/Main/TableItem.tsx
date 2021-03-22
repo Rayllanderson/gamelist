@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-interface Game  {
-  name: string;
-}
+import { Game } from "./Table";
+
 interface Props {
   game: Game;
 }
