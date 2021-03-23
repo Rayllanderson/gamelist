@@ -1,0 +1,149 @@
+:root {
+    --background: #282a36;
+    --current-line: #44475a;
+    --foreground: #f8f8f2;
+    --pink: #ff79c6;
+    --red: #ff5555;
+    --purple: #bd93f9;
+    --comment: #6272a4;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background-color: var(--background);
+}
+
+a {
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+@media(max-width: 1080px) {
+    html {
+        font-size: 93.75%;
+    }
+}
+
+@media(max-width: 720px) {
+    html {
+        font-size: 87.5%;
+    }
+}
+
+.btn {
+    color: var(--foreground);
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-red:focus {
+    transition: 0.2s;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-pink {
+    background: var(--pink)!important;
+}
+
+.btn-pink:hover {
+    background: #ec66b2!important;
+    color: #ffffff;
+}
+
+.btn-pink:active {
+    background: #d45a9f!important;
+}
+
+.form-control:focus,
+.btn-pink:focus {
+    border-color: var(--pink);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.025), 0 0 8px rgba(255, 121, 198, 0.07);
+}
+
+.btn-red {
+    background: var(--red)!important;
+}
+
+.btn-red:hover {
+    background: #da4a4a!important;
+    color: #ffffff;
+}
+
+.btn-red:active {
+    background: #c34141!important;
+}
+
+.btn-red:focus {
+    border-color: var(--red);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.025), 0 0 8px rgba(255, 121, 121, 0.07);
+}
+
+.btn-comment {
+    background: var(--comment)!important;
+}
+
+.btn-comment:hover {
+    background: #566592!important;
+    color: #ffffff;
+}
+
+.btn-comment:active {
+    background: #4c5b86!important;
+}
+
+.btn-comment:focus {
+    border-color: var(--comment);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.025), 0 0 8px rgba(78, 105, 148, 0.07);
+}
+
+.btn-purple {
+    background: var(--purple)!important;
+}
+
+.btn-purple:hover {
+    background: #9f7ad3!important;
+    color: #ffffff;
+}
+
+.btn-purple:active {
+    background: #8c69bd!important;
+}
+
+.btn-purple:focus {
+    border-color: var(--purple);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.025), 0 0 8px rgba(122, 77, 173, 0.07);
+}
+
+.badge-info {
+    background-color: var(--comment)
+}
+
+.badge-info:hover {
+    color: white;
+    background-color: #566592;
+}
+
+.badge-info:focus {
+    border-color: var(--comment);
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.025), 0 0 8px rgba(255, 121, 226, 0.07);
+}
+
+.modal-content label,
+.modal-content h5,
+.modal-content p,
+.modal-content .close {
+    color: var(--foreground)
+}
+
+.modal-content {
+    background-color: var(--background)!important;
+}
