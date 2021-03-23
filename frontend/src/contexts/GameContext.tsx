@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import ApiGame from '../services/apiGame';
 import { ModalContext } from './ModalContext';
 import { ToastContext } from './ToastContext';
@@ -10,7 +10,6 @@ interface GameContextData {
   name: string;
   status: string;
   action: string;
-  setMethod(action: string): void;
   handleNameChange(e: any): void;
   handleSelectChange(e: any): void;
   handleSubmit(e: any): void;
@@ -18,6 +17,8 @@ interface GameContextData {
   selectedGame: Game;
   edit(game: Game): void;
   save(): void;
+  updateTable(): void;
+  games: Game[];
 }
 export interface Game {
   id: number;
@@ -29,26 +30,30 @@ export const GameContext = createContext<GameContextData>({} as GameContextData)
 
 export function GameProvider({ children }: GameProviderProps) {
   const api = new ApiGame();
+
+  const [games, setGames] = useState<Game[]>([])
   const [selectedGame, setSelectedGame] = useState<Game>({} as Game);
   const [action, setAction] = useState('');
   const [name, setName] = useState('');
   const [status, setStatus] = useState('');
+
+
   const { addToast } = useContext(ToastContext);
-  const { closeModal, showModal} = useContext(ModalContext)
-  //const [isLoading, setLoading] = useState(false);
- 
+  const { closeModal, showModal } = useContext(ModalContext)
 
-  function onSelectGame(game: Game) {
-    setSelectedGame(game);
-  }
-  function handleNameChange(e: any) {
-    setName(e.target.value);
-  }
-  function handleSelectChange(e: any) {
-    setStatus(e.target.value)
-  }
-  function setMethod(action: string) {
 
+  useEffect(() => {
+    new ApiGame().findAll()
+      .then(response => {
+        setGames(response.data)
+      }).catch(err => console.log(err))
+  }, [])
+
+  function updateTable() {
+    api.findAll()
+      .then(response => {
+        setGames(response.data)
+      }).catch(err => console.log(err))
   }
   function edit(game: Game) {
     showModal()
@@ -61,7 +66,7 @@ export function GameProvider({ children }: GameProviderProps) {
     showModal();
     setAction('post');
     setName('')
-    setStatus('')
+    setStatus('PLAYING')
   }
 
   function handleSubmit(e: any) {
@@ -78,13 +83,16 @@ export function GameProvider({ children }: GameProviderProps) {
           description: "Jogo adicionado com sucesso!",
         });
         closeModal();
+        updateTable();
       }
       ).catch(err => {
         console.log(err.response)
+        console.log(err.message)
+        console.log(err.response.message)
         addToast({
           type: 'error',
           title: 'Erro',
-          description: err.message,
+          description: JSON.stringify(err.response.data.message),
         })
       })
     } else {
@@ -95,6 +103,7 @@ export function GameProvider({ children }: GameProviderProps) {
           description: "Jogo editado com sucesso!",
         })
         closeModal();
+        updateTable();
       }).catch(err => {
         console.log(err.re)
         addToast({
@@ -106,18 +115,28 @@ export function GameProvider({ children }: GameProviderProps) {
     }
   }
 
+  function onSelectGame(game: Game) {
+    setSelectedGame(game);
+  }
+  function handleNameChange(e: any) {
+    setName(e.target.value);
+  }
+  function handleSelectChange(e: any) {
+    setStatus(e.target.value)
+  }
+
   return (
     <GameContext.Provider value={{
       name,
       status,
-      setMethod,
       handleNameChange,
       handleSelectChange,
       handleSubmit,
       action,
       onSelectGame,
       selectedGame,
-      edit, save
+      edit, save,
+      updateTable, games
     }} >
       {children}
     </GameContext.Provider>
