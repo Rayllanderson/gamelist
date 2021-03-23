@@ -3,6 +3,7 @@ package com.rayllanderson.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -37,10 +38,11 @@ class RepositoryTests {
     public void instantiateEntities() {
 	User user = new User(null, "rayllanderson@gmail.com", "rayllanderson", "whatever123", "Ray");
 	userId  = userRepository.save(user).getId();
-	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISH, user);
-	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISH, user);
-	Game g3 = new Game(3L, "GTA V", GameStatus.COMPLETED, user);
-	Game g4 = new Game(4L, "Nier Automata", GameStatus.PLAYING, user);
+	Date date = new Date();
+	Game g1 = new Game(1L, "Death Stranding",  date, date, GameStatus.WISH, user);
+	Game g2 = new Game(2L, "Little Nightmares",  date, date,GameStatus.WISH, user);
+	Game g3 = new Game(3L, "GTA V",  date, date,GameStatus.COMPLETED, user);
+	Game g4 = new Game(4L, "Nier Automata", date, date, GameStatus.PLAYING, user);
 	repository.saveAll(Arrays.asList(g1, g2, g3, g4));
     }
     

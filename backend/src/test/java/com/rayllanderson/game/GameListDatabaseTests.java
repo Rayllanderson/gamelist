@@ -19,7 +19,7 @@ import com.rayllanderson.model.repositories.GameRepository;
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 class GameListDatabaseTests {
-
+/*
     private GameList gameList = new GameList();
 
     @Autowired
@@ -59,5 +59,5 @@ class GameListDatabaseTests {
     void deleteData() {
 	repository.deleteAll(gameList.getGames());
     }
-
+*/
 }

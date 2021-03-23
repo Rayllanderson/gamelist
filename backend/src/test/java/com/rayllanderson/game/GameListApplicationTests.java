@@ -1,6 +1,7 @@
 package com.rayllanderson.game;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,13 +12,13 @@ import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.GameStatus;
 
 class GameListApplicationTests {
-
+/*
     private GameList gameList = new GameList();;
 
     @BeforeEach
     void instantiateGames() {
 	User user = new User(2L, "rayllanderson@gmail.com", "rayllanderson", "whatever123", "Ray");
-	
+
 	Game g1 = new Game(1L, "Death Stranding", GameStatus.WISH, user);
 	Game g2 = new Game(2L, "Little Nightmares", GameStatus.WISH, user);
 	Game g3 = new Game(3L, "GTA V", GameStatus.COMPLETED, user);
@@ -58,5 +59,5 @@ class GameListApplicationTests {
     private void printSeparatorLines() {
 	System.out.println("---------------------------------");
     }
-
+*/
 }

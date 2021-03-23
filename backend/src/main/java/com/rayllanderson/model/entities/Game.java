@@ -2,6 +2,7 @@ package com.rayllanderson.model.entities;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -34,6 +36,14 @@ public class Game implements Serializable {
     @NotBlank
     @Size(min = 1, max = 150)
     private String name;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)

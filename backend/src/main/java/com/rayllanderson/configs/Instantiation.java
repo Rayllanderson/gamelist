@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Configuration
 public class Instantiation implements CommandLineRunner {
@@ -50,10 +51,11 @@ public class Instantiation implements CommandLineRunner {
         userRepository.save(user2);
         userRepository.save(user3);
 
-        Game g1 = new Game(null, "Death Stranding", GameStatus.WISH, user);
-        Game g2 = new Game(null, "Little Nightmares", GameStatus.WISH, user2);
-        Game g3 = new Game(null, "GTA V", GameStatus.COMPLETED, user3);
-        Game g4 = new Game(null, "Nier Automata", GameStatus.PLAYING, user);
+        Date date = new Date();
+        Game g1 = new Game(null, "Death Stranding", date, date, GameStatus.WISH, user);
+        Game g2 = new Game(null, "Little Nightmares",  date, date,GameStatus.WISH, user2);
+        Game g3 = new Game(null, "GTA V",  date, date,GameStatus.COMPLETED, user3);
+        Game g4 = new Game(null, "Nier Automata", date, date, GameStatus.PLAYING, user);
 
         gameRepository.saveAll(Arrays.asList(g1, g2, g3, g4));
     }

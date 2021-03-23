@@ -28,7 +28,6 @@ public class User implements Serializable, UserDetails {
     private Long id;
 
     @Email
-    @NotBlank
     @Size(max = 150)
     private String email;
 
@@ -36,12 +35,10 @@ public class User implements Serializable, UserDetails {
     @Size(min = 3, max = 150)
     private String username;
 
-    @NotBlank
     @Size(min = 3, max = 150)
     private String password;
 
-    @NotBlank
-    @Size(min = 1, max = 150)
+    @Size(max = 150)
     private String name;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")

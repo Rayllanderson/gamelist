@@ -67,13 +67,12 @@ public class GameService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public GameDTO findById(Long id) throws ObjectNotFoundException {
-        return GameDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found")));
+        return GameDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Jogo não encontrado.")));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public GameDTO findById(Long id, Long userId) throws ObjectNotFoundException {
-        return GameDTO.create(repository.findGameByIdAndUserId(id, userId).orElseThrow(() -> new ObjectNotFoundException("Object" +
-                " not found")));
+        return GameDTO.create(repository.findGameByIdAndUserId(id, userId).orElseThrow(() -> new ObjectNotFoundException("Jogo não encontrado.")));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

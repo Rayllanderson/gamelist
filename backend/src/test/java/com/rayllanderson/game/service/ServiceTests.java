@@ -17,6 +17,8 @@ import com.rayllanderson.model.entities.enums.GameStatus;
 import com.rayllanderson.model.services.GameService;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 
+import java.util.Date;
+
 @SpringBootTest
 class ServiceTests {
 
@@ -30,7 +32,8 @@ class ServiceTests {
    void crud (){
         User user = new User(null, "rayllanderson@gmail.com", "rayllanderson321", "whatever123", "Ray");
         user = userService.fromDTO(userService.save(UserDTO.create(user)));
-        Game  game = new Game(null, "Nier automata", GameStatus.COMPLETED, user);
+        Date date = new Date();
+        Game  game = new Game(null, "Nier automata", date, date, GameStatus.COMPLETED, user);
         GameDTO gameDTO = service.save(GameDTO.create(game), user.getId());
 
         assertNotNull(gameDTO);
