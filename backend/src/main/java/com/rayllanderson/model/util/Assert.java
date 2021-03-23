@@ -10,7 +10,7 @@ public class Assert {
     public static void usernameNotExists(String username, UserRepository userRepository) throws UsernameExistsException {
         boolean usernameExists = userRepository.existsByUsername(username);
         if (usernameExists) {
-            throw new UsernameExistsException("Username already taken.");
+            throw new UsernameExistsException("Username já está em uso. Tente outro.");
         }
     }
 
@@ -42,10 +42,10 @@ public class Assert {
             throw new IllegalArgumentException(parameterName + " cannot be null");
     }
 
-    public static void validUser(UserDTO user) throws IllegalArgumentException, UsernameExistsException {
-        Assert.notBlank(user.getEmail(), "email");
-        Assert.notBlank(user.getName(), "name");
-        Assert.notBlank(user.getPassword(), "password");
+    public static void validPassword(UserDTO user) throws IllegalArgumentException, UsernameExistsException {
+        if (user.getPassword().length() < 3){
+            throw new IllegalArgumentException("Senha precisa ter no mínimo 3 caracters.");
+        }
     }
 
     public static void validUser(UserDetailsDTO user) throws IllegalArgumentException, UsernameExistsException {

@@ -14,6 +14,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
@@ -42,9 +43,8 @@ public class GameApiTest extends BaseApiTest {
     @Test
     public void testcrud() {
 
-
-        Game game = new Game(null, "GTA V", GameStatus.WISH, new User(1L, null, null, null, null));
-
+        Date date = new Date();
+        Game game = new Game(null, "GTA V",  date, date,GameStatus.WISH, new User(1L, null, null, null, null));
 
         // Insert
         ResponseEntity response = post(API_URL, game, null);
