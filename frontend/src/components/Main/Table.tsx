@@ -1,12 +1,7 @@
 import {useEffect, useState } from "react";
+import { Game } from "../../contexts/GameContext";
 import ApiGame from "../../services/apiGame";
 import { TableItem } from "./TableItem";
-
-export interface Game {
-  id: number;
-  name: string;
-  status: string;
-}
 
 export function Table() {
  
@@ -25,6 +20,7 @@ export function Table() {
       <thead>
         <tr>
           <th scope="col">Nome</th>
+          <th scope="col">Status</th>
           <th scope="col" className="text-center">Editar</th>
           <th scope="col" className="text-center">Excluir</th>
         </tr>
@@ -33,7 +29,6 @@ export function Table() {
         {games.map(game => (
           <TableItem game={game} key={game.id} />
         ))}
-
       </tbody>
     </table>
   );

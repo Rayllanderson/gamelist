@@ -3,7 +3,7 @@ import authHeader from "./auth";
 
 export interface PostGameData {
   name: string;
-  gameStatus: string;
+  status: string;
 }
 
 export default class ApiGame {
@@ -13,7 +13,7 @@ export default class ApiGame {
   }
 
   post(data: PostGameData) {
-    return api.post('/games/', data, { headers: authHeader() });
+    return api.post('/games', data, { headers: authHeader() });
   }
 
   findById(id: number) {
@@ -29,10 +29,10 @@ export default class ApiGame {
   }
 
   findByStatus(url: string) {
-    return api.get('/games/status/' + url, { headers: authHeader() });
+    return api.get('/games/status' + url, { headers: authHeader() });
   }
 
   findByName(query: string) {
-    return api.get('/games/seacrh?q=' + query, { headers: authHeader() });
+    return api.get('/games/search?q=' + query, { headers: authHeader() });
   }
 }
