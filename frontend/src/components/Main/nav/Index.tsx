@@ -1,5 +1,4 @@
-import '../../styles/components/main.css';
-import '../Main/nav/nav.css'
+import './nav.css'
 
 interface NavItemData {
   id: number;
