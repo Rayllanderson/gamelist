@@ -1,0 +1,55 @@
+.logoContent {
+    margin: 0 auto;
+    margin-top: 6rem;
+    background: var(--current-line);
+    border-radius: 10px;
+    width: 13rem;
+    padding: 2rem;
+}
+
+.inputs {
+    margin-top: 3.5rem;
+    display: block;
+}
+
+.inputs input {
+    border: 2px solid #ffffff;
+    border-left: 0px solid;
+}
+
+.inputs span {
+    background-color: #ffffff;
+    border: 2px solid #ffffff;
+    border-right: 0px solid;
+    transition: 0.2s;
+}
+
+.inputs .formGroup,
+.loginButton {
+    margin: 2rem auto;
+    width: 20rem;
+}
+
+.loginButton {
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.links {
+    margin: 0 auto;
+    width: 20rem;
+}
+
+.linksContent {
+    text-align: center;
+}
+
+.links a {
+    color: var(--foreground);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.links a:hover {
+    transform: scale(1.03);
+}
