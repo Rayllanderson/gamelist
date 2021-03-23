@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(HttpMethod.GET, GET_USER_BY_ID, GET_USERS)
                 .permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1.0/users/")
+                .antMatchers(HttpMethod.POST, "/api/v1.0/users")
                 .permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
@@ -74,10 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(unauthorizedHandler)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        //pra usar o h2. deve ser comentado em produção
-//        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
-//        http.headers().frameOptions().disable();
+        http.cors().and().csrf().disable();
     }
 
     @Override
@@ -92,11 +89,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        final String CLIENT_URL = "http://localhost:3000/";
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(CLIENT_URL));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }

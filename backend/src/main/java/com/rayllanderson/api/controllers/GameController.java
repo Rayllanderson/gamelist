@@ -74,6 +74,4 @@ public class GameController {
         return ResponseEntity.ok(service.searchByName(q, UserUtil.getUserId(user, userRepository)));
     }
 
-
-
 }
