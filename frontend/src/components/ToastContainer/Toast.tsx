@@ -29,7 +29,7 @@ export default function Toast({ message }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       removeToast(message.id)
-    }, 3500)
+    }, 4000)
     return () => {
       clearTimeout(timer)
     };

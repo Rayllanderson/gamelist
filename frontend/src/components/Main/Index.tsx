@@ -2,22 +2,22 @@ import { DeleteModal } from "../Modal/DeleteGameModal";
 import { MyModal as Modal } from "../Modal/Modal";
 import { Footer } from "./Footer";
 import { Search } from "./Search";
-import { Table } from "./Table";
-import { Nav } from "./Nav";
-import { useContext, useEffect } from "react";
+import { Nav } from "./nav/Index";
+import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ToastContext } from "../../contexts/ToastContext";
 import { GameContext } from "../../contexts/GameContext";
 import { SaveGameModal } from "./SaveModal";
-
+import CardList from "./card/CardList";
+import { Helmet} from 'react-helmet';
+interface ViewPortData extends Element{
+  element: Element;
+}
 
 const MainPage = () => {
   const { signOut } = useContext(AuthContext)
   const { addToast } = useContext(ToastContext)
   const { action, handleSubmit } = useContext(GameContext)
-  useEffect(() => {
-    document.title = "Game List - Home"
-  }, []);
 
   function logout() {
     signOut();
@@ -34,13 +34,19 @@ const MainPage = () => {
 
   return (
     <div>
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=0.95" />
+        <title>Game List - Home"</title>
+      </Helmet>
       <div>
         <button onClick={logout}>Logout </button>
-        <div className="container mt-5">
+        <div className="container mt-5" style={{minHeight: '100vh'}}>
           <Nav />
           <Search />
-          <Table />
+        {/*  <Table/> */ }
+          <CardList/>
         </div>
+        <div style={{marginTop: '5rem'}}>&nbsp;</div>
         <Footer />
       </div>
 

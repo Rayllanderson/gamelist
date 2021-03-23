@@ -16,6 +16,16 @@ body {
     background-color: var(--background);
 }
 
+body {
+    zoom: 115%
+}
+
+@media(max-width: 768px) {
+    body {
+        zoom: 100%
+    }
+}
+
 a {
     text-decoration: none;
 }
@@ -39,11 +49,11 @@ a {
 .btn {
     color: var(--foreground);
     font-weight: bold;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 .btn-red:focus {
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 .btn:active {

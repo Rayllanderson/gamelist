@@ -14,7 +14,6 @@ export function TableItem({ game }: Props) {
   return (
     <tr>
       <td>{game.name}</td>
-      <td>{game.status}</td>
       <td className="text-center">
         <a href="#" data-bs-toggle="modal" data-bs-target="#gameModal"
           onClick={() => { edit(game) }}><i className="fas fa-pen"></i></a></td>
