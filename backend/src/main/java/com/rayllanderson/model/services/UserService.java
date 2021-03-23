@@ -33,8 +33,8 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UserDetailsDTO save(UserDTO userDto) throws IllegalArgumentException {
-        Assert.validUser(userDto);
         Assert.usernameNotExists(userDto.getUsername(), repository);
+        Assert.validPassword(userDto);
         User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
         user.setPassword(encoder.encode(user.getPassword()));
@@ -43,14 +43,14 @@ public class UserService {
 
     public UserDetailsDTO register(UserDTO user) throws IllegalArgumentException {
         if (user.getId() != null)
-            throw new IllegalArgumentException("id must be null");
+            throw new IllegalArgumentException("id precisa ser nulo");
         return this.save(user);
     }
 
-    public UserDetailsDTO registerAnAdmin(UserDTO userDTO) throws IllegalArgumentException {
-        Assert.validUser(userDTO);
-        Assert.usernameNotExists(userDTO.getUsername(), repository);
-        User user = fromDTO(userDTO);
+    public UserDetailsDTO registerAnAdmin(UserDTO userDto) throws IllegalArgumentException {
+        Assert.usernameNotExists(userDto.getUsername(), repository);
+        Assert.validPassword(userDto);
+        User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
         user.addRole(new Role(RoleType.ROLE_ADMIN));
         user.setPassword(encoder.encode(user.getPassword()));
@@ -59,18 +59,16 @@ public class UserService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public UserDetailsDTO findById(Long id) throws ObjectNotFoundException {
-        return UserDetailsDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on " +
-                "database")));
+        return UserDetailsDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado.")));
     }
 
     public UserDTO find(Long id) throws ObjectNotFoundException {
-        return UserDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on " +
-                "database")));
+        return UserDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado.")));
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<GameDTO> findGamesByUserId(Long id) throws ObjectNotFoundException {
-        User user = repository.findByIdWithGames(id).orElseThrow(() -> new ObjectNotFoundException("Object not found on database"));
+        User user = repository.findByIdWithGames(id).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado."));
         return user.getGames().stream().map(GameDTO::create).collect(Collectors.toList());
     }
 
@@ -91,7 +89,6 @@ public class UserService {
      * @throws UsernameExistsException - if user update username and username has already taken.
      */
     public UserDetailsDTO update(UserDetailsDTO user, Long userId) throws UsernameExistsException {
-        Assert.validUser(user);
         UserDTO userFromDataBase = this.find(userId);
         boolean hasUpdateUsername = !Assert.sameUsername(user.getUsername(), userFromDataBase.getUsername());
         if (hasUpdateUsername) {
@@ -113,7 +110,7 @@ public class UserService {
      */
     public UserDetailsDTO updatePassword(UserDTO user, Long userId) throws IllegalArgumentException {
         UserDTO userFromDataBase = this.find(userId);
-        Assert.notBlank(user.getPassword(), "password");
+        Assert.validPassword(user);
         updatePassword(user, userFromDataBase);
         userFromDataBase.setPassword(encoder.encode(userFromDataBase.getPassword()));
         return this.update(userFromDataBase);

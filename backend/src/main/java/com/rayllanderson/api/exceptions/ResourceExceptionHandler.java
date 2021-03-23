@@ -41,7 +41,9 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     ResponseEntity<StandardError> handleInvalidGameStatus(HttpMessageNotReadableException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        String error = "Invalid Game Status. Status avaliable = " + Arrays.asList(GameStatus.values());
+        String gameStatuses = Arrays.asList(GameStatus.values()).toString();
+        String error = e.getMessage().contains("GameStatus") ? "Status do jogo é inválido. Status disponíveis = " + gameStatuses :
+                "Formato de Json inválido";
         StandardError err = new StandardError(status.value(), "Bad Request", Arrays.asList(error), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
@@ -53,12 +55,10 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    private List<Map<String, String>> getValidationsErrors(ConstraintViolationException e) {
-        List<Map<String, String>> errors = new ArrayList<>();
+    private List<String> getValidationsErrors(ConstraintViolationException e) {
+        List<String> errors = new ArrayList<>();
         e.getConstraintViolations().forEach(x -> {
-            Map<String, String> error = new HashMap<>();
-            error.put(x.getPropertyPath().toString(), x.getMessage());
-            errors.add(error);
+            errors.add(x.getPropertyPath().toString() + ": " + x.getMessage());
         });
         return errors;
     }
