@@ -1,6 +1,6 @@
-import { Logo } from '../components/Login/Logo';
+import { Logo } from '../Login/Logo';
 import { useEffect } from 'react';
-import { Form } from '../components/Register/Form';
+import { Form } from './Form';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 

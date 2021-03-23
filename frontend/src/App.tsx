@@ -3,6 +3,8 @@ import './globals.css';
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./routes";
 import { ToastProvider } from "./contexts/ToastContext";
+import { GameProvider } from "./contexts/GameContext";
+import { ModalProvider } from "./contexts/ModalContext";
 
 function App() {
   return (
@@ -10,7 +12,11 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <ToastProvider>
-            <Routes />
+            <ModalProvider>
+            <GameProvider>
+             <Routes />
+            </GameProvider>
+            </ModalProvider>
           </ToastProvider>
         </AuthProvider>
       </BrowserRouter>

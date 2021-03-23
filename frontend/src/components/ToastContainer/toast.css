@@ -4,7 +4,7 @@
     top: 0;
     padding: 30px;
     overflow: hidden;
-    z-index: 99;
+    z-index: 999;
 }
 
 .toast-element+div {

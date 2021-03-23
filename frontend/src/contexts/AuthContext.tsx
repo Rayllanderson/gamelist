@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useCallback, useState } from 'react';
+import { createContext, ReactNode, useCallback, useState } from 'react';
 import api from '../services/api';
 
 interface SignInCretendials {
