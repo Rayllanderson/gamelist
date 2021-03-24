@@ -5,9 +5,6 @@
     color: var(--foreground);
 }
 
-.modal-dialog {
-}
-
 .modal-title {
     color: var(--foreground)
 }

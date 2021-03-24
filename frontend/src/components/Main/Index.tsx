@@ -10,9 +10,6 @@ import { GameContext } from "../../contexts/GameContext";
 import { SaveGameModal } from "./SaveModal";
 import CardList from "./card/CardList";
 import { Helmet} from 'react-helmet';
-interface ViewPortData extends Element{
-  element: Element;
-}
 
 const MainPage = () => {
   const { signOut } = useContext(AuthContext)
