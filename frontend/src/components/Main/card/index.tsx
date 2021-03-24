@@ -1,6 +1,7 @@
+import { useContext } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { Game } from "../../../contexts/GameContext";
+import { Game, GameContext } from "../../../contexts/GameContext";
 import { CardGame } from "./styles";
 
 interface Props {
@@ -8,10 +9,11 @@ interface Props {
 }
 
 export default function Card({ game }: Props) {
+  const { edit } = useContext(GameContext)
   return (
     <CardGame>
       <Link
-        to={`/repositories/`}
+        to={`/game/${game.id}`}
       >
         <img
           src="game-controler.svg"

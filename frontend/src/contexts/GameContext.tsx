@@ -24,6 +24,8 @@ export interface Game {
   id: number;
   name: string;
   status: string;
+  startDate: Date;
+  endDate: Date;
 }
 
 export const GameContext = createContext<GameContextData>({} as GameContextData);
