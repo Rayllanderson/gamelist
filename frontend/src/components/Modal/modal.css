@@ -1,0 +1,28 @@
+.modal-content label,
+.modal-content h5,
+.modal-content p,
+.modal-content .close {
+    color: var(--foreground);
+}
+
+.modal-title {
+    color: var(--foreground)
+}
+
+.modal-content {
+    background-color: var(--background)!important;
+}
+
+.btn-close {
+    color: var(--foreground);
+}
+
+@keyframes blowUpContent {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(1);
+    }
+}

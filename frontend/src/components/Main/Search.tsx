@@ -1,11 +1,16 @@
-import '../../styles/components/main.css';
-export function Search(){
+import { useContext } from "react"
+import { SearchContext } from "../../contexts/SearchContex"
+
+export function Search() {
+  
+  const {handleChange, handleSubmit, search} = useContext(SearchContext)
+
   return (
     <div className='input-group inputSearch input-group-lg' >
-      <input type="text" className="rounded-md py-1 px-3 form-control" placeholder="Pesquise um jogo" />
-      <div className="input-group-append">
-        <button type="button" className="btn btn-pink"> &nbsp; <i className="fa fa-search"></i> &nbsp;</button>
-      </div>
+      <input type="search" className="rounded-md py-1 px-3 form-control " placeholder="Pesquise um jogo"
+      value={search} onChange={handleChange} />
+      <button type="button" className="btn btn-pink btn-lg"
+      onClick={handleSubmit}> &nbsp; <i className="fa fa-search"></i> &nbsp;</button>
     </div>
   )
 }
