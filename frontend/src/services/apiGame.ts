@@ -35,4 +35,8 @@ export default class ApiGame {
   findByName(query: string) {
     return api.get('/games/search?q=' + query, { headers: authHeader() });
   }
+
+  get(url:string) {
+    return api.get('/' + url, { headers: authHeader() });
+  }
 }

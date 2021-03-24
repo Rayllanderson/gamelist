@@ -1,24 +1,30 @@
-import { FiChevronRight } from "react-icons/fi";
-import { Link } from "react-router-dom";
-import { Game } from "../../../contexts/GameContext";
-import { CardGame } from "./styles";
+import { useContext, useEffect } from "react"
+import { GameContext } from "../../../contexts/GameContext"
+import ApiGame from "../../../services/apiGame";
+import CardItem from './CardItem';
 
-interface Props {
-  game: Game;
+interface Props{
+  status:string;
 }
 
-export default function Card({ game }: Props) {
+export default function CardList({ status}: Props) {
+  const { games, setGames } = useContext(GameContext)
+  
+  useEffect(() => {
+    const url = status === undefined ? 'games' : 'games/status/' + status
+    new ApiGame().get(url)
+      .then(response => {
+        setGames(response.data)
+      }).catch(err => console.log(err))
+  }, [setGames, status])
+
   return (
-    <CardGame>
-      <Link to={`/games/${game.id}`}>
-        <img src="game-controler.svg"
-          alt="logo"/>
-        <div>
-          <strong>{game.name}</strong>
-          <p>{game.status}</p>
-        </div>
-        <FiChevronRight size={20} />
-      </Link>
-    </CardGame>
-  );
+    <div>
+      {
+        games.map(game =>
+          <CardItem game={game} key={game.id} />
+        )
+      }
+    </div>
+  )
 }
