@@ -1,5 +1,3 @@
-import { FiUser } from "react-icons/fi";
-
 interface Props {
   icon: React.ComponentType;
   isFocused: boolean;

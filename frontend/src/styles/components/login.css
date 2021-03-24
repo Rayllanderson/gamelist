@@ -1,3 +1,11 @@
+.container {
+    max-width: 750px;
+}
+
+.main-content {
+    animation: appearFromRight 1s;
+}
+
 .logoContent {
     margin: 0 auto;
     margin-top: 6rem;
@@ -9,7 +17,6 @@
 
 .inputs {
     margin-top: 3.5rem;
-    display: block;
 }
 
 .inputs input {
@@ -36,20 +43,34 @@
 }
 
 .links {
-    margin: 0 auto;
+    margin: 1.2rem auto;
     width: 20rem;
-}
-
-.linksContent {
-    text-align: center;
 }
 
 .links a {
     color: var(--foreground);
     text-decoration: none;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 .links a:hover {
-    transform: scale(1.03);
+    color: #d3d3d3ec
+}
+
+.link-register a {
+    font-size: 1.1rem;
+    margin-top: 2.4rem;
+    color: var(--pink);
+}
+
+.link-register a:hover {
+    color: #ec66b2;
+}
+
+.container-login {
+    animation: appearFromRight 1s;
+}
+
+.container-register {
+    animation: appearFromLeft 1s;
 }

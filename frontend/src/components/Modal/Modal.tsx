@@ -1,29 +1,28 @@
+import { ReactNode } from "react";
+import { Modal } from "react-bootstrap";
+import './modal.css'
 interface Props {
-  id: string;
   title: string;
-  children: any;
   successBtnText: string;
+  submitEvent: (e: any) => void;
+  children: ReactNode;
+  show: boolean;
+  closeModal():void;
 }
-export function Modal(props: Props) {
+export function MyModal(props: Props) {
   return (
-    <div className="modal fade" id={props.id}>
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalLabel">{props.title}</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div className="modal-body">
-            {props.children}
-            <div className="modal-footer">
-              <button type="button" className="btn btn-comment" data-dismiss="modal">Fechar</button>
-              <button type="button" className="btn btn-pink">{props.successBtnText}</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Modal centered show={props.show} animation={false} onHide={props.closeModal}>
+      <Modal.Header>
+        <Modal.Title className="modal-title">{props.title}</Modal.Title>
+        <button type="button" className="btn-close" onClick={props.closeModal} aria-label="Close"></button>
+      </Modal.Header>
+      <Modal.Body>
+       {props.children}
+      </Modal.Body>
+      <Modal.Footer>
+        <button type="button" className="btn btn-comment" onClick={props.closeModal}>Fechar</button>
+        <button type="button" className="btn btn-pink" onClick={props.submitEvent}>  {props.successBtnText}</button>
+      </Modal.Footer>
+    </Modal>
   );
 }
