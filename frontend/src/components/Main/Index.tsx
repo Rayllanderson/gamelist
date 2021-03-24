@@ -42,7 +42,7 @@ function Home() {
       </HelmetProvider>
       <div>
         <button onClick={logout}>Logout </button>
-        <div className="container mt-5" style={{ minHeight: '100vh' }}>
+        <div className="container mt-5 main-content" style={{ minHeight: '100vh' }}>
           <Nav />
           <Search />
           <CardList status={params.status}/>
