@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import ApiGame from '../services/apiGame';
 import { ModalContext } from './ModalContext';
 import { ToastContext } from './ToastContext';
@@ -40,16 +40,8 @@ export function GameProvider({ children }: GameProviderProps) {
   const [name, setName] = useState('');
   const [status, setStatus] = useState('');
 
-
   const { addToast } = useContext(ToastContext);
   const { closeModal, showModal } = useContext(ModalContext)
-
-  useEffect(() => {
-    new ApiGame().findAll()
-      .then(response => {
-        setGames(response.data)
-      }).catch(err => console.log(err))
-  }, [])
 
   function updateTable() {
     api.findAll()

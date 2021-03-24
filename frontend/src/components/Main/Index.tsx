@@ -8,14 +8,19 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { ToastContext } from "../../contexts/ToastContext";
 import { GameContext } from "../../contexts/GameContext";
 import { SaveGameModal } from "./SaveModal";
-import CardList from "./card/CardList";
+import CardList from "./card/Index";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { useParams } from "react-router";
 
-const MainPage = () => {
-  const { signOut } = useContext(AuthContext)
-  const { addToast } = useContext(ToastContext)
-  const { action, handleSubmit } = useContext(GameContext)
+interface RouteParams{
+  status:string;
+}
 
+function Home() {
+  const { signOut } = useContext(AuthContext);
+  const { addToast } = useContext(ToastContext);
+  const { action, handleSubmit } = useContext(GameContext);
+  const params = useParams<RouteParams>();
   function logout() {
     signOut();
     addToast({
@@ -42,16 +47,11 @@ const MainPage = () => {
         <div className="container mt-5" style={{ minHeight: '100vh' }}>
           <Nav />
           <Search />
-          {/*  <Table/> */}
-          <CardList />
+          <CardList status={params.status}/>
         </div>
         <div style={{ marginTop: '5rem' }}>&nbsp;</div>
         <Footer />
       </div>
-
-      <Modal id="deleteModal" title="Atenção" submitEvent={handleSubmit} successBtnText="Excluir">
-        <DeleteModal gameName="Gta v" />
-      </Modal>
 
       <Modal id="gameModal" title={getTitle()} submitEvent={handleSubmit} successBtnText="Salvar">
         <SaveGameModal />
@@ -61,5 +61,5 @@ const MainPage = () => {
   );
 }
 
-export default MainPage;
+export default Home;
 

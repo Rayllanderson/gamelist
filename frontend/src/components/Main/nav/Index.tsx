@@ -1,22 +1,19 @@
 import './nav.css'
+import NavItem, { NavItemData } from './NavItem'
 
-/*
-interface NavItemData {
-  id: number;
-  name: string;
-}
-*/
+
 export function Nav() {
-  /*const navItems: NavItemData[] = [{ id: 1, name: 'Todos' }, { id: 2, name: 'Jogando' },
-    { id: 3, name: 'Em espera' }, { id: 4, name: '' }]*/
+  const navItems: NavItemData[] = [
+    { id: 1, name: 'Todos', path: 'games' },
+    { id: 2, name: 'Jogando', path: 'playing' },
+    { id: 3, name: 'Em espera', path: 'wish' },
+    { id: 4, name: 'Finalizados', path: 'completed' }]
   return (
     <div className="topnav">
-      
       <div id="myLinks" className="justify-content-between">
-        <a href="#news" className="active">Todos</a>
-        <a href="#about">Em espera</a>
-        <a href="#contact">Jogando</a>
-        <a href="#about">Finalizados</a>
+        {navItems.map(item =>
+          <NavItem path={item.path} key={item.id} name={item.name} />
+        )}
       </div>
     </div>
   )

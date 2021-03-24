@@ -1,5 +1,4 @@
 
-import { info } from 'node:console';
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 import ApiGame from '../services/apiGame';
 import { GameContext } from './GameContext';
