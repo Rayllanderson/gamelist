@@ -1,13 +1,14 @@
 import './nav.css'
 
+/*
 interface NavItemData {
   id: number;
   name: string;
 }
-
+*/
 export function Nav() {
-  const navItems: NavItemData[] = [{ id: 1, name: 'Todos' }, { id: 2, name: 'Jogando' },
-    { id: 3, name: 'Em espera' }, { id: 4, name: '' }]
+  /*const navItems: NavItemData[] = [{ id: 1, name: 'Todos' }, { id: 2, name: 'Jogando' },
+    { id: 3, name: 'Em espera' }, { id: 4, name: '' }]*/
   return (
     <div className="topnav">
       

@@ -9,7 +9,7 @@ import { ToastContext } from "../../contexts/ToastContext";
 import { GameContext } from "../../contexts/GameContext";
 import { SaveGameModal } from "./SaveModal";
 import CardList from "./card/CardList";
-import { Helmet} from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const MainPage = () => {
   const { signOut } = useContext(AuthContext)
@@ -31,19 +31,21 @@ const MainPage = () => {
 
   return (
     <div>
-      <Helmet>
-        <meta name="viewport" content="width=device-width, initial-scale=0.95" />
-        <title>Game List - Home"</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <meta name="viewport" content="width=device-width, initial-scale=0.95" />
+          <title>Game List - Home"</title>
+        </Helmet>
+      </HelmetProvider>
       <div>
         <button onClick={logout}>Logout </button>
-        <div className="container mt-5" style={{minHeight: '100vh'}}>
+        <div className="container mt-5" style={{ minHeight: '100vh' }}>
           <Nav />
           <Search />
-        {/*  <Table/> */ }
-          <CardList/>
+          {/*  <Table/> */}
+          <CardList />
         </div>
-        <div style={{marginTop: '5rem'}}>&nbsp;</div>
+        <div style={{ marginTop: '5rem' }}>&nbsp;</div>
         <Footer />
       </div>
 
@@ -54,7 +56,7 @@ const MainPage = () => {
       <Modal id="gameModal" title={getTitle()} submitEvent={handleSubmit} successBtnText="Salvar">
         <SaveGameModal />
       </Modal>
-      
+
     </div>
   );
 }
