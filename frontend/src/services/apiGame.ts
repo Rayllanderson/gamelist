@@ -16,7 +16,7 @@ export default class ApiGame {
     return api.post('/games', data, { headers: authHeader() });
   }
 
-  findById(id: number) {
+  findById(id: string) {
     return api.get('/games/' + id, { headers: authHeader() });
   }
 

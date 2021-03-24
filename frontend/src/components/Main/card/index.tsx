@@ -10,7 +10,7 @@ interface Props {
 export default function Card({ game }: Props) {
   return (
     <CardGame>
-      <Link to={`/game/${game.id}`}>
+      <Link to={`/games/${game.id}`}>
         <img src="game-controler.svg"
           alt="logo"/>
         <div>
