@@ -1,14 +1,16 @@
 interface Props {
   handleChange(e: any): void;
   value: string;
+  type?: string;
+  placeholder?:string;
 }
 
 export default function Input(props: Props) {
-  return (<div className="form-group ">
-    <label className="col-form-label "> Nome </label>
-    <input type="text " placeholder=" Nome "
+  const type = props.type ? props.type : 'text';
+  return (
+    <input type={type} placeholder={props.placeholder}
       className="form-control form-control-lg"
       value={props.value}
       onChange={props.handleChange} />
-  </div>)
+  )
 }

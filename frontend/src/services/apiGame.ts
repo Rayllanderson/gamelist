@@ -1,10 +1,6 @@
+import { Game, GameStatus } from "../contexts/GameContext";
 import api from "./api";
 import authHeader from "./auth";
-
-export interface PostGameData {
-  name: string;
-  status: string;
-}
 
 export default class ApiGame {
 
@@ -12,7 +8,7 @@ export default class ApiGame {
     return api.get('/games', { headers: authHeader() });
   }
 
-  post(data: PostGameData) {
+  post(data: Omit<Game, 'id'>) {
     return api.post('/games', data, { headers: authHeader() });
   }
 
@@ -20,7 +16,7 @@ export default class ApiGame {
     return api.get('/games/' + id, { headers: authHeader() });
   }
 
-  put(id: number, data: PostGameData) {
+  put(id: number, data: Omit<Game, 'id'>) {
     return api.put('/games/' + id, data, { headers: authHeader() });
   }
 
