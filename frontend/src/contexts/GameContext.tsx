@@ -19,13 +19,14 @@ interface GameContextData {
   save(): void;
   updateTable(): void;
   games: Game[];
+  setGames(games:Game[]):void;
 }
 export interface Game {
   id: number;
   name: string;
   status: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 }
 
 export const GameContext = createContext<GameContextData>({} as GameContextData);
@@ -42,7 +43,6 @@ export function GameProvider({ children }: GameProviderProps) {
 
   const { addToast } = useContext(ToastContext);
   const { closeModal, showModal } = useContext(ModalContext)
-
 
   useEffect(() => {
     new ApiGame().findAll()
@@ -138,7 +138,7 @@ export function GameProvider({ children }: GameProviderProps) {
       onSelectGame,
       selectedGame,
       edit, save,
-      updateTable, games
+      updateTable, games, setGames
     }} >
       {children}
     </GameContext.Provider>

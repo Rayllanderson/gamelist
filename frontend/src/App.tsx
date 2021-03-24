@@ -5,6 +5,7 @@ import Routes from "./routes";
 import { ToastProvider } from "./contexts/ToastContext";
 import { GameProvider } from "./contexts/GameContext";
 import { ModalProvider } from "./contexts/ModalContext";
+import { SearchProvider } from "./contexts/SearchContex";
 
 function App() {
   return (
@@ -13,9 +14,11 @@ function App() {
         <AuthProvider>
           <ToastProvider>
             <ModalProvider>
-            <GameProvider>
-             <Routes />
-            </GameProvider>
+              <GameProvider>
+                <SearchProvider>
+                  <Routes />
+                </SearchProvider>
+              </GameProvider>
             </ModalProvider>
           </ToastProvider>
         </AuthProvider>

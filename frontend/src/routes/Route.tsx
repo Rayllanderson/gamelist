@@ -13,7 +13,7 @@ const Route: React.FC<RouteProps> = ({isPrivate = false, component: Component, .
         return isPrivate === !!user ? (
           <Component {...props}/>
         ) : (
-          <Redirect to={{pathname: isPrivate ? '/' : '/mainpage'}} />
+          <Redirect to={{pathname: isPrivate ? '/' : '/games'}} />
         )
     }}/>
   )
