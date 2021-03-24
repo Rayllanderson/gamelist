@@ -1,7 +1,9 @@
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
-import GameApi from '../services/gameApi';
+import { useHistory } from 'react-router'
+import GameApi from '../services/game-api';
 import { ModalContext } from './ModalContext';
 import { ToastContext } from './ToastContext';
+
 
 interface GameProviderProps {
   children: ReactNode;
@@ -12,6 +14,7 @@ interface GameContextData {
   handleNameChange(e: any): void;
   handleSelectChange(e: any): void;
   handleSubmit(e: any): void;
+  handleDeleteSubmit(id: string, e: any): void;
   setSelectedGame: (game: Game) => void;
   selectedGame: Game;
   edit(game: Game): void;
@@ -22,7 +25,8 @@ interface GameContextData {
   handleEndDateChange(e: any): void;
   endDate: string
   startDate: string;
-  loadGame(id: string): void
+  loadGame(id: string): void;
+  remove(id: string): void;
 }
 export interface Game {
   id: string;
@@ -41,7 +45,7 @@ export enum GameStatus {
 export const GameContext = createContext<GameContextData>({} as GameContextData);
 
 export function GameProvider({ children }: GameProviderProps) {
-  
+
   const [games, setGames] = useState<Game[]>([])
   const [selectedGame, setSelectedGame] = useState<Game>({} as Game);
   const [action, setAction] = useState('');
@@ -49,9 +53,9 @@ export function GameProvider({ children }: GameProviderProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.WISH);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-
+  const history = useHistory();
   const { addToast } = useContext(ToastContext);
-  const { closeModal, showModal } = useContext(ModalContext)
+  const { closeModal, showModal, showDeleteModal, closeDeleteModal } = useContext(ModalContext)
 
   const loadGame = useCallback(async (id: string) => {
     await new GameApi().findById(id)
@@ -82,6 +86,30 @@ export function GameProvider({ children }: GameProviderProps) {
     setStatus(GameStatus.WISH)
   }
 
+  function remove(id: string) {
+    showDeleteModal();
+  }
+
+  const handleDeleteSubmit = useCallback(async (id: string, e: any) => {
+    e.preventDefault();
+    const api = new GameApi();
+    await api.delete(id).then(() => {
+      closeDeleteModal();
+      addToast({
+        type: 'success',
+        title: 'Sucesso',
+        description: "Jogo removido com sucesso!",
+      });
+      history.push('/games')
+    }).catch((err) => {
+      addToast({
+        type: 'error',
+        title: 'Erro',
+        description: err.response.data.message,
+      })
+    })
+  }, [addToast, closeDeleteModal, history])
+
   const handleSubmit = useCallback(async (e: any) => {
     e.preventDefault();
     const api = new GameApi();
@@ -102,13 +130,10 @@ export function GameProvider({ children }: GameProviderProps) {
         loadGames();
       }
       ).catch(err => {
-        console.log(err.response)
-        console.log(err.message)
-        console.log(err.response.message)
         addToast({
           type: 'error',
           title: 'Erro',
-          description: JSON.stringify(err.response.data.message),
+          description: err.response.data.message,
         })
       })
     } else {
@@ -121,7 +146,6 @@ export function GameProvider({ children }: GameProviderProps) {
         closeModal();
         loadGame(selectedGame.id);
       }).catch(err => {
-        console.log(err.response.data.message)
         addToast({
           type: 'error',
           title: 'Erro',
@@ -160,7 +184,7 @@ export function GameProvider({ children }: GameProviderProps) {
       edit, save,
       games, setGames,
       handleStartDateChange, handleEndDateChange,
-      endDate, startDate, loadGame
+      endDate, startDate, loadGame, remove, handleDeleteSubmit
     }} >
       {children}
     </GameContext.Provider>

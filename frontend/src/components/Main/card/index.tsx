@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
 import { GameContext } from "../../../contexts/GameContext"
-import GameApi from "../../../services/gameApi";
+import GameApi from "../../../services/game-api";
 import CardItem from './CardItem';
 
 interface Props{
@@ -19,7 +19,7 @@ export default function CardList({ status}: Props) {
   }, [setGames, status])
 
   return (
-    <div>
+    <div style={{animation: 'appearFromBottom 1s'}}>
       {
         games.map(game =>
           <CardItem game={game} key={game.id} />

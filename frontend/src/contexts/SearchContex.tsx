@@ -1,6 +1,6 @@
 
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
-import GameApi from '../services/gameApi';
+import GameApi from '../services/game-api';
 import { GameContext } from './GameContext';
 import { ToastContext } from './ToastContext';
 

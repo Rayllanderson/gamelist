@@ -10,6 +10,7 @@ import CardList from "./card/Index";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams } from "react-router";
 import { SaveGameModal } from "./modal/Index";
+import { ModalContext } from "../../contexts/ModalContext";
 
 interface RouteParams {
   status: string;
@@ -19,6 +20,7 @@ function Home() {
   const { signOut } = useContext(AuthContext);
   const { addToast } = useContext(ToastContext);
   const { handleSubmit } = useContext(GameContext);
+  const {show, closeModal} = useContext(ModalContext)
   const params = useParams<RouteParams>();
   function logout() {
     signOut();
@@ -47,7 +49,7 @@ function Home() {
         <Footer />
       </div>
 
-      <Modal
+      <Modal show={show} closeModal={closeModal}
         title='Novo jogo'
         submitEvent={handleSubmit}
         successBtnText="Salvar">
