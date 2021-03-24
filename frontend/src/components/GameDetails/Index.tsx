@@ -2,8 +2,10 @@ import { useCallback, useContext, useEffect } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 import { GameContext } from "../../contexts/GameContext";
+import { ModalContext } from "../../contexts/ModalContext";
 import { MyModal as Modal } from "../Modal/Modal";
-import EditModal from "./modal/Index";
+import { DeleteModal } from "./modal/DeleteModal";
+import EditModal from "./modal/EditModal";
 import { ButtonGroup, Container, GameContent, GameInfo, Header } from "./style";
 interface RouteParams {
   id: string
@@ -11,7 +13,8 @@ interface RouteParams {
 
 function GameDetails() {
   const params = useParams<RouteParams>();
-  const { edit, handleSubmit, selectedGame, loadGame } = useContext(GameContext);
+  const { edit, handleSubmit, selectedGame, loadGame, remove, handleDeleteSubmit } = useContext(GameContext);
+  const { show, closeModal, showDelete, closeDeleteModal } = useContext(ModalContext)
   const id = params.id;
 
   const fomartDate = useCallback((data: string) => {
@@ -56,16 +59,23 @@ function GameDetails() {
         </GameInfo>
         <ButtonGroup >
           <button className="btn btn-purple btn-lg" onClick={() => edit(selectedGame)}>Editar</button>
-          <button className="btn btn-red btn-lg">Deletar</button>
+          <button className="btn btn-red btn-lg" onClick={() => remove(selectedGame.id)}>Deletar</button>
         </ButtonGroup>
       </Container>
 
 
       <Modal
+        show={show} closeModal={closeModal}
         title="Editar Jogo"
         submitEvent={handleSubmit}
         successBtnText="Salvar">
         <EditModal />
+      </Modal>
+      <Modal
+        title="Remover Jogo" show={showDelete} closeModal={closeDeleteModal}
+        submitEvent={(e) => handleDeleteSubmit(selectedGame.id, e)}
+        successBtnText="Deletar">
+        <DeleteModal selectedGame={selectedGame}/>
       </Modal>
 
     </GameContent>
