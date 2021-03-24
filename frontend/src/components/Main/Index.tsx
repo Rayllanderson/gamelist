@@ -9,15 +9,16 @@ import { GameContext } from "../../contexts/GameContext";
 import CardList from "./card/Index";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams } from "react-router";
+import { SaveGameModal } from "./modal/Index";
 
-interface RouteParams{
-  status:string;
+interface RouteParams {
+  status: string;
 }
 
 function Home() {
   const { signOut } = useContext(AuthContext);
   const { addToast } = useContext(ToastContext);
-  const { action, handleSubmit } = useContext(GameContext);
+  const { handleSubmit } = useContext(GameContext);
   const params = useParams<RouteParams>();
   function logout() {
     signOut();
@@ -27,11 +28,6 @@ function Home() {
       description: "Você fez logout. Até mais!",
     })
   }
-
-  function getTitle() {
-    return action === 'post' ? 'Novo jogo' : 'Editar jogo';
-  }
-
   return (
     <div>
       <HelmetProvider>
@@ -45,16 +41,17 @@ function Home() {
         <div className="container mt-5 main-content" style={{ minHeight: '100vh' }}>
           <Nav />
           <Search />
-          <CardList status={params.status}/>
+          <CardList status={params.status} />
         </div>
         <div style={{ marginTop: '5rem' }}>&nbsp;</div>
         <Footer />
       </div>
 
-      <Modal id="gameModal"
-      title={getTitle()}
-      submitEvent={handleSubmit}
-      successBtnText="Salvar">
+      <Modal
+        title='Novo jogo'
+        submitEvent={handleSubmit}
+        successBtnText="Salvar">
+        <SaveGameModal />
       </Modal>
 
     </div>

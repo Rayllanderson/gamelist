@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
-import { Game } from "../../contexts/GameContext";
-import ApiGame from "../../services/apiGame";
+import { GameContext } from "../../contexts/GameContext";
+import { MyModal as Modal } from "../Modal/Modal";
+import EditModal from "./modal/Index";
 import { ButtonGroup, Container, GameContent, GameInfo, Header } from "./style";
 interface RouteParams {
   id: string
@@ -10,17 +11,17 @@ interface RouteParams {
 
 function GameDetails() {
   const params = useParams<RouteParams>();
-  const [selectedGame, setSelectedGame] = useState<Game>({} as Game)
+  const { edit, handleSubmit, selectedGame, loadGame } = useContext(GameContext);
   const id = params.id;
+
   const fomartDate = useCallback((data: string) => {
     const date = new Date(data)
     return data && ((date.getUTCDate())) + "/" + ((date.getUTCMonth() + 1)) + "/" + date.getUTCFullYear();
   }, [])
+
   useEffect(() => {
-    new ApiGame().findById(id)
-      .then(response => setSelectedGame(response.data))
-      .catch(err => console.log(err));
-  }, [id])
+    loadGame(id);
+  }, [id, loadGame])
 
   return (
     <GameContent className="container">
@@ -54,10 +55,19 @@ function GameDetails() {
           </ul>
         </GameInfo>
         <ButtonGroup >
-          <button className="btn btn-purple btn-lg">Editar</button>
+          <button className="btn btn-purple btn-lg" onClick={() => edit(selectedGame)}>Editar</button>
           <button className="btn btn-red btn-lg">Deletar</button>
         </ButtonGroup>
       </Container>
+
+
+      <Modal
+        title="Editar Jogo"
+        submitEvent={handleSubmit}
+        successBtnText="Salvar">
+        <EditModal />
+      </Modal>
+
     </GameContent>
   );
 };

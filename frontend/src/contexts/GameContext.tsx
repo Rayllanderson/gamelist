@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
-import ApiGame from '../services/apiGame';
+import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
+import GameApi from '../services/gameApi';
 import { ModalContext } from './ModalContext';
 import { ToastContext } from './ToastContext';
 
@@ -9,40 +9,39 @@ interface GameProviderProps {
 interface GameContextData {
   name: string;
   status: GameStatus;
-  action: string;
   handleNameChange(e: any): void;
   handleSelectChange(e: any): void;
   handleSubmit(e: any): void;
-  onSelectGame: (game: Game) => void;
+  setSelectedGame: (game: Game) => void;
   selectedGame: Game;
   edit(game: Game): void;
   save(): void;
-  updateTable(): void;
   games: Game[];
-  setGames(games:Game[]):void;
+  setGames(games: Game[]): void;
   handleStartDateChange(e: any): void;
   handleEndDateChange(e: any): void;
   endDate: string
-  startDate:string;
+  startDate: string;
+  loadGame(id: string): void
 }
 export interface Game {
-  id: number;
+  id: string;
   name: string;
   status: GameStatus;
   startDate: string;
   endDate: string;
 }
 
-export enum GameStatus{
-  WISH,
-  PLAYING,
-  COMPLETED,
+export enum GameStatus {
+  WISH = ("WISH"),
+  PLAYING = ("PLAYING"),
+  COMPLETED = ("COMPLETED"),
 }
 
 export const GameContext = createContext<GameContextData>({} as GameContextData);
 
 export function GameProvider({ children }: GameProviderProps) {
-  const api = new ApiGame();
+  
   const [games, setGames] = useState<Game[]>([])
   const [selectedGame, setSelectedGame] = useState<Game>({} as Game);
   const [action, setAction] = useState('');
@@ -54,18 +53,27 @@ export function GameProvider({ children }: GameProviderProps) {
   const { addToast } = useContext(ToastContext);
   const { closeModal, showModal } = useContext(ModalContext)
 
-  function updateTable() {
-    api.findAll()
+  const loadGame = useCallback(async (id: string) => {
+    await new GameApi().findById(id)
+      .then(response => setSelectedGame(response.data))
+      .catch(err => console.log(err));
+  }, []);
+
+  const loadGames = useCallback(async () => {
+    await new GameApi().findAll()
       .then(response => {
         setGames(response.data)
       }).catch(err => console.log(err))
-  }
+  }, [])
+
   function edit(game: Game) {
     showModal()
     setAction('put');
     setSelectedGame(game)
     setName(game.name)
     setStatus(game.status)
+    setStartDate(game.startDate)
+    setEndDate(game.endDate)
   }
   function save() {
     showModal();
@@ -74,8 +82,9 @@ export function GameProvider({ children }: GameProviderProps) {
     setStatus(GameStatus.WISH)
   }
 
-  function handleSubmit(e: any) {
+  const handleSubmit = useCallback(async (e: any) => {
     e.preventDefault();
+    const api = new GameApi();
     const data: Omit<Game, 'id'> = {
       name: name,
       status: status,
@@ -83,14 +92,14 @@ export function GameProvider({ children }: GameProviderProps) {
       endDate: endDate
     }
     if (action === 'post') {
-      api.post(data).then(() => {
+      await api.post(data).then(() => {
         addToast({
           type: 'success',
           title: 'Sucesso',
           description: "Jogo adicionado com sucesso!",
         });
         closeModal();
-        updateTable();
+        loadGames();
       }
       ).catch(err => {
         console.log(err.response)
@@ -103,37 +112,36 @@ export function GameProvider({ children }: GameProviderProps) {
         })
       })
     } else {
-      api.put(selectedGame.id, data).then(() => {
+      await api.put(selectedGame.id, data).then(() => {
         addToast({
           type: 'success',
           title: 'Sucesso',
           description: "Jogo editado com sucesso!",
         })
         closeModal();
-        updateTable();
+        loadGame(selectedGame.id);
       }).catch(err => {
-        console.log(err.re)
+        console.log(err.response.data.message)
         addToast({
           type: 'error',
           title: 'Erro',
-          description: err.message,
+          description: err.response.data.message,
         })
       })
     }
-  }
+  }, [action, addToast, closeModal, endDate, loadGame, loadGames, name, selectedGame.id, startDate, status])
 
-  function onSelectGame(game: Game) {
-    setSelectedGame(game);
-  }
   function handleNameChange(e: any) {
     setName(e.target.value);
   }
   function handleSelectChange(e: any) {
-    setEndDate('');
-    setStartDate('');
+    if (action === 'post') {
+      setEndDate('');
+      setStartDate('');
+    }
     setStatus(e.target.value)
   }
-  function handleStartDateChange(e:any){
+  function handleStartDateChange(e: any) {
     setStartDate(e.target.value);
   }
   function handleEndDateChange(e: any) {
@@ -147,13 +155,12 @@ export function GameProvider({ children }: GameProviderProps) {
       handleNameChange,
       handleSelectChange,
       handleSubmit,
-      action,
-      onSelectGame,
+      setSelectedGame,
       selectedGame,
       edit, save,
-      updateTable, games, setGames,
+      games, setGames,
       handleStartDateChange, handleEndDateChange,
-      endDate, startDate
+      endDate, startDate, loadGame
     }} >
       {children}
     </GameContext.Provider>

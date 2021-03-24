@@ -1,15 +1,12 @@
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import { Modal } from "react-bootstrap";
 import { ModalContext } from "../../contexts/ModalContext";
-import { SaveGameModal } from "../Main/modal/Index";
 import './modal.css'
 interface Props {
-  id: string;
   title: string;
-  children: any;
   successBtnText: string;
   submitEvent: (e: any) => void;
-
+  children: ReactNode;
 }
 export function MyModal(props: Props) {
 
@@ -22,7 +19,7 @@ export function MyModal(props: Props) {
         <button type="button" className="btn-close" onClick={closeModal} aria-label="Close"></button>
       </Modal.Header>
       <Modal.Body>
-        <SaveGameModal />
+       {props.children}
       </Modal.Body>
       <Modal.Footer>
         <button type="button" className="btn btn-comment"onClick={closeModal}>Fechar</button>
