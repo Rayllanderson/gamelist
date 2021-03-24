@@ -5,8 +5,8 @@ import NavItem, { NavItemData } from './NavItem'
 export function Nav() {
   const navItems: NavItemData[] = [
     { id: 1, name: 'Todos', path: 'games' },
-    { id: 2, name: 'Jogando', path: 'playing' },
-    { id: 3, name: 'Em espera', path: 'wish' },
+    { id: 2, name: 'Em espera', path: 'wish' },
+    { id: 3, name: 'Jogando', path: 'playing' },
     { id: 4, name: 'Finalizados', path: 'completed' }]
   return (
     <div className="topnav">

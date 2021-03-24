@@ -2,7 +2,7 @@ import { Game } from "../contexts/GameContext";
 import api from "./api";
 import authHeader from "./auth";
 
-export default class ApiGame {
+export default class GameApi {
 
   findAll() {
     return api.get('/games', { headers: authHeader() });
@@ -16,11 +16,11 @@ export default class ApiGame {
     return api.get('/games/' + id, { headers: authHeader() });
   }
 
-  put(id: number, data: Omit<Game, 'id'>) {
+  put(id: string, data: Omit<Game, 'id'>) {
     return api.put('/games/' + id, data, { headers: authHeader() });
   }
 
-  delete(id: number) {
+  delete(id: string) {
     return api.delete('/games/' + id, { headers: authHeader() });
   }
 

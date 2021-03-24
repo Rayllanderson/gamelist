@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
 import { GameContext } from "../../../contexts/GameContext"
-import ApiGame from "../../../services/apiGame";
+import GameApi from "../../../services/gameApi";
 import CardItem from './CardItem';
 
 interface Props{
@@ -12,7 +12,7 @@ export default function CardList({ status}: Props) {
   
   useEffect(() => {
     const url = status === undefined ? 'games' : 'games/status/' + status
-    new ApiGame().get(url)
+    new GameApi().get(url)
       .then(response => {
         setGames(response.data)
       }).catch(err => console.log(err))

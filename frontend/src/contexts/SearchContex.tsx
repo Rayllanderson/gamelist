@@ -1,6 +1,6 @@
 
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
-import ApiGame from '../services/apiGame';
+import GameApi from '../services/gameApi';
 import { GameContext } from './GameContext';
 import { ToastContext } from './ToastContext';
 
@@ -29,7 +29,6 @@ export function SearchProvider({ children }: SearchProviderProps) {
   }
 
   const handleEmptyData = useCallback((data: any[], search: string) => {
-    console.log('sio')
     data.length === 0 &&
       addToast({
         type: 'info',
@@ -39,10 +38,9 @@ export function SearchProvider({ children }: SearchProviderProps) {
   }, [addToast])
 
   function handleSubmit(e: any) {
-    e.preventDefault(); //
-
+    e.preventDefault(); 
     canSearch &&
-      new ApiGame().findByName(search)
+      new GameApi().findByName(search)
         .then(response => {
           setGames(response.data);
           handleEmptyData(response.data, search)
