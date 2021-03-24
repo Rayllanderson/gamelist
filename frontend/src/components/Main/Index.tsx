@@ -1,4 +1,3 @@
-import { DeleteModal } from "../Modal/DeleteGameModal";
 import { MyModal as Modal } from "../Modal/Modal";
 import { Footer } from "./Footer";
 import { Search } from "./Search";
@@ -7,7 +6,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ToastContext } from "../../contexts/ToastContext";
 import { GameContext } from "../../contexts/GameContext";
-import { SaveGameModal } from "./SaveModal";
 import CardList from "./card/Index";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams } from "react-router";
@@ -39,7 +37,7 @@ function Home() {
       <HelmetProvider>
         <Helmet>
           <meta name="viewport" content="width=device-width, initial-scale=0.95" />
-          <title>Game List - Home"</title>
+          <title>Game List - Home</title>
         </Helmet>
       </HelmetProvider>
       <div>
@@ -53,8 +51,10 @@ function Home() {
         <Footer />
       </div>
 
-      <Modal id="gameModal" title={getTitle()} submitEvent={handleSubmit} successBtnText="Salvar">
-        <SaveGameModal />
+      <Modal id="gameModal"
+      title={getTitle()}
+      submitEvent={handleSubmit}
+      successBtnText="Salvar">
       </Modal>
 
     </div>

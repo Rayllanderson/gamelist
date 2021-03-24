@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Modal } from "react-bootstrap";
 import { ModalContext } from "../../contexts/ModalContext";
-import { SaveGameModal } from "../Main/SaveModal";
+import { SaveGameModal } from "../Main/modal/Index";
 import './modal.css'
 interface Props {
   id: string;
@@ -16,7 +16,7 @@ export function MyModal(props: Props) {
   const { show, closeModal } = useContext(ModalContext)
 
   return (
-    <Modal centered show={show} animation={false} onHide={closeModal}>
+    <Modal  centered show={show} animation={false} onHide={closeModal}>
       <Modal.Header>
         <Modal.Title className="modal-title">{props.title}</Modal.Title>
         <button type="button" className="btn-close" onClick={closeModal} aria-label="Close"></button>

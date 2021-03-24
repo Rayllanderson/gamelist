@@ -8,7 +8,7 @@ interface GameProviderProps {
 }
 interface GameContextData {
   name: string;
-  status: string;
+  status: GameStatus;
   action: string;
   handleNameChange(e: any): void;
   handleSelectChange(e: any): void;
@@ -20,25 +20,36 @@ interface GameContextData {
   updateTable(): void;
   games: Game[];
   setGames(games:Game[]):void;
+  handleStartDateChange(e: any): void;
+  handleEndDateChange(e: any): void;
+  endDate: string
+  startDate:string;
 }
 export interface Game {
   id: number;
   name: string;
-  status: string;
+  status: GameStatus;
   startDate: string;
   endDate: string;
+}
+
+export enum GameStatus{
+  WISH,
+  PLAYING,
+  COMPLETED,
 }
 
 export const GameContext = createContext<GameContextData>({} as GameContextData);
 
 export function GameProvider({ children }: GameProviderProps) {
   const api = new ApiGame();
-
   const [games, setGames] = useState<Game[]>([])
   const [selectedGame, setSelectedGame] = useState<Game>({} as Game);
   const [action, setAction] = useState('');
   const [name, setName] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState<GameStatus>(GameStatus.WISH);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const { addToast } = useContext(ToastContext);
   const { closeModal, showModal } = useContext(ModalContext)
@@ -60,14 +71,16 @@ export function GameProvider({ children }: GameProviderProps) {
     showModal();
     setAction('post');
     setName('')
-    setStatus('PLAYING')
+    setStatus(GameStatus.WISH)
   }
 
   function handleSubmit(e: any) {
     e.preventDefault();
-    const data = {
+    const data: Omit<Game, 'id'> = {
       name: name,
-      status: status
+      status: status,
+      startDate: startDate,
+      endDate: endDate
     }
     if (action === 'post') {
       api.post(data).then(() => {
@@ -116,7 +129,15 @@ export function GameProvider({ children }: GameProviderProps) {
     setName(e.target.value);
   }
   function handleSelectChange(e: any) {
+    setEndDate('');
+    setStartDate('');
     setStatus(e.target.value)
+  }
+  function handleStartDateChange(e:any){
+    setStartDate(e.target.value);
+  }
+  function handleEndDateChange(e: any) {
+    setEndDate(e.target.value);
   }
 
   return (
@@ -130,7 +151,9 @@ export function GameProvider({ children }: GameProviderProps) {
       onSelectGame,
       selectedGame,
       edit, save,
-      updateTable, games, setGames
+      updateTable, games, setGames,
+      handleStartDateChange, handleEndDateChange,
+      endDate, startDate
     }} >
       {children}
     </GameContext.Provider>

@@ -13,7 +13,7 @@ function GameDetails() {
   const id = params.id;
   const fomartDate = useCallback((data: string) => {
     const date = new Date(data)
-    return data && ((date.getDate())) + "/" + ((date.getMonth() + 1)) + "/" + date.getFullYear();
+    return data && ((date.getUTCDate())) + "/" + ((date.getUTCMonth() + 1)) + "/" + date.getUTCFullYear();
   }, [])
   useEffect(() => {
     new ApiGame().findById(id)
