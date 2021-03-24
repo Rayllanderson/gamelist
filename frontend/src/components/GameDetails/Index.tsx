@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { FiChevronLeft } from "react-icons/fi";
+import { Link, useParams } from "react-router-dom";
 import { Game } from "../../contexts/GameContext";
 import ApiGame from "../../services/apiGame";
-import { Container } from "./style";
+import { ButtonGroup, Container, GameContent, GameInfo, Header } from "./style";
 interface RouteParams {
   id: string
 }
@@ -20,25 +21,45 @@ function GameDetails() {
       .then(response => setSelectedGame(response.data))
       .catch(err => console.log(err));
   }, [id])
+
   return (
-    <Container className="container">
-      <div className="data">
-        <h3>{selectedGame.name} </h3>
-        <p>Status atual: <span>{selectedGame.status}</span></p>
-        <p>Iniciado em : {fomartDate(selectedGame.startDate)}</p>
-        <p>Finalizado em: {fomartDate(selectedGame.endDate)} </p>
-      </div>
-    </Container>
+    <GameContent className="container">
+      <Header>
+        <div>&nbsp;</div>
+        <Link to="/games">
+          <FiChevronLeft size={17} />Voltar
+        </Link>
+      </Header>
+      <Container>
+        <GameInfo>
+          <header>
+            <img src="/game-controler.svg" alt="logo" />
+            <div>
+              <strong>{selectedGame.name}</strong>
+            </div>
+          </header>
+          <ul>
+            <li>
+              <span>Status</span>
+              <strong>{selectedGame.status}</strong>
+            </li>
+            <li>
+              <span>Iniciado em </span>
+              <strong>{fomartDate(selectedGame.startDate)}</strong>
+            </li>
+            <li>
+              <span>Finalizado em</span>
+              <strong>{fomartDate(selectedGame.endDate)}</strong>
+            </li>
+          </ul>
+        </GameInfo>
+        <ButtonGroup >
+          <button className="btn btn-purple btn-lg">Editar</button>
+          <button className="btn btn-red btn-lg">Deletar</button>
+        </ButtonGroup>
+      </Container>
+    </GameContent>
   );
 };
-/*
-class GameDetails extends React.Component<RouteParams> {
-  render() {
-    console.log(this.props); // Prints all props including routing-related
-    console.log(this.props.match.params.id); // Prints 'abc'
-    return <div></div>
-  }
-}
-*/
 
 export default GameDetails;

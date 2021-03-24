@@ -1,4 +1,4 @@
-import { Game, GameStatus } from "../contexts/GameContext";
+import { Game } from "../contexts/GameContext";
 import api from "./api";
 import authHeader from "./auth";
 

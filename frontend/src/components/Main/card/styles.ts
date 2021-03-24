@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const CardGame = styled.div`
   margin-top: 16px;
   max-width: 800px;
+  overflow: hidden;
   a {
     background: var(--current-line);
     border-radius: 5px;
