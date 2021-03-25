@@ -3,9 +3,9 @@ import '../../styles/components/login.css';
 import { AuthContext } from '../../contexts/AuthContext';
 import { FiEdit2, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import * as Yup from 'yup';
-import { Input } from '../Login/Input';
 import { useHistory } from 'react-router-dom';
 import { ToastContext } from '../../contexts/ToastContext';
+import { Input } from '../../components/Inputs/login/Input';
 
 
 export function Form() {
@@ -74,7 +74,7 @@ export function Form() {
             icon={FiEdit2}
             value={name} required={false} />
         </div>
-        <div className='form-group formGroup'>
+        <div className='form-group formGroup input-group'>
           <Input type='text' placeholder='Email (Opcional)'
             handleChange={handleEmailChange}
             icon={FiMail}
