@@ -6,12 +6,12 @@ export const Nav = styled.nav`
       background: transparent;
       border:none;
       &:hover{
-          background: var(--foreground)!important;
-          color: var(--pink);
+          background: var(--current-line)!important;
+          color: var(--foreground);
       }
       &:active {
-          background: var(--foreground)!important;
-          color: var(--pink);
+          background: var(--current-line)!important;
+          color: var(--foreground);
       }
       &:focus{
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.025), 0 0 8px rgba(255, 121, 198, 0.07);

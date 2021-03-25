@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Route as ReactDomRoute, RouteProps as ReactRouterProps, Redirect } from 'react-router-dom'
-import MyNavbar from '../pages/Navbar/Index';
+import MyNavbar from '../components/Navbar/Index';
 import { AuthContext } from '../contexts/AuthContext';
 
 interface RouteProps extends ReactRouterProps {
