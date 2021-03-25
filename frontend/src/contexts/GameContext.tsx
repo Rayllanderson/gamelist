@@ -39,9 +39,9 @@ export interface Game {
 }
 
 export enum GameStatus {
-  WISH = ("WISH"),
-  PLAYING = ("PLAYING"),
-  COMPLETED = ("COMPLETED"),
+  WISH = ("Em espera"),
+  PLAYING = ("Jogando"),
+  COMPLETED = ("Completo"),
 }
 
 export const GameContext = createContext<GameContextData>({} as GameContextData);
@@ -89,7 +89,7 @@ export function GameProvider({ children }: GameProviderProps) {
     setStatus(GameStatus.WISH)
   }
 
-  function remove(id: string) {
+  function remove() {
     showDeleteModal();
   }
 
