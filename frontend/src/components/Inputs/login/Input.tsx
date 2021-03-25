@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react"
-import { Icon } from "./Icon"
+import { Icon } from "../../../pages/Login/Icon";
 
 interface Props {
   handleChange: (e: any) => void;

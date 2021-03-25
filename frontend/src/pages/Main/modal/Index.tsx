@@ -1,8 +1,7 @@
 /* eslint-disable eqeqeq */
 import { useCallback, useContext, useState } from "react";
+import { Input, InputSelect } from "../../../components/Inputs/modal/Inputs";
 import { GameContext, GameStatus } from "../../../contexts/GameContext";
-import Input from "./Input";
-import InputSelect from "./InputSelect";
 
 
 

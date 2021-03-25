@@ -15,7 +15,7 @@ export function Login() {
       <Form />
       <div className='links'>
         <div className='d-flex justify-content-center'>
-          <Link to="/register">Esqueci minha senha</Link>
+          <Link to="/forget-password">Esqueci minha senha</Link>
         </div>
         <div className="link-register d-flex justify-content-center">
           <Link to="/register"><FiLogIn /> &nbsp; Criar Conta</Link>

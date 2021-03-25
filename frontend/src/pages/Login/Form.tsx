@@ -3,8 +3,8 @@ import '../../styles/components/login.css';
 import { AuthContext } from '../../contexts/AuthContext';
 import { ToastContext } from '../../contexts/ToastContext';
 import { FiLock, FiUser } from 'react-icons/fi';
-import { Input } from './Input';
 import * as Yup from 'yup';
+import { Input } from '../../components/Inputs/login/Input';
 
 export function Form() {
 
