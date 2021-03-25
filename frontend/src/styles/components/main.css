@@ -19,37 +19,6 @@
     width: 100px;
 }
 
-.table {
-    background-color: var(--current-line)
-}
-
-.table {
-    font-size: 1.4rem;
-    border-radius: 1.5rem;
-}
-
-.table th {
-    color: var(--pink);
-    padding: 1.3rem!important;
-}
-
-.table td {
-    color: var(--foreground);
-    padding: 1.3rem!important;
-}
-
-.table td a {
-    color: var(--foreground)
-}
-
-.table td a:hover {
-    color: var(--pink)
-}
-
-.tableBtn {
-    margin: auto;
-}
-
 .fixedButton {
     position: fixed;
     bottom: 2rem;
