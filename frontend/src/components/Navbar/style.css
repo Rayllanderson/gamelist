@@ -3,12 +3,12 @@
 }
 
 .drop-menu {
-    background: rgb(248, 248, 242);
+    background: var(--current-line);
     min-width: 105px
 }
 
 .drop-menu a {
-    color: var(--pink);
+    color: var(--foreground);
     font-size: 1.1rem;
 }
 
