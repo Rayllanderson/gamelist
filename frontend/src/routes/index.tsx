@@ -1,9 +1,9 @@
 import React from 'react';
 import { Switch } from 'react-router';
-import GameDetails from '../components/GameDetails/Index';
-import { Login } from '../components/Login/Index';
-import Home from '../components/Main/Index';
-import { Register } from '../components/Register/Index';
+import GameDetails from '../pages/GameDetails/Index';
+import { Login } from '../pages/Login/Index';
+import Home from '../pages/Main/Index';
+import { Register } from '../pages/Register/Index';
 import Route from './Route';
 
 const Routes: React.FC = () => (

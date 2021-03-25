@@ -1,4 +1,3 @@
-import { MyModal as Modal } from "../Modal/Modal";
 import { Footer } from "./Footer";
 import { Search } from "./Search";
 import { Nav } from "./nav/Index";
@@ -9,6 +8,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams } from "react-router";
 import { SaveGameModal } from "./modal/Index";
 import { ModalContext } from "../../contexts/ModalContext";
+import { MyModal as Modal } from "../../components/Modal/Modal";
 
 interface RouteParams {
   status: string;
@@ -18,7 +18,6 @@ function Home() {
   const { handleSubmit } = useContext(GameContext);
   const {show, closeModal} = useContext(ModalContext)
   const params = useParams<RouteParams>();
-  console.log('heeey')
   return (
     <div>
       <HelmetProvider>
