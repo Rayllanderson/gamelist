@@ -1,0 +1,24 @@
+.content {
+    max-width: 750px;
+}
+
+.drop-menu {
+    background: rgb(248, 248, 242);
+    min-width: 105px
+}
+
+.drop-menu a {
+    color: var(--pink);
+    font-size: 1.1rem;
+}
+
+.drop-menu a:hover {
+    color: var(--foreground);
+    background: var(--pink);
+}
+
+@media(max-width: 768px) {
+    .drop-menu a {
+        font-size: 1.3rem;
+    }
+}

@@ -26,7 +26,7 @@ function GameDetails() {
     loadGame(id);
     document.title = `Game List - ${selectedGame.name}`
   }, [id, loadGame, selectedGame.name])
-
+  console.log('heeey')
   return (
     <div>
     <GameContent className="container">
