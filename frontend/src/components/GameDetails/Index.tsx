@@ -24,9 +24,11 @@ function GameDetails() {
 
   useEffect(() => {
     loadGame(id);
-  }, [id, loadGame])
+    document.title = `Game List - ${selectedGame.name}`
+  }, [id, loadGame, selectedGame.name])
 
   return (
+    <div>
     <GameContent className="container">
       <Header>
         <div>&nbsp;</div>
@@ -77,8 +79,8 @@ function GameDetails() {
         successBtnText="Deletar">
         <DeleteModal selectedGame={selectedGame}/>
       </Modal>
-
     </GameContent>
+    </div>
   );
 };
 

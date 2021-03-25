@@ -3,7 +3,6 @@ import '../../styles/components/login.css';
 import { AuthContext } from '../../contexts/AuthContext';
 import { FiEdit2, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import * as Yup from 'yup';
-import getValidationErrors from '../../utils/getValidationErrors';
 import { Input } from '../Login/Input';
 import { useHistory } from 'react-router-dom';
 import { ToastContext } from '../../contexts/ToastContext';
@@ -43,7 +42,7 @@ export function Form() {
         abortEarly: false,
       })
     } catch (err) {
-      console.log(getValidationErrors(err))
+      console.log(err)
       return;
     };
     await signUp({ name, email, username, password })

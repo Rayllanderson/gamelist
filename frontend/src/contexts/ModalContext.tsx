@@ -1,5 +1,6 @@
 
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
+import { AlertContext } from './AlertContext';
 
 interface ModalProviderProps {
   children: ReactNode;
@@ -17,12 +18,19 @@ interface ModalContextData {
 export const ModalContext = createContext<ModalContextData>({} as ModalContextData);
 
 export function ModalProvider({ children }: ModalProviderProps) {
+  const { closeAlert } = useContext(AlertContext)
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false)
-  const closeModal = () => { setShow(false) };
   const showModal = () => { setShow(true) };
   const showDeleteModal = () => { setShowDelete(true) };
-  const closeDeleteModal = () => { setShowDelete(false) };
+  const closeModal = () => {
+    closeAlert();
+    setShow(false)
+  };
+  const closeDeleteModal = () => {
+    closeAlert();
+    setShowDelete(false)
+  };
 
   return (
     <ModalContext.Provider value={{

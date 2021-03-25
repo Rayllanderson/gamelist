@@ -1,6 +1,8 @@
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 import { useHistory } from 'react-router'
 import GameApi from '../services/game-api';
+import { getFirstError } from '../utils/fomart-error';
+import { AlertContext } from './AlertContext';
 import { ModalContext } from './ModalContext';
 import { ToastContext } from './ToastContext';
 
@@ -55,6 +57,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const [endDate, setEndDate] = useState('');
   const history = useHistory();
   const { addToast } = useContext(ToastContext);
+  const {showAlert} = useContext(AlertContext)
   const { closeModal, showModal, showDeleteModal, closeDeleteModal } = useContext(ModalContext)
 
   const loadGame = useCallback(async (id: string) => {
@@ -130,11 +133,7 @@ export function GameProvider({ children }: GameProviderProps) {
         loadGames();
       }
       ).catch(err => {
-        addToast({
-          type: 'error',
-          title: 'Erro',
-          description: err.response.data.message,
-        })
+        showAlert(getFirstError(err.response.data.message));
       })
     } else {
       await api.put(selectedGame.id, data).then(() => {
@@ -146,14 +145,10 @@ export function GameProvider({ children }: GameProviderProps) {
         closeModal();
         loadGame(selectedGame.id);
       }).catch(err => {
-        addToast({
-          type: 'error',
-          title: 'Erro',
-          description: err.response.data.message,
-        })
+        showAlert(getFirstError(err.response.data.message));
       })
     }
-  }, [action, addToast, closeModal, endDate, loadGame, loadGames, name, selectedGame.id, startDate, status])
+  }, [action, addToast, closeModal, endDate, loadGame, loadGames, name, selectedGame.id, showAlert, startDate, status])
 
   function handleNameChange(e: any) {
     setName(e.target.value);
