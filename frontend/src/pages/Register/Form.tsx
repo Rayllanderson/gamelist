@@ -6,11 +6,16 @@ import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { ToastContext } from '../../contexts/ToastContext';
 import { Input } from '../../components/Inputs/login/Input';
+import { LoadingContext } from '../../contexts/LoadingContext';
+import { Button } from '../../components/Button/Index';
+import { LoaderCircle } from '../../components/Loaders/Index';
 
 
 export function Form() {
   const { signUp } = useContext(AuthContext)
   const { addToast } = useContext(ToastContext)
+  const { btnIsLoading, setBtnIsLoading } = useContext(LoadingContext);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -32,6 +37,7 @@ export function Form() {
   }
 
   const handleSubmit = async (e: any) => {
+    setBtnIsLoading(true);
     e.preventDefault();
     const schema = Yup.object().shape({
       username: Yup.string().required('Username obrigatório'),
@@ -43,6 +49,7 @@ export function Form() {
       })
     } catch (err) {
       console.log(err)
+      setBtnIsLoading(false);
       return;
     };
     await signUp({ name, email, username, password })
@@ -61,6 +68,7 @@ export function Form() {
           description: err.response.data.message,
         })
       });
+    setBtnIsLoading(false);
   }
 
 
@@ -93,8 +101,11 @@ export function Form() {
             value={password} required={true} />
         </div>
         <div className='loginButton d-grid gap-2'>
-          <button type="submit"
-            className="btn btn-pink btn-lg">Registrar</button>
+          {btnIsLoading ?
+            <Button disabled type="large"><LoaderCircle /></Button>
+            :
+            <Button onClick={handleSubmit} type="large">Registrar</Button>
+          }
         </div>
       </form>
     </div>

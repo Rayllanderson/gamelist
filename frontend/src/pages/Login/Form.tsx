@@ -5,13 +5,17 @@ import { ToastContext } from '../../contexts/ToastContext';
 import { FiLock, FiUser } from 'react-icons/fi';
 import * as Yup from 'yup';
 import { Input } from '../../components/Inputs/login/Input';
+import { LoadingContext } from '../../contexts/LoadingContext';
+import { Button } from '../../components/Button/Index';
+import { LoaderCircle } from '../../components/Loaders/Index';
 
 export function Form() {
 
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext);
   const { addToast } = useContext(ToastContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { btnIsLoading, setBtnIsLoading } = useContext(LoadingContext);
 
 
   function handleUsernameChange(e: any) {
@@ -23,6 +27,7 @@ export function Form() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setBtnIsLoading(true);
     const schema = Yup.object().shape({
       username: Yup.string().required('Username obrigatório'),
       password: Yup.string().min(1, 'Senha no mínimo 1 digito')
@@ -37,6 +42,7 @@ export function Form() {
         title: 'Erro',
         description: err.message,
       })
+      setBtnIsLoading(false);
       return;
     };
     await signIn({ username, password }).then(() => {
@@ -53,29 +59,31 @@ export function Form() {
         description: err.response.data.error,
       })
     });
+    setBtnIsLoading(false);
   }
 
 
   return (
     <div className='inputs'>
-      <form onSubmit={handleSubmit}>
-        <div className='form-group formGroup'>
-          <Input type='text' placeholder='Username'
-            handleChange={handleUsernameChange}
-            icon={FiUser}
-            value={username} required={true} />
-        </div>
-        <div className='form-group formGroup'>
-          <Input type='password' placeholder='Password'
-            handleChange={handlePassChange}
-            icon={FiLock}
-            value={password} required={true} />
-        </div>
-        <div className='loginButton d-grid gap-2'>
-          <button type="submit"
-            className="btn btn-pink btn-lg">Login</button>
-        </div>
-      </form>
+      <div className='form-group formGroup'>
+        <Input type='text' placeholder='Username'
+          handleChange={handleUsernameChange}
+          icon={FiUser}
+          value={username} required={true} />
+      </div>
+      <div className='form-group formGroup'>
+        <Input type='password' placeholder='Password'
+          handleChange={handlePassChange}
+          icon={FiLock}
+          value={password} required={true} />
+      </div>
+      <div className='loginButton d-grid gap-2'>
+        {btnIsLoading ? 
+          <Button disabled type="large"><LoaderCircle /></Button>
+          :
+          <Button onClick={handleSubmit} type="large">Login</Button>
+        }
+      </div>
     </div>
   );
 }

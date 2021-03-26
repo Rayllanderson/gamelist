@@ -3,6 +3,7 @@ import { useHistory } from 'react-router'
 import GameApi from '../services/game-api';
 import { getFirstError } from '../utils/fomart-error';
 import { AlertContext } from './AlertContext';
+import { LoadingContext } from './LoadingContext';
 import { ModalContext } from './ModalContext';
 import { ToastContext } from './ToastContext';
 
@@ -57,21 +58,29 @@ export function GameProvider({ children }: GameProviderProps) {
   const [endDate, setEndDate] = useState('');
   const history = useHistory();
   const { addToast } = useContext(ToastContext);
-  const {showAlert} = useContext(AlertContext)
+  const { showAlert } = useContext(AlertContext);
+  const { setIsLoading, setBtnIsLoading } = useContext(LoadingContext)
   const { closeModal, showModal, showDeleteModal, closeDeleteModal } = useContext(ModalContext)
-
+ 
   const loadGame = useCallback(async (id: string) => {
+    setIsLoading(true)
     await new GameApi().findById(id)
-      .then(response => setSelectedGame(response.data))
-      .catch(err => console.log(err));
-  }, []);
+      .then(response => {
+        setSelectedGame(response.data);
+      }).catch(err => console.log(err));
+    setIsLoading(false)
+  }, [setIsLoading]);
 
   const loadGames = useCallback(async () => {
+    setIsLoading(true);
     await new GameApi().findAll()
       .then(response => {
         setGames(response.data)
-      }).catch(err => console.log(err))
-  }, [])
+      }).catch(err => {
+        console.log(err)
+      })
+    setIsLoading(false)
+  }, [setIsLoading])
 
   function edit(game: Game) {
     showModal()
@@ -96,6 +105,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const handleDeleteSubmit = useCallback(async (id: string, e: any) => {
     e.preventDefault();
     const api = new GameApi();
+    setBtnIsLoading(true);
     await api.delete(id).then(() => {
       closeDeleteModal();
       addToast({
@@ -111,7 +121,8 @@ export function GameProvider({ children }: GameProviderProps) {
         description: err.response.data.message,
       })
     })
-  }, [addToast, closeDeleteModal, history])
+    setBtnIsLoading(false);
+  }, [addToast, closeDeleteModal, history, setBtnIsLoading])
 
   const handleSubmit = useCallback(async (e: any) => {
     e.preventDefault();
@@ -123,6 +134,7 @@ export function GameProvider({ children }: GameProviderProps) {
       endDate: endDate
     }
     if (action === 'post') {
+      setBtnIsLoading(true);
       await api.post(data).then(() => {
         addToast({
           type: 'success',
@@ -135,7 +147,9 @@ export function GameProvider({ children }: GameProviderProps) {
       ).catch(err => {
         showAlert(getFirstError(err.response.data.message));
       })
+      setBtnIsLoading(false);
     } else {
+      setBtnIsLoading(true);
       await api.put(selectedGame.id, data).then(() => {
         addToast({
           type: 'success',
@@ -147,8 +161,9 @@ export function GameProvider({ children }: GameProviderProps) {
       }).catch(err => {
         showAlert(getFirstError(err.response.data.message));
       })
+      setBtnIsLoading(false);
     }
-  }, [action, addToast, closeModal, endDate, loadGame, loadGames, name, selectedGame.id, showAlert, startDate, status])
+  }, [action, addToast, closeModal, endDate, loadGame, loadGames, name, selectedGame.id, setBtnIsLoading, showAlert, startDate, status])
 
   function handleNameChange(e: any) {
     setName(e.target.value);

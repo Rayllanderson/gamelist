@@ -1,7 +1,10 @@
 import { ReactNode, useContext } from "react";
 import { Modal } from "react-bootstrap";
 import { AlertContext } from "../../contexts/AlertContext";
+import { LoadingContext } from "../../contexts/LoadingContext";
 import MyAlert from "../Alert/Alert";
+import { Button } from "../Button/Index";
+import { LoaderCircleButton } from "../Loaders/Index";
 import './modal.css'
 interface Props {
   title: string;
@@ -12,7 +15,8 @@ interface Props {
   closeModal(): void;
 }
 export function MyModal(props: Props) {
-  const { message, show, closeAlert } = useContext(AlertContext)
+  const { message, show, closeAlert } = useContext(AlertContext);
+  const { btnIsLoading } = useContext(LoadingContext);
   return (
     <Modal centered show={props.show} animation={false} onHide={props.closeModal}>
       <Modal.Header>
@@ -25,7 +29,11 @@ export function MyModal(props: Props) {
       </Modal.Body>
       <Modal.Footer>
         <button type="button" className="btn btn-comment" onClick={props.closeModal}>Fechar</button>
-        <button type="button" className="btn btn-pink" onClick={props.submitEvent}>  {props.successBtnText}</button>
+        {btnIsLoading ?
+          <LoaderCircleButton />
+          :
+          <Button type="modal" onClick={props.submitEvent} > {props.successBtnText} </Button>
+        }
       </Modal.Footer>
     </Modal>
   );

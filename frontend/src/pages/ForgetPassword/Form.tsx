@@ -1,6 +1,9 @@
 import { useContext, useState } from "react";
 import { FiMail } from "react-icons/fi";
+import { Button } from "../../components/Button/Index";
 import { Input } from "../../components/Inputs/login/Input";
+import { LoaderCircle } from "../../components/Loaders/Index";
+import { LoadingContext } from "../../contexts/LoadingContext";
 import { ToastContext } from "../../contexts/ToastContext";
 import api from "../../services/api";
 
@@ -8,11 +11,13 @@ export default function Form() {
 
   const [email, setEmail] = useState('');
   const { addToast } = useContext(ToastContext);
+  const { btnIsLoading, setBtnIsLoading } = useContext(LoadingContext)
 
   function handleChange(e: any) {
     setEmail(e.target.value);
   }
   async function handleSubmit(e: any) {
+    setBtnIsLoading(true)
     email ?
       await api.post('/forget-password', { email: email })
         .then(() =>
@@ -34,6 +39,7 @@ export default function Form() {
         title: 'Email inválido',
         description: "Preencha o campo de email antes de enviar",
       })
+    setBtnIsLoading(false)
   }
   return (
     <div className='inputs'>
@@ -44,8 +50,11 @@ export default function Form() {
           value={email} required={true} />
       </div>
       <div className='loginButton d-grid gap-2'>
-        <button type="button"
-          className="btn btn-pink btn-lg" onClick={handleSubmit}>Enviar email</button>
+        {btnIsLoading ?
+          <Button disabled type="large"><LoaderCircle /></Button>
+          :
+          <Button onClick={handleSubmit} type="large">Enviar email</Button>
+        }
       </div>
     </div>
   );

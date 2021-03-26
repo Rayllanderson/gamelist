@@ -7,23 +7,26 @@ import { GameProvider } from "./contexts/GameContext";
 import { ModalProvider } from "./contexts/ModalContext";
 import { SearchProvider } from "./contexts/SearchContex";
 import { AlertProvider } from "./contexts/AlertContext";
+import { LoadingProvider } from "./contexts/LoadingContext";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
-          <ToastProvider>
-            <AlertProvider>
-              <ModalProvider>
-                <GameProvider>
-                  <SearchProvider>
-                    <Routes />
-                  </SearchProvider>
-                </GameProvider>
-              </ModalProvider>
-            </AlertProvider>
-          </ToastProvider>
+          <LoadingProvider>
+            <ToastProvider>
+              <AlertProvider>
+                <ModalProvider>
+                  <GameProvider>
+                    <SearchProvider>
+                      <Routes />
+                    </SearchProvider>
+                  </GameProvider>
+                </ModalProvider>
+              </AlertProvider>
+            </ToastProvider>
+          </LoadingProvider>
         </AuthProvider>
       </BrowserRouter>
     </div>
