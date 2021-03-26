@@ -21,7 +21,7 @@ export function SaveGameModal() {
     <div>
       <div className="form-group ">
         <label className="col-form-label "> Nome </label>
-        <Input value={name} handleChange={handleNameChange} placeholder="Nome" />
+        <Input value={name} required handleChange={handleNameChange} placeholder="Nome" />
       </div>
 
       <div>

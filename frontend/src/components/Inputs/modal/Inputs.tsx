@@ -5,6 +5,7 @@ interface InputProps {
   value: string;
   type?: string;
   placeholder?:string;
+  required?:boolean
 }
 interface InputSelectProps {
   handleChange(e: any): void,
@@ -19,7 +20,8 @@ export function Input(props: InputProps) {
     <input type={type} placeholder={props.placeholder}
       className="form-control form-control-lg"
       value={value}
-      onChange={props.handleChange} />
+      onChange={props.handleChange}
+      required={props.required} />
   )
 }
 
