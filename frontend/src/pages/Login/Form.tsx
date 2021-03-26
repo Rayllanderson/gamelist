@@ -3,11 +3,11 @@ import '../../styles/components/login.css';
 import { AuthContext } from '../../hooks/AuthContext';
 import { ToastContext } from '../../hooks/ToastContext';
 import { FiLock, FiUser } from 'react-icons/fi';
-import * as Yup from 'yup';
 import { Input } from '../../components/Inputs/login/Input';
 import { LoadingContext } from '../../hooks/LoadingContext';
 import { Button } from '../../components/Button/Index';
 import { LoaderCircle } from '../../components/Loaders/Index';
+import { validadeForm } from '../../utils/validate';
 
 export function Form() {
 
@@ -28,19 +28,13 @@ export function Form() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setBtnIsLoading(true);
-    const schema = Yup.object().shape({
-      username: Yup.string().required('Username obrigatório'),
-      password: Yup.string().min(1, 'Senha no mínimo 1 digito')
-    })
     try {
-      await schema.validate({ username, password }, {
-        abortEarly: false,
-      })
+      validadeForm(username, password);
     } catch (err) {
       addToast({
         type: 'error',
         title: 'Erro',
-        description: err.message,
+        description: err,
       })
       setBtnIsLoading(false);
       return;
