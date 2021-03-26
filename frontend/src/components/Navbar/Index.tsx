@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { FiLogOut, FiSettings, FiUser } from 'react-icons/fi'
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../hooks/AuthContext';
 import { ToastContext } from '../../hooks/ToastContext';
 import {Nav} from './style'
@@ -25,8 +26,8 @@ export default function MyNavbar() {
             < FiSettings size={22} />
           </Dropdown.Toggle>
           <Dropdown.Menu className="drop-menu" >
-            <Dropdown.Item href="#/action-1"><FiUser/> Conta </Dropdown.Item>
-            <Dropdown.Item href="#/action-2" onClick={logout}> <FiLogOut /> Logout </Dropdown.Item>
+            <Link to="/my-account" className="dropdown-item"> <FiUser /> Conta </Link>
+            <Dropdown.Item onClick={logout}> <FiLogOut /> Logout </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>

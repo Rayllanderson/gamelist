@@ -28,7 +28,7 @@ export default function CardList({ status }: Props) {
   }, [setGames, setIsLoading, status])
 
   const emptyListMessage = status === undefined ? 
-  'Lista de jogos vazia. Nenhum jogo cadastrado.' : 'Nenhum jogo encontrado nessa seção.';
+  'Nenhum jogo encontrado.' : 'Nenhum jogo encontrado nessa seção.';
   return (
     <div>
       <div style={{ animation: 'appearFromBottom 1s' }}>

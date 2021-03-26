@@ -135,7 +135,6 @@ export function GameProvider({ children }: GameProviderProps) {
       startDate: startDate,
       endDate: endDate
     }
-    console.log(startDate)
     if (action === 'post') {
       setBtnIsLoading(true);
       await api.post(data).then(() => {
