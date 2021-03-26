@@ -9,7 +9,6 @@
 
 .drop-menu a {
     color: var(--foreground);
-    font-size: 1.1rem;
 }
 
 .drop-menu a:hover {
@@ -19,6 +18,6 @@
 
 @media(max-width: 768px) {
     .drop-menu a {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 }
