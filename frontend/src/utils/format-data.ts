@@ -1,4 +1,4 @@
-import { Game, GameStatus } from "../contexts/GameContext";
+import { Game, GameStatus } from "../hooks/GameContext";
 
 const formatDate = (data: string) => {
   const date = new Date(data)

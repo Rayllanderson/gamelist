@@ -1,6 +1,6 @@
 import './toast.css'
 import Toast from "./Toast";
-import { ToastMessage } from "../../contexts/ToastContext";
+import { ToastMessage } from "../../hooks/ToastContext";
 
 interface Props {
   messages: ToastMessage[];

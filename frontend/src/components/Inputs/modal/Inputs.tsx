@@ -1,4 +1,4 @@
-import { GameStatus } from "../../../contexts/GameContext";
+import { GameStatus } from "../../../hooks/GameContext";
 
 interface InputProps {
   handleChange(e: any): void;

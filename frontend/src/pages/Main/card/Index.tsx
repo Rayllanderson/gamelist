@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react"
 import { LoaderCard } from "../../../components/Loaders/Index";
-import { GameContext } from "../../../contexts/GameContext"
-import { LoadingContext } from "../../../contexts/LoadingContext";
-import GameApi from "../../../services/game-api";
+import { GameContext } from "../../../hooks/GameContext"
+import { LoadingContext } from "../../../hooks/LoadingContext";
+import GameController from "../../../services/game-api";
 import CardItem from './CardItem';
 
 interface Props {
@@ -17,7 +17,7 @@ export default function CardList({ status }: Props) {
     const url = status === undefined ? 'games' : 'games/status/' + status
     setIsLoading(true);
     async function getGames(url: string) {
-      await new GameApi().get(url)
+      await new GameController().get(url)
         .then(response => {
           setGames(response.data)
           setIsLoading(false);

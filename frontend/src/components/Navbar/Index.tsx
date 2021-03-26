@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { FiLogOut, FiSettings, FiUser } from 'react-icons/fi'
-import { AuthContext } from '../../contexts/AuthContext';
-import { ToastContext } from '../../contexts/ToastContext';
+import { AuthContext } from '../../hooks/AuthContext';
+import { ToastContext } from '../../hooks/ToastContext';
 import {Nav} from './style'
 import './style.css'
 export default function MyNavbar() {

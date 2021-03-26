@@ -3,8 +3,8 @@ import { FiMail } from "react-icons/fi";
 import { Button } from "../../components/Button/Index";
 import { Input } from "../../components/Inputs/login/Input";
 import { LoaderCircle } from "../../components/Loaders/Index";
-import { LoadingContext } from "../../contexts/LoadingContext";
-import { ToastContext } from "../../contexts/ToastContext";
+import { LoadingContext } from "../../hooks/LoadingContext";
+import { ToastContext } from "../../hooks/ToastContext";
 import api from "../../services/api";
 
 export default function Form() {

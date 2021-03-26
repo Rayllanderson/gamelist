@@ -2,12 +2,12 @@ import { Footer } from "./Footer";
 import { Search } from "./Search";
 import { Nav } from "./nav/Index";
 import { useContext } from "react";
-import { GameContext } from "../../contexts/GameContext";
+import { GameContext } from "../../hooks/GameContext";
 import CardList from "./card/Index";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams } from "react-router";
 import { SaveGameModal } from "./modal/Index";
-import { ModalContext } from "../../contexts/ModalContext";
+import { ModalContext } from "../../hooks/ModalContext";
 import { MyModal as Modal } from "../../components/Modal/Modal";
 
 interface RouteParams {

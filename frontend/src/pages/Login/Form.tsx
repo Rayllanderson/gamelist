@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
 import '../../styles/components/login.css';
-import { AuthContext } from '../../contexts/AuthContext';
-import { ToastContext } from '../../contexts/ToastContext';
+import { AuthContext } from '../../hooks/AuthContext';
+import { ToastContext } from '../../hooks/ToastContext';
 import { FiLock, FiUser } from 'react-icons/fi';
 import * as Yup from 'yup';
 import { Input } from '../../components/Inputs/login/Input';
-import { LoadingContext } from '../../contexts/LoadingContext';
+import { LoadingContext } from '../../hooks/LoadingContext';
 import { Button } from '../../components/Button/Index';
 import { LoaderCircle } from '../../components/Loaders/Index';
 

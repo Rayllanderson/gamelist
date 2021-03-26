@@ -1,8 +1,8 @@
-import { Game } from "../contexts/GameContext";
+import { Game } from "../hooks/GameContext";
 import api from "./api";
 import authHeader from "./auth";
 
-export default class GameApi {
+export default class GameController {
 
   findAll() {
     return api.get('/games', { headers: authHeader() });

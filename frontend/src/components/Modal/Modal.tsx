@@ -1,7 +1,7 @@
 import { ReactNode, useContext } from "react";
 import { Modal } from "react-bootstrap";
-import { AlertContext } from "../../contexts/AlertContext";
-import { LoadingContext } from "../../contexts/LoadingContext";
+import { AlertContext } from "../../hooks/AlertContext";
+import { LoadingContext } from "../../hooks/LoadingContext";
 import MyAlert from "../Alert/Alert";
 import { Button } from "../Button/Index";
 import { LoaderCircleButton } from "../Loaders/Index";

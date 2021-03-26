@@ -18,9 +18,9 @@ interface ModalContextData {
 export const ModalContext = createContext<ModalContextData>({} as ModalContextData);
 
 export function ModalProvider({ children }: ModalProviderProps) {
-  const { closeAlert } = useContext(AlertContext)
+  const { closeAlert } = useContext(AlertContext);
   const [show, setShow] = useState(false);
-  const [showDelete, setShowDelete] = useState(false)
+  const [showDelete, setShowDelete] = useState(false);
   const showModal = () => { setShow(true) };
   const showDeleteModal = () => { setShowDelete(true) };
   const closeModal = () => {

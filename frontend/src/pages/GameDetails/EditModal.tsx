@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Input, InputSelect } from "../../components/Inputs/modal/Inputs";
-import { GameContext } from "../../contexts/GameContext";
+import { GameContext } from "../../hooks/GameContext";
 
 export default function EditModal() {
 
