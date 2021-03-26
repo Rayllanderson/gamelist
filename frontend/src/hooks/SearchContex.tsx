@@ -1,6 +1,6 @@
 
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
-import GameApi from '../services/game-api';
+import GameController from '../services/game-api';
 import { GameContext } from './GameContext';
 import { ToastContext } from './ToastContext';
 
@@ -40,7 +40,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
   function handleSubmit(e: any) {
     e.preventDefault(); 
     canSearch &&
-      new GameApi().findByName(search)
+      new GameController().findByName(search)
         .then(response => {
           setGames(response.data);
           handleEmptyData(response.data, search)

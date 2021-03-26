@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GameContext } from '../../contexts/GameContext';
+import { GameContext } from '../../hooks/GameContext';
 import '../../styles/components/main.css';
 
 export function Footer() {

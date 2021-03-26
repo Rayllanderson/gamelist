@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 import { useHistory } from 'react-router'
-import GameApi from '../services/game-api';
+import GameController from '../services/game-api';
 import { getFirstError } from '../utils/fomart-error';
 import { AlertContext } from './AlertContext';
 import { LoadingContext } from './LoadingContext';
@@ -26,7 +26,7 @@ interface GameContextData {
   setGames(games: Game[]): void;
   handleStartDateChange(e: any): void;
   handleEndDateChange(e: any): void;
-  endDate: string
+  endDate: string;
   startDate: string;
   loadGame(id: string): void;
   remove(id: string): void;
@@ -64,7 +64,7 @@ export function GameProvider({ children }: GameProviderProps) {
  
   const loadGame = useCallback(async (id: string) => {
     setIsLoading(true)
-    await new GameApi().findById(id)
+    await new GameController().findById(id)
       .then(response => {
         setSelectedGame(response.data);
       }).catch(err => console.log(err));
@@ -73,7 +73,7 @@ export function GameProvider({ children }: GameProviderProps) {
 
   const loadGames = useCallback(async () => {
     setIsLoading(true);
-    await new GameApi().findAll()
+    await new GameController().findAll()
       .then(response => {
         setGames(response.data)
       }).catch(err => {
@@ -95,6 +95,8 @@ export function GameProvider({ children }: GameProviderProps) {
     showModal();
     setAction('post');
     setName('')
+    setStartDate('')
+    setEndDate('')
     setStatus(GameStatus.WISH)
   }
 
@@ -104,7 +106,7 @@ export function GameProvider({ children }: GameProviderProps) {
 
   const handleDeleteSubmit = useCallback(async (id: string, e: any) => {
     e.preventDefault();
-    const api = new GameApi();
+    const api = new GameController();
     setBtnIsLoading(true);
     await api.delete(id).then(() => {
       closeDeleteModal();
@@ -126,13 +128,14 @@ export function GameProvider({ children }: GameProviderProps) {
 
   const handleSubmit = useCallback(async (e: any) => {
     e.preventDefault();
-    const api = new GameApi();
+    const api = new GameController();
     const data: Omit<Game, 'id'> = {
       name: name,
       status: status,
       startDate: startDate,
       endDate: endDate
     }
+    console.log(startDate)
     if (action === 'post') {
       setBtnIsLoading(true);
       await api.post(data).then(() => {
@@ -194,7 +197,7 @@ export function GameProvider({ children }: GameProviderProps) {
       edit, save,
       games, setGames,
       handleStartDateChange, handleEndDateChange,
-      endDate, startDate, loadGame, remove, handleDeleteSubmit
+      endDate, startDate, loadGame, remove, handleDeleteSubmit,
     }} >
       {children}
     </GameContext.Provider>

@@ -1,6 +1,6 @@
 import { FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { Game } from "../../../contexts/GameContext";
+import { Game } from "../../../hooks/GameContext";
 import { CardGame } from "./styles";
 
 interface Props {

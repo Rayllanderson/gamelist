@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { SearchContext } from "../../contexts/SearchContex"
+import { SearchContext } from "../../hooks/SearchContex"
 
 export function Search() {
   

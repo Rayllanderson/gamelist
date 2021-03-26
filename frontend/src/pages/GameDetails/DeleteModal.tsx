@@ -1,4 +1,4 @@
-import { Game } from "../../contexts/GameContext"
+import { Game } from "../../hooks/GameContext"
 
 type Props = {
   selectedGame: Game;
