@@ -1,27 +1,51 @@
 import Header from "../../components/Header/Index";
 import { Container, AccountContent, ButtonGroup } from "./style";
 import { FcLandscape } from "react-icons/fc";
-import { Chart } from '../../components/Chart/Index'
 import './style.css'
 import { useCallback, useContext, useState } from "react";
-import api from "../../services/api";
 import { ToastContext } from "../../hooks/ToastContext";
 import { MyModal } from "../../components/Modal/Modal";
 import { UpdateDataModal } from "./Modals";
 import { ModalContext } from "../../hooks/ModalContext";
-import { GameContext } from "../../hooks/GameContext";
+import UserController from "../../services/user-controller";
+import { AlertContext } from "../../hooks/AlertContext";
 
 export default function Account() {
   const { show, closeModal, showModal } = useContext(ModalContext);
-  const { games } = useContext(GameContext);
+  // const { games } = useContext(GameContext);
   const { addToast } = useContext(ToastContext);
+  const { showAlert } = useContext(AlertContext);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
 
-  const handleSubmit = useCallback(async () => {
-    api.put('/update', {}) //todo: criar user controller...
+  const updateUserData = useCallback(() => {
+    const api = new UserController();
+    api.getUserDetails()
+      .then(response => {
+        localStorage.setItem('@GameList:user',
+        JSON.stringify(response.data))
+      })
   }, [])
+
+  const handleSubmit = useCallback(async () => {
+    const api = new UserController();
+    await api.put('update', {
+      name: name,
+      username: username,
+      email: email
+    }).then(() => {
+      addToast({
+        type: 'success',
+        title: 'Feito!',
+        description: "Seus dados foram atualizados!",
+      })
+      closeModal();
+      updateUserData();
+    }).catch(err =>
+      showAlert(err.response.data.message)
+    )
+  }, [addToast, closeModal, email, name, showAlert, updateUserData, username])
 
   function handleNameChange(e: any) {
     setName(e.target.value);
@@ -33,12 +57,17 @@ export default function Account() {
     setEmail(e.target.value);
   }
 
-  function editData() {
-    showModal();
-  }
-
   const user = JSON.parse(localStorage.getItem('@GameList:user') || '');
   const userName = user.name ? user.name : 'Convidado';
+  const userEmail = user.email;
+
+  function editData() {
+    showModal();
+    setName(user.name);
+    setEmail(user.email);
+    setUsername(user.username);
+  }
+
   /*
   const containsGames = !(games.length === 0);
         {containsGames ? (
@@ -62,7 +91,7 @@ export default function Account() {
           </div>
           <div className="user-infos mt-2">
             <strong className="name">{userName}</strong>
-            <p className="email">useremail@email.com</p>
+            <p className="email">{userEmail}</p>
           </div>
           <ButtonGroup>
             <button className="btn btn-comment" onClick={editData}>Editar dados</button>

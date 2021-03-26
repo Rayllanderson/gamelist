@@ -43,8 +43,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const response = await api.post('login', {
       username, password
     });
-    const { token, name } = response.data;
-    const user = { username, name };
+    const { token, name, email } = response.data;
+    const user = { username, name, email };
     localStorage.setItem('@GameList:token', token);
     localStorage.setItem('@GameList:user', JSON.stringify(user));
     setData({ token, user });
