@@ -26,10 +26,9 @@ export function Chart() {
   return (
     <RadialChart colorRange={['#ff79c6', '#1ca9c9', '#ffb86c']}
       data={myData}
-      width={250}
-      height={250}
+      width={240}
+      height={240}
       showLabels
-      animation
     />
   )
 }

@@ -1,0 +1,30 @@
+.image {
+    border-radius: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 10px;
+}
+
+.image svg {
+    padding: 5px;
+}
+
+.user-infos {
+    text-align: center;
+    color: var(--foreground);
+}
+
+.user-infos .name {
+    margin-top: 21px;
+    text-align: center;
+    font-size: 1.27rem;
+    color: var(--foreground);
+}
+
+.rv-xy-plot__series--label {
+    fill: white;
+}
+
+.stats {
+  margin-top: 41px;
+  color: var(--foreground)
+}

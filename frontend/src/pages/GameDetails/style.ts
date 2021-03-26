@@ -5,23 +5,6 @@ export const GameContent = styled.div`
     animation: appearFromLeft 1s;
 `;
 
-export const Header = styled.div`
-  a{
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--foreground);
-    transition: color 0.2s;
-    &:hover{
-      color: #d1d1d1
-    }
-    svg {
-      margin-right: 4px;
-    }
-  }
-`
-
 export const Container = styled.div `
     margin-top: 80px;
     background: var(--current-line);

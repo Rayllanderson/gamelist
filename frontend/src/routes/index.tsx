@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch } from 'react-router';
+import Account from '../pages/Account/Index';
 import { ForgetPassword } from '../pages/ForgetPassword/Index';
 import GameDetails from '../pages/GameDetails/Index';
 import { Login } from '../pages/Login/Index';
@@ -15,6 +16,7 @@ const Routes: React.FC = () => (
     <Route path="/games" exact component={Home} isPrivate hasNavBar />
     <Route path="/games/status/:status" exact component={Home} isPrivate hasNavBar/>
     <Route path="/games/:id" component={GameDetails} isPrivate hasNavBar/>
+    <Route path="/my-account" exact component={Account} hasNavBar isPrivate />
   </Switch>
 )
 
