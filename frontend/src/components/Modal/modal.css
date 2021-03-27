@@ -13,7 +13,7 @@
     background-color: var(--background)!important;
 }
 
-.btn-close {
+.btn-close svg {
     color: var(--foreground);
 }
 

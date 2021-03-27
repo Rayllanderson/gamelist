@@ -1,7 +1,3 @@
-.container {
-    max-width: 750px;
-}
-
 .main-content {
     animation: appearFromRight 1s;
 }
