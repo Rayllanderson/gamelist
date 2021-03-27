@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rayllanderson</groupId>
-	<artifactId>lista-jogos</artifactId>
+	<artifactId>game-list</artifactId>
 	<version>2.5.0 (SNAPSHOT)</version>
-	<name>lista-jogos</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Game List</name>
+	<description>Game List API REST Project</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
