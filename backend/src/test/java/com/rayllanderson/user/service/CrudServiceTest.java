@@ -5,6 +5,7 @@ import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import com.rayllanderson.model.entities.Role;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.RoleType;
+import com.rayllanderson.model.exceptions.EmailExistsException;
 import com.rayllanderson.model.exceptions.UsernameExistsException;
 import com.rayllanderson.model.repositories.GameRepository;
 import com.rayllanderson.model.repositories.UserRepository;
@@ -41,7 +42,7 @@ public class CrudServiceTest {
 
     @Test
     public void crud() {
-        User user = new User(null, "rayllanderson@gmail.com", "rayllanderson154", "whatever123", "Ray");
+        User user = new User(null, "rayllanderson542@gmail.com", "rayllanderson154", "whatever123", "Ray");
         UserDetailsDTO userDTO = service.save(UserDTO.create(user));
 
         assertNotNull(userDTO);
@@ -69,6 +70,13 @@ public class CrudServiceTest {
     public void register() {
         String username = "rayllanderson12";
         User u = new User(null, "rayllanderson@gmail.com", username, "whatever123", "Ray");
+
+        assertThatThrownBy(() -> {
+            service.register(UserDTO.create(u));
+        }).isInstanceOf(EmailExistsException.class);
+
+        u.setEmail("anotherone@email.com");
+
         UserDetailsDTO userDTO = service.register(UserDTO.create(u));
 
         User user = (User) userDetailsService.loadUserByUsername(username);
@@ -87,7 +95,7 @@ public class CrudServiceTest {
     @Test
     public void registerAdmin() {
         String username = "rayllanderson1";
-        User u = new User(null, "rayllanderson@gmail.com", username, "whatever123", "Ray");
+        User u = new User(null, "rayllanderson2@gmail.com", username, "whatever123", "Ray");
         UserDetailsDTO userDTO = service.registerAnAdmin(UserDTO.create(u));
 
         User user = (User) userDetailsService.loadUserByUsername(username);
@@ -140,6 +148,18 @@ public class CrudServiceTest {
 
         assertNotNull(service.update(UserDetailsDTO.create(newUser), userId));
         assertEquals(service.find(userId).getUsername(), inexistentUsername);
+    }
+
+    @Test
+    void testeEmail(){
+        String username = "rayllanderson1421";
+        User u = new User(null, "rayllanderson@gmail.com", username, "whatever123", "Ray");
+        assertThatThrownBy(() -> {
+            service.save(UserDTO.create(u));
+        }).isInstanceOf(EmailExistsException.class);
+        u.setEmail("another@email.com");
+        UserDetailsDTO dto = service.save(UserDTO.create(u));
+        assertNotNull(dto);
     }
 
 }

@@ -10,7 +10,7 @@ import com.rayllanderson.model.entities.enums.RoleType;
 import com.rayllanderson.model.exceptions.UsernameExistsException;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
-import com.rayllanderson.model.util.Assert;
+import com.rayllanderson.model.utils.Assert;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,9 +32,13 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private EmailService emailService;
+
     @Transactional(propagation = Propagation.REQUIRED)
     public UserDetailsDTO save(UserDTO userDto) throws IllegalArgumentException {
         Assert.usernameNotExists(userDto.getUsername(), repository);
+        Assert.emailNotExists(userDto.getEmail(), repository);
         Assert.validPassword(userDto);
         User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
@@ -49,6 +54,7 @@ public class UserService {
 
     public UserDetailsDTO registerAnAdmin(UserDTO userDto) throws IllegalArgumentException {
         Assert.usernameNotExists(userDto.getUsername(), repository);
+        Assert.emailNotExists(userDto.getEmail(), repository);
         Assert.validPassword(userDto);
         User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
@@ -66,16 +72,21 @@ public class UserService {
         return UserDTO.create(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado.")));
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<GameDTO> findGamesByUserId(Long id) throws ObjectNotFoundException {
-        User user = repository.findByIdWithGames(id).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado."));
-        return user.getGames().stream().map(GameDTO::create).collect(Collectors.toList());
-    }
-
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteById(Long id) throws ObjectNotFoundException {
         findById(id);
         repository.deleteById(id);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void resetPassword(String email) {
+        System.out.println(email);
+        User user = repository.findByEmail(email).orElseThrow(() ->
+                new ObjectNotFoundException("Email não cadastrado na base de dados."));
+        String newPassword = generateNewPassword();
+        emailService.sendResetPassEmail(user.getEmail(), newPassword);
+        user.setPassword(encoder.encode(newPassword));
+        repository.save(user);
     }
 
     /**
@@ -90,9 +101,13 @@ public class UserService {
      */
     public UserDetailsDTO update(UserDetailsDTO user, Long userId) throws UsernameExistsException {
         UserDTO userFromDataBase = this.find(userId);
-        boolean hasUpdateUsername = !Assert.sameUsername(user.getUsername(), userFromDataBase.getUsername());
+        boolean hasUpdateUsername = !Assert.sameField(user.getUsername(), userFromDataBase.getUsername());
+        boolean hasUpdateEmail = !Assert.sameField(user.getEmail(), userFromDataBase.getEmail());
         if (hasUpdateUsername) {
             Assert.usernameNotExists(user.getUsername(), repository);
+        }
+        if (hasUpdateEmail) {
+            Assert.emailNotExists(user.getEmail(), repository);
         }
         updateData(user, userFromDataBase);
         return update(userFromDataBase);
@@ -135,5 +150,9 @@ public class UserService {
 
     private void updatePassword(UserDTO source, UserDTO target) {
         BeanUtils.copyProperties(source, target, "id", "name", "email", "username");
+    }
+
+    private String generateNewPassword() {
+        return Long.toHexString(Double.doubleToLongBits(Math.random()));
     }
 }

@@ -30,7 +30,7 @@ class ServiceTests {
 
     @Test
    void crud (){
-        User user = new User(null, "rayllanderson@gmail.com", "rayllanderson321", "whatever123", "Ray");
+        User user = new User(null, "rayllanderson2@gmail.com", "rayllanderson321", "whatever123", "Ray");
         user = userService.fromDTO(userService.save(UserDTO.create(user)));
         Date date = new Date();
         Game  game = new Game(null, "Nier automata", date, date, GameStatus.COMPLETED, user);
