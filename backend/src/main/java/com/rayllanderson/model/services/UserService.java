@@ -101,11 +101,7 @@ public class UserService {
      */
     public UserDetailsDTO update(UserDetailsDTO user, Long userId) throws UsernameExistsException {
         UserDTO userFromDataBase = this.find(userId);
-        boolean hasUpdateUsername = !Assert.sameField(user.getUsername(), userFromDataBase.getUsername());
         boolean hasUpdateEmail = !Assert.sameField(user.getEmail(), userFromDataBase.getEmail());
-        if (hasUpdateUsername) {
-            Assert.usernameNotExists(user.getUsername(), repository);
-        }
         if (hasUpdateEmail) {
             Assert.emailNotExists(user.getEmail(), repository);
         }
@@ -145,7 +141,7 @@ public class UserService {
     }
 
     private void updateData(UserDetailsDTO source, UserDTO target) {
-        BeanUtils.copyProperties(source, target, "id", "password");
+        BeanUtils.copyProperties(source, target, "id", "password", "username");
     }
 
     private void updatePassword(UserDTO source, UserDTO target) {

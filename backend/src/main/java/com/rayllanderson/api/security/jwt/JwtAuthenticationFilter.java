@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException error) throws IOException, ServletException {
 
-        String json = ServletUtil.getJson("error", "Login ou senha inválidos.");
+        String json = ServletUtil.getJson("message", "Login ou senha inválidos.");
         ServletUtil.write(response, HttpStatus.BAD_REQUEST, json);
     }
 

@@ -4,6 +4,7 @@ import com.rayllanderson.api.util.UserUtil;
 import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
+import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,4 +72,8 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/user-details")
+    public ResponseEntity<UserDetailsDTO> getUserDetails (@AuthenticationPrincipal UserDetails userDetails){
+        return ResponseEntity.ok(UserDetailsDTO.create((User) userDetails));
+    }
 }

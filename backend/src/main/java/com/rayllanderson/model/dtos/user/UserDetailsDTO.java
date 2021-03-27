@@ -4,11 +4,13 @@ import com.rayllanderson.model.entities.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class UserDetailsDTO {
 
     private Long id;
