@@ -1,4 +1,4 @@
-package com.rayllanderson.model.util;
+package com.rayllanderson.model.utils;
 
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;

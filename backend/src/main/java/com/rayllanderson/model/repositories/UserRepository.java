@@ -11,10 +11,9 @@ import java.util.Optional;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("from User as u LEFT JOIN FETCH u.games where u.id = ?1")
-    Optional<User> findByIdWithGames(Long id);
-
     Optional<User> findByUsername(String username);
+
+    Optional<User> findByEmail(String email);
 
     @Query("select u.id from User as u where u.username = ?1")
     Optional<Long> getIdByUsername(String username);

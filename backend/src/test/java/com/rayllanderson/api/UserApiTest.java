@@ -51,7 +51,7 @@ public class UserApiTest extends BaseApiTest {
     @Test
     public void testUpdatePassword(){
         Long userId = 1L;
-        String name = "Ray";
+        String name = "Ray67dowmoclwm";
 
         String newPassword = encoder.encode("ray123");
         String oldPassword = userService.find(userId).getPassword();

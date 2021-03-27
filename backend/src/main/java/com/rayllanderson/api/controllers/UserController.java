@@ -39,12 +39,6 @@ public class UserController {
         return ResponseEntity.ok(userService.findById(id));
     }
 
-    @Secured({"ROLE_ADMIN"})
-    @GetMapping("/{id}/games")
-    public ResponseEntity<List<GameDTO>> findGamesByUserId(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.findGamesByUserId(id));
-    }
-
     @PostMapping
     public ResponseEntity<UserDetailsDTO> register(@RequestBody UserDTO user) {
         UserDetailsDTO dto = userService.register(user);
@@ -53,14 +47,14 @@ public class UserController {
     }
 
     @PutMapping("/update/password")
-    public ResponseEntity<Void> updatePassword(@RequestBody UserDTO user,
-                                               @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Void> updatePassword(@RequestBody UserDTO user, @AuthenticationPrincipal UserDetails userDetails) {
         userService.updatePassword(user, UserUtil.getUserId(userDetails, userRepository));
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateNameOrUsername(@RequestBody UserDetailsDTO user, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Void> updateNameOrUsername(@RequestBody UserDetailsDTO user,
+                                                     @AuthenticationPrincipal UserDetails userDetails) {
         userService.update(user, UserUtil.getUserId(userDetails, userRepository));
         return ResponseEntity.noContent().build();
     }
@@ -71,11 +65,10 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/forget-password")
-    public ResponseEntity<UserDetailsDTO> forgetPassword(@RequestBody String email) {
-//        UserDetailsDTO dto = userService.register(user);
-//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-        return null;
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody UserDTO user) {
+        userService.resetPassword(user.getEmail());
+        return ResponseEntity.noContent().build();
     }
 
 }
