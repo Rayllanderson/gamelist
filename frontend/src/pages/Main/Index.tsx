@@ -16,7 +16,7 @@ interface RouteParams {
 
 function Home() {
   const { handleSubmit } = useContext(GameContext);
-  const {show, closeModal} = useContext(ModalContext)
+  const { showFirst, closeFirstModal: closeModal} = useContext(ModalContext)
   const params = useParams<RouteParams>();
   return (
     <div>
@@ -36,7 +36,7 @@ function Home() {
         <Footer />
       </div>
 
-      <Modal show={show} closeModal={closeModal}
+      <Modal show={showFirst} closeModal={closeModal}
         title='Novo jogo'
         submitEvent={handleSubmit}
         successBtnText="Salvar">
