@@ -46,10 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
-        final String GET_USERS = "/api/v1.0/users";
-        final String GET_USER_BY_ID = "/api/v1.0/users/{id}";
-
-
         if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
         }
@@ -62,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1.0/users", "/api/v1.0/users/reset-password")
                 .permitAll()
-                .antMatchers("/h2-console/**").permitAll()
+//                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .addFilter(new JwtAuthenticationFilter(authManager))

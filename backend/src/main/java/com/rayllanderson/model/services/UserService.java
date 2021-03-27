@@ -1,14 +1,12 @@
 package com.rayllanderson.model.services;
 
 
-import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import com.rayllanderson.model.entities.Role;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.RoleType;
 import com.rayllanderson.model.exceptions.UsernameExistsException;
-import com.rayllanderson.model.repositories.GameRepository;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 import com.rayllanderson.model.utils.Assert;
@@ -19,10 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {

@@ -1,12 +1,9 @@
 package com.rayllanderson.api.exceptions;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 
 @Data
 public class StandardError implements Serializable{

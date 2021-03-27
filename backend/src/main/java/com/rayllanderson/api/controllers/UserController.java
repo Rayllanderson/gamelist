@@ -1,7 +1,6 @@
 package com.rayllanderson.api.controllers;
 
 import com.rayllanderson.api.util.UserUtil;
-import com.rayllanderson.model.dtos.game.GameDTO;
 import com.rayllanderson.model.dtos.user.UserDTO;
 import com.rayllanderson.model.dtos.user.UserDetailsDTO;
 import com.rayllanderson.model.entities.User;
@@ -9,7 +8,6 @@ import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;

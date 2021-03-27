@@ -9,9 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rayllanderson</groupId>
-	<artifactId>Game-List</artifactId>
-	<version>2.5.0 (SNAPSHOT)</version>
-	<name>Game List</name>
+	<artifactId>gamelist</artifactId>
+	<name>GameList</name>
 	<description>Game List API REST Project</description>
 	<properties>
 		<java.version>11</java.version>
@@ -116,6 +115,8 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+
+
 
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
 		<dependency>
