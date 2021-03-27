@@ -60,10 +60,11 @@ export function Form() {
         })
       })
       .catch(err => {
+        const message = err.response.data.message ? err.response.data.message : 'Erro desconhecido';
         addToast({
           type: "error",
           title: "Erro",
-          description: err.response.data.message,
+          description: message,
         })
       });
     setBtnIsLoading(false);
