@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 @Getter
 @Setter
 @NoArgsConstructor
+/**
+ * Used to register an user
+ */
 public class UserDTO {
 
     private Long id;

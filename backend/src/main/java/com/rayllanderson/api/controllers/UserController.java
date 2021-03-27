@@ -71,5 +71,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/forget-password")
+    public ResponseEntity<UserDetailsDTO> forgetPassword(@RequestBody String email) {
+//        UserDetailsDTO dto = userService.register(user);
+//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        return null;
+    }
 
 }

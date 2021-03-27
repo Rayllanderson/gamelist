@@ -1,6 +1,7 @@
 package com.rayllanderson.api.exceptions;
 
 import com.rayllanderson.model.entities.enums.GameStatus;
+import com.rayllanderson.model.exceptions.EmailExistsException;
 import com.rayllanderson.model.exceptions.UsernameExistsException;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -48,8 +49,8 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(UsernameExistsException.class)
-    ResponseEntity<StandardError> handleUsernameExists(UsernameExistsException e, HttpServletRequest request) {
+    @ExceptionHandler({EmailExistsException.class, UsernameExistsException.class})
+    ResponseEntity<StandardError> handleUsernameExists(RuntimeException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(status.value(), "Bad Request", Arrays.asList(e.getMessage()), request.getRequestURI());
         return ResponseEntity.status(status).body(err);

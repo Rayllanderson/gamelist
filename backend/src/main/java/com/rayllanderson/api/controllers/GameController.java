@@ -46,6 +46,7 @@ public class GameController {
 
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody GameDTO game, @AuthenticationPrincipal UserDetails user) {
+//        System.out.println(game);
         game = service.save(game, UserUtil.getUserId(user, userRepository));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(game.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -58,7 +59,7 @@ public class GameController {
     }
 
     @PutMapping("/{id}/{status}")
-    public ResponseEntity<Void> setWished(@PathVariable Long id, @PathVariable GameStatus status, @AuthenticationPrincipal UserDetails user) {
+    public ResponseEntity<Void> setStatus(@PathVariable Long id, @PathVariable GameStatus status, @AuthenticationPrincipal UserDetails user) {
         service.updateStatus(id, status, UserUtil.getUserId(user, userRepository));
         return ResponseEntity.noContent().build();
     }

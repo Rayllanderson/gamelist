@@ -13,6 +13,7 @@ public class UserTokenDTO {
 
     private String username;
     private String name;
+    private String email;
     private String token;
 
     public static UserTokenDTO create(User user, String token){

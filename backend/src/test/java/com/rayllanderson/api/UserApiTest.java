@@ -49,7 +49,7 @@ public class UserApiTest extends BaseApiTest {
     }
 
     @Test
-    public void udatePassword(){
+    public void testUpdatePassword(){
         Long userId = 1L;
         String name = "Ray";
 
@@ -117,7 +117,7 @@ public class UserApiTest extends BaseApiTest {
     }
 
     @Test
-    public void updateUsername(){
+    public void testUpdateUsername(){
         Long userId = 1L;
         String name = "Ray67dowmoclwm";
 
@@ -125,10 +125,14 @@ public class UserApiTest extends BaseApiTest {
         String username = "rayllanderson"; //mantendo o mesmo username
         String email = "any@email.com";
         user.setUsername(username);
-        user.setEmail(email);
+        user.setEmail("José@gmail.com");
         user.setName(name);
 
-        assertEquals(HttpStatus.NO_CONTENT, put(API_URL + "/update", user, null).getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, put(API_URL + "/update", user, null).getStatusCode()); //email existe teste FAIL
+
+        user.setEmail(email);
+        assertEquals(HttpStatus.NO_CONTENT, put(API_URL + "/update", user, null).getStatusCode()); //email nao existe teste OK
+
 
         UserDetailsDTO userFromAPI = getUser(API_URL + "/" + userId).getBody();
 
