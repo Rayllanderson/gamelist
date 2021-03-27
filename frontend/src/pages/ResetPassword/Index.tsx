@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Logo } from '../Login/Logo';
 
-export function ForgetPassword() {
+export default function ResetPassword() {
   return (
     <div className="container container-login mt-5">
       <Logo />
