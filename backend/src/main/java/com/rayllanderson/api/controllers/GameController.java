@@ -46,7 +46,6 @@ public class GameController {
 
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody GameDTO game, @AuthenticationPrincipal UserDetails user) {
-//        System.out.println(game);
         game = service.save(game, UserUtil.getUserId(user, userRepository));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(game.getId()).toUri();
         return ResponseEntity.created(uri).build();

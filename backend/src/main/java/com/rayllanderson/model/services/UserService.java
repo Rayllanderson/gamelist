@@ -8,6 +8,7 @@ import com.rayllanderson.model.entities.Role;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.RoleType;
 import com.rayllanderson.model.exceptions.UsernameExistsException;
+import com.rayllanderson.model.repositories.GameRepository;
 import com.rayllanderson.model.repositories.UserRepository;
 import com.rayllanderson.model.services.exceptions.ObjectNotFoundException;
 import com.rayllanderson.model.utils.Assert;
@@ -28,6 +29,9 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private GameService gameService;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -75,12 +79,12 @@ public class UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteById(Long id) throws ObjectNotFoundException {
         findById(id);
+        gameService.findAll(id).forEach(x -> gameService.deleteById(x.getId(), id));
         repository.deleteById(id);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void resetPassword(String email) {
-        System.out.println(email);
         User user = repository.findByEmail(email).orElseThrow(() ->
                 new ObjectNotFoundException("Email não cadastrado na base de dados."));
         String newPassword = generateNewPassword();

@@ -135,19 +135,21 @@ public class CrudServiceTest {
 
         newUser.setUsername(existingUsername);
 
+       /*
+        função de alterar username desativada for while.
         assertThatThrownBy(() ->{
             service.update(UserDetailsDTO.create(newUser), userId);
         }).isInstanceOf(UsernameExistsException.class);
 
-        //verificando se realmente não mudou
         assertEquals(service.find(userId).getUsername(), username);
+*/
+//
+//        //agora vamos mudar
+//        String inexistentUsername = "432424242d";
+//        newUser.setUsername(inexistentUsername);
 
-        //agora vamos mudar
-        String inexistentUsername = "432424242d";
-        newUser.setUsername(inexistentUsername);
-
-        assertNotNull(service.update(UserDetailsDTO.create(newUser), userId));
-        assertEquals(service.find(userId).getUsername(), inexistentUsername);
+//        assertNotNull(service.update(UserDetailsDTO.create(newUser), userId));
+//        assertEquals(service.find(userId).getUsername(), inexistentUsername);
     }
 
     @Test
