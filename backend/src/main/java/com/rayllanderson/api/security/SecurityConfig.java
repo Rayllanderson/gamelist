@@ -26,7 +26,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -59,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/v1.0/users", "/api/v1.0/users/reset-password")
                 .permitAll()
 //                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1.0/users", "/api/v1.0/users/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .addFilter(new JwtAuthenticationFilter(authManager))
