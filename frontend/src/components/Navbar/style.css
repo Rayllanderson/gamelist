@@ -1,0 +1,23 @@
+.content {
+    max-width: 750px;
+}
+
+.drop-menu {
+    background: var(--current-line);
+    min-width: 105px
+}
+
+.drop-menu a {
+    color: var(--foreground);
+}
+
+.drop-menu a:hover {
+    color: var(--foreground);
+    background: var(--pink);
+}
+
+@media(max-width: 768px) {
+    .drop-menu a {
+        font-size: 1.2rem;
+    }
+}

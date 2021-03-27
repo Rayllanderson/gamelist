@@ -1,5 +1,5 @@
 import { FiAlertCircle, FiXCircle, FiCheckCircle, FiInfo } from "react-icons/fi";
-import { ToastContext, ToastMessage } from "../../contexts/ToastContext";
+import { ToastContext, ToastMessage } from "../../hooks/ToastContext";
 import { useContext, useEffect } from 'react';
 
 interface Props {

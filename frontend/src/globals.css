@@ -21,6 +21,9 @@ body {
     background: var(--background) no-repeat 70% top;
     ;
 }
+.container{
+    max-width: 750px;
+}
 
 body {
     zoom: 115%
