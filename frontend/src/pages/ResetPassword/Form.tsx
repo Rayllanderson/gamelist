@@ -19,20 +19,21 @@ export default function Form() {
   async function handleSubmit(e: any) {
     setBtnIsLoading(true)
     email ?
-      await api.post('/forget-password', { email: email })
+      await api.post('/users/reset-password', { email: email })
         .then(() =>
           addToast({
             type: 'success',
             title: 'Email enviado.',
             description: "Sua nova senha foi enviada para o email cadastrado. Cheque sua caixa de emails.",
           })
-        ).catch(err =>
+        ).catch(err => {
+          const message = err.response.data.message ? err.response.data.message : 'Erro desconhecido';
           addToast({
             type: 'error',
             title: 'Erro',
-            description: err.response.data.error,
+            description: message,
           })
-        )
+        })
       :
       addToast({
         type: 'info',
