@@ -34,6 +34,7 @@ public class UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public UserDetailsDTO save(UserDTO userDto) throws IllegalArgumentException {
         Assert.usernameNotExists(userDto.getUsername(), repository);
+        Assert.emailNotExists(userDto.getEmail(), repository);
         Assert.validPassword(userDto);
         User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
@@ -49,6 +50,7 @@ public class UserService {
 
     public UserDetailsDTO registerAnAdmin(UserDTO userDto) throws IllegalArgumentException {
         Assert.usernameNotExists(userDto.getUsername(), repository);
+        Assert.emailNotExists(userDto.getEmail(), repository);
         Assert.validPassword(userDto);
         User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
@@ -90,9 +92,13 @@ public class UserService {
      */
     public UserDetailsDTO update(UserDetailsDTO user, Long userId) throws UsernameExistsException {
         UserDTO userFromDataBase = this.find(userId);
-        boolean hasUpdateUsername = !Assert.sameUsername(user.getUsername(), userFromDataBase.getUsername());
+        boolean hasUpdateUsername = !Assert.sameField(user.getUsername(), userFromDataBase.getUsername());
+        boolean hasUpdateEmail = !Assert.sameField(user.getEmail(), userFromDataBase.getEmail());
         if (hasUpdateUsername) {
             Assert.usernameNotExists(user.getUsername(), repository);
+        }
+        if (hasUpdateEmail) {
+            Assert.emailNotExists(user.getEmail(), repository);
         }
         updateData(user, userFromDataBase);
         return update(userFromDataBase);
