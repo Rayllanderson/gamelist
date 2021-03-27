@@ -5,19 +5,20 @@ import './style.css'
 import { useCallback, useContext, useState } from "react";
 import { ToastContext } from "../../hooks/ToastContext";
 import { MyModal } from "../../components/Modal/Modal";
-import { UpdateDataModal } from "./Modals";
+import { ChangePasswordModal, UpdateDataModal } from "./Modals";
 import { ModalContext } from "../../hooks/ModalContext";
 import UserController from "../../services/user-controller";
 import { AlertContext } from "../../hooks/AlertContext";
 
 export default function Account() {
-  const { show, closeModal, showModal } = useContext(ModalContext);
+  const { showFirst, closeFirstModal, showFirstModal, showSeccond, 
+  closeSeccondModal, showSeccondModal } = useContext(ModalContext);
   // const { games } = useContext(GameContext);
   const { addToast } = useContext(ToastContext);
   const { showAlert } = useContext(AlertContext);
   const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const updateUserData = useCallback(() => {
     const api = new UserController();
@@ -32,7 +33,6 @@ export default function Account() {
     const api = new UserController();
     await api.put('update', {
       name: name,
-      username: username,
       email: email
     }).then(() => {
       addToast({
@@ -40,21 +40,36 @@ export default function Account() {
         title: 'Feito!',
         description: "Seus dados foram atualizados!",
       })
-      closeModal();
+      closeFirstModal();
       updateUserData();
     }).catch(err =>
       showAlert(err.response.data.message)
     )
-  }, [addToast, closeModal, email, name, showAlert, updateUserData, username])
+  }, [addToast, closeFirstModal, email, name, showAlert, updateUserData])
+  
+  const handlePassSubmit = useCallback(async () => {
+    const api = new UserController();
+    await api.updatePassword(password).then(() => {
+      addToast({
+        type: 'success',
+        title: 'Feito!',
+        description: "Sua senha foi atualizada!",
+      })
+      closeSeccondModal();
+    }).catch(err =>
+      showAlert(err.response.data.message)
+    )
+  }, [addToast, closeSeccondModal, password, showAlert])
+
 
   function handleNameChange(e: any) {
     setName(e.target.value);
   }
-  function handleUsernameChange(e: any) {
-    setUsername(e.target.value);
-  }
   function handleEmailChange(e: any) {
     setEmail(e.target.value);
+  }
+  function handlePassChange(e: any) {
+    setPassword(e.target.value);
   }
 
   const user = JSON.parse(localStorage.getItem('@GameList:user') || '');
@@ -62,10 +77,9 @@ export default function Account() {
   const userEmail = user.email;
 
   function editData() {
-    showModal();
+    showFirstModal();
     setName(user.name);
     setEmail(user.email);
-    setUsername(user.username);
   }
 
   /*
@@ -95,19 +109,27 @@ export default function Account() {
           </div>
           <ButtonGroup>
             <button className="btn btn-comment" onClick={editData}>Editar dados</button>
-            <button className="btn btn-red" onClick={() => (null)}>Trocar senha</button>
+            <button className="btn btn-red" onClick={showSeccondModal}>Trocar senha</button>
           </ButtonGroup>
           <div className="mb-3"></div>
         </AccountContent>
 
-        <MyModal show={show} submitEvent={handleSubmit}
+        <MyModal show={showFirst} submitEvent={handleSubmit}
           successBtnText="Editar"
           title="Editar dados"
-          closeModal={closeModal}>
-          <UpdateDataModal handleUsernameChange={handleUsernameChange}
+          closeModal={closeFirstModal}>
+          <UpdateDataModal
             handleEmailChange={handleEmailChange} handleNameChange={handleNameChange}
-            name={name} email={email} username={username} />
+            name={name} email={email} />
         </MyModal>
+
+        <MyModal show={showSeccond} submitEvent={handlePassSubmit}
+          successBtnText="Alterar"
+          title="Alterar Senha"
+          closeModal={closeSeccondModal}>
+          <ChangePasswordModal password={password} handlePassChange={handlePassChange} />
+        </MyModal>
+
       </Container>
     </div>
   )

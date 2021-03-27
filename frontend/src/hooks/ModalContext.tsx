@@ -7,34 +7,35 @@ interface ModalProviderProps {
 }
 
 interface ModalContextData {
-  show: boolean;
-  showDelete: boolean;
-  showModal(): void;
-  closeModal(): void;
-  showDeleteModal(): void;
-  closeDeleteModal(): void
+  showFirst: boolean;
+  showSeccond: boolean;
+  showFirstModal(): void;
+  closeFirstModal(): void;
+  showSeccondModal(): void;
+  closeSeccondModal(): void
 }
 
 export const ModalContext = createContext<ModalContextData>({} as ModalContextData);
 
 export function ModalProvider({ children }: ModalProviderProps) {
   const { closeAlert } = useContext(AlertContext);
-  const [show, setShow] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
-  const showModal = () => { setShow(true) };
-  const showDeleteModal = () => { setShowDelete(true) };
-  const closeModal = () => {
+  const [showFirst, setShowFirst] = useState(false);
+  const [showSeccond, setShowSeccond] = useState(false);
+  const showFirstModal = () => { setShowFirst(true) };
+  const showSeccondModal = () => { setShowSeccond(true) };
+  
+  const closeFirstModal = () => {
     closeAlert();
-    setShow(false)
+    setShowFirst(false)
   };
-  const closeDeleteModal = () => {
+  const closeSeccondModal = () => {
     closeAlert();
-    setShowDelete(false)
+    setShowSeccond(false)
   };
 
   return (
     <ModalContext.Provider value={{
-      show, showModal, closeModal, showDelete, showDeleteModal, closeDeleteModal
+      showFirst, showSeccond, showFirstModal, closeFirstModal, showSeccondModal, closeSeccondModal
     }}>
       {children}
     </ModalContext.Provider>

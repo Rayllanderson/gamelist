@@ -60,7 +60,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const { addToast } = useContext(ToastContext);
   const { showAlert } = useContext(AlertContext);
   const { setIsLoading, setBtnIsLoading } = useContext(LoadingContext)
-  const { closeModal, showModal, showDeleteModal, closeDeleteModal } = useContext(ModalContext)
+  const { closeFirstModal: closeModal, showFirstModal: showModal, showSeccondModal: showDeleteModal, closeSeccondModal: closeDeleteModal } = useContext(ModalContext)
  
   const loadGame = useCallback(async (id: string) => {
     setIsLoading(true)
