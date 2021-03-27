@@ -3,6 +3,8 @@ package com.rayllanderson.model.entities;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.data.util.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -41,9 +43,6 @@ public class User implements Serializable, UserDetails {
     @Size(max = 150)
     private String name;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
-    private List<Game> games = new ArrayList<>();
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_name"))
@@ -55,14 +54,6 @@ public class User implements Serializable, UserDetails {
         this.username = username;
         this.password = password;
         this.name = name;
-    }
-
-    public void addGame(Game game) {
-        this.games.add(game);
-    }
-
-    public void addGames(List<Game> games){
-        games.addAll(games);
     }
 
     public void addRole(Role role){
