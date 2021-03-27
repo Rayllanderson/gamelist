@@ -17,7 +17,7 @@ interface RouteParams {
 function GameDetails() {
   const params = useParams<RouteParams>();
   const { edit, handleSubmit, selectedGame, loadGame, remove, handleDeleteSubmit, setSelectedGame } = useContext(GameContext);
-  const { show, closeModal, showDelete, closeDeleteModal } = useContext(ModalContext)
+  const { showFirst, closeFirstModal: closeModal, showSeccond: showDelete, closeSeccondModal: closeDeleteModal } = useContext(ModalContext)
   const { isLoading } = useContext(LoadingContext)
   const id = params.id;
 
@@ -73,7 +73,7 @@ function GameDetails() {
         </Container>
 
         <Modal
-          show={show} closeModal={closeModal}
+          show={showFirst} closeModal={closeModal}
           title="Editar Jogo"
           submitEvent={handleSubmit}
           successBtnText="Salvar">
