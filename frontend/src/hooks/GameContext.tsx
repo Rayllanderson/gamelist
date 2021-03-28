@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 import { useHistory } from 'react-router'
 import GameController from '../services/game-api';
-import { getFirstError } from '../utils/fomart-error';
+import { getErrMessage } from '../utils/fomart-error';
 import { AlertContext } from './AlertContext';
 import { LoadingContext } from './LoadingContext';
 import { ModalContext } from './ModalContext';
@@ -61,7 +61,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const { showAlert } = useContext(AlertContext);
   const { setIsLoading, setBtnIsLoading } = useContext(LoadingContext)
   const { closeFirstModal: closeModal, showFirstModal: showModal, showSeccondModal: showDeleteModal, closeSeccondModal: closeDeleteModal } = useContext(ModalContext)
- 
+
   const loadGame = useCallback(async (id: string) => {
     setIsLoading(true)
     await new GameController().findById(id)
@@ -120,7 +120,7 @@ export function GameProvider({ children }: GameProviderProps) {
       addToast({
         type: 'error',
         title: 'Erro',
-        description: err.response.data.message,
+        description: getErrMessage(err),
       })
     })
     setBtnIsLoading(false);
@@ -147,7 +147,7 @@ export function GameProvider({ children }: GameProviderProps) {
         loadGames();
       }
       ).catch(err => {
-        showAlert(getFirstError(err.response.data.message));
+        showAlert(getErrMessage(err));
       })
       setBtnIsLoading(false);
     } else {
@@ -161,7 +161,7 @@ export function GameProvider({ children }: GameProviderProps) {
         closeModal();
         loadGame(selectedGame.id);
       }).catch(err => {
-        showAlert(getFirstError(err.response.data.message));
+        showAlert(getErrMessage(err));
       })
       setBtnIsLoading(false);
     }

@@ -6,7 +6,7 @@ import { Button } from '../../../components/Button/Index';
 import { LoaderCircle } from '../../../components/Loaders/Index';
 import { AuthContext } from '../../../hooks/AuthContext';
 import { LoadingContext } from '../../../hooks/LoadingContext';
-import { ToastContext } from '../../../hooks/ToastContext';
+import { ToastContext, ToastMessage } from '../../../hooks/ToastContext';
 import { validadeForm } from '../../../utils/validate';
 import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -61,13 +61,20 @@ export function RegisterForm() {
         })
       })
       .catch(err => {
-        const message = err.response.data.message ? err.response.data.message : 'Erro desconhecido';
+        let message = '';
+        let type = 'error' as ToastMessage['type'];
+        if (err.response) {
+          message = err.response.data.message ? err.response.data.message : 'Erro desconhecido';
+        } else {
+          type = 'info';
+          message = 'Servidor está dormindo, mas já estamos acordando ele. Tente de novo em alguns segundos.'
+        };
         addToast({
-          type: "error",
-          title: "Erro",
+          type: type || 'error',
+          title: 'Erro',
           description: message,
         })
-      });
+      })
     setBtnIsLoading(false);
   }
 

@@ -3,7 +3,7 @@ import { FiUser, FiLock } from 'react-icons/fi';
 import { LoaderCircle } from '../../../components/Loaders/Index';
 import { AuthContext } from '../../../hooks/AuthContext';
 import { LoadingContext } from '../../../hooks/LoadingContext';
-import { ToastContext } from '../../../hooks/ToastContext';
+import { ToastContext, ToastMessage } from '../../../hooks/ToastContext';
 import { validadeForm } from '../../../utils/validate';
 import { FiLogIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -48,16 +48,22 @@ export function LoginForm() {
       })
     }
     ).catch(err => {
-      const message = err.response.data.message ? err.response.data.message : 'Erro desconhecido';
+      let message = '';
+      let type = 'error' as ToastMessage['type'];
+      if (err.response) {
+        message = err.response.data.message ? err.response.data.message : 'Erro desconhecido';
+      } else {
+        type = 'info';
+        message = 'Servidor está dormindo, mas já estamos acordando ele. Tente de novo em alguns segundos.'
+      };
       addToast({
-        type: 'error',
+        type: type || 'error',
         title: 'Erro',
         description: message,
       })
-    });
+    })
     setBtnIsLoading(false);
   }
-
 
   return (
     <div className='inputs'>
@@ -74,7 +80,7 @@ export function LoginForm() {
           value={password} required={true} />
       </div>
       <div className='loginButton d-grid gap-2'>
-        {btnIsLoading ? 
+        {btnIsLoading ?
           <Button disabled type="large"><LoaderCircle /></Button>
           :
           <Button onClick={handleSubmit} type="large">Login</Button>

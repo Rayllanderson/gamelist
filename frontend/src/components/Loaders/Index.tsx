@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader"
 import './style.css'
 
@@ -26,15 +25,9 @@ export function LoaderCircleButton({ message }: LoaderCircleProps) {
 
 export const LoaderCard = () => {
   const loaderLenght = [1, 2, 3];
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    setTimeout(() => setIsVisible(true), 250);
-    if (!isVisible) return () => { };
-  }, [isVisible])
-
   return (
     <div>
-      {isVisible &&
+      {
         loaderLenght.map((key) => <Loader key={key} />)
       }
     </div>

@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { FiMail } from "react-icons/fi";
 import { LoaderCircle } from "../../../components/Loaders/Index";
 import { LoadingContext } from "../../../hooks/LoadingContext";
-import { ToastContext } from "../../../hooks/ToastContext";
+import { ToastContext, ToastMessage } from "../../../hooks/ToastContext";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Input } from '../../../components/Inputs/root/Input';
@@ -21,7 +21,7 @@ export function ForgetPasswordForm() {
   }
   async function handleSubmit(e: any) {
     setBtnIsLoading(true)
-    email ?
+    email ? 
       await api.post('/users/reset-password', { email: email })
         .then(() =>
           addToast({
@@ -30,15 +30,21 @@ export function ForgetPasswordForm() {
             description: "Sua nova senha foi enviada para o email cadastrado. Cheque sua caixa de emails.",
           })
         ).catch(err => {
-          console.log(err.response.data)
-          const message = err.response.data.message ? err.response.data.message : 'Função indísponível em produção.';
+          let message = '';
+          let type = 'error' as ToastMessage['type'];
+          if (err.response) {
+            message = err.response.data.message ? err.response.data.message : 'Erro desconhecido';
+          } else {
+            type = 'info';
+            message = 'Servidor está dormindo, mas já estamos acordando ele. Tente de novo em alguns segundos.'
+          };
           addToast({
-            type: 'error',
+            type: type || 'error',
             title: 'Erro',
             description: message,
           })
         })
-      :
+     :
       addToast({
         type: 'info',
         title: 'Email inválido',

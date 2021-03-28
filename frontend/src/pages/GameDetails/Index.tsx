@@ -33,7 +33,6 @@ function GameDetails() {
     (setSelectedGame({} as Game)), [setSelectedGame])
 
   const hasFoundGame = !(Object.keys(selectedGame).length === 0 && selectedGame.constructor === Object);
-  console.log(hasFoundGame)
   return (
     <div>
       <GameContent className="container">
