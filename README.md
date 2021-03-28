@@ -1,6 +1,5 @@
 # Game List
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/Rayllanderson/gamelist/blob/master/LICENSE) 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/9c8fa270-0b97-4c32-8151-767736a5abfc/deploy-status)](https://app.netlify.com/sites/rayllanderson-gamelist/deploys)
 
 ## 💻 Sobre o projeto
 
