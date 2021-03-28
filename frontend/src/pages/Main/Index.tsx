@@ -1,6 +1,5 @@
 import { Footer } from "./Footer";
 import { Search } from "./Search";
-import { Nav } from "./nav/Index";
 import { useContext } from "react";
 import { GameContext } from "../../hooks/GameContext";
 import CardList from "./card/Index";
@@ -9,6 +8,7 @@ import { useParams } from "react-router";
 import { SaveGameModal } from "./modal/Index";
 import { ModalContext } from "../../hooks/ModalContext";
 import { MyModal as Modal } from "../../components/Modal/Modal";
+import { Nav } from "../../components/nav/Index";
 
 interface RouteParams {
   status: string;

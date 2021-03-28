@@ -70,3 +70,7 @@
 .container-register {
     animation: appearFromLeft 1s;
 }
+
+.container-forget-password {
+    animation: appearFromLeft 1s;
+}

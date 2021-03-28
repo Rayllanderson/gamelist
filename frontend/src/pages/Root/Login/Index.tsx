@@ -1,15 +1,16 @@
 import { useContext, useState } from 'react';
-import '../../styles/components/login.css';
-import { AuthContext } from '../../hooks/AuthContext';
-import { ToastContext } from '../../hooks/ToastContext';
-import { FiLock, FiUser } from 'react-icons/fi';
-import { Input } from '../../components/Inputs/login/Input';
-import { LoadingContext } from '../../hooks/LoadingContext';
-import { Button } from '../../components/Button/Index';
-import { LoaderCircle } from '../../components/Loaders/Index';
-import { validadeForm } from '../../utils/validate';
+import { FiUser, FiLock } from 'react-icons/fi';
+import { LoaderCircle } from '../../../components/Loaders/Index';
+import { AuthContext } from '../../../hooks/AuthContext';
+import { LoadingContext } from '../../../hooks/LoadingContext';
+import { ToastContext } from '../../../hooks/ToastContext';
+import { validadeForm } from '../../../utils/validate';
+import { FiLogIn } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { Input } from '../../../components/Inputs/root/Input';
+import { Button } from '../../../components/Button/Index';
 
-export function Form() {
+export function LoginForm() {
 
   const { signIn } = useContext(AuthContext);
   const { addToast } = useContext(ToastContext);
@@ -81,4 +82,17 @@ export function Form() {
       </div>
     </div>
   );
+}
+
+export function LoginFooter() {
+  return (
+    <div className='links'>
+      <div className='d-flex justify-content-center'>
+        <Link to="/forget-password">Esqueci minha senha</Link>
+      </div>
+      <div className="link-register d-flex justify-content-center">
+        <Link to="/register"><FiLogIn /> &nbsp; Criar Conta</Link>
+      </div>
+    </div>
+  )
 }

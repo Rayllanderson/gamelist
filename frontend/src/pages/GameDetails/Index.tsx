@@ -32,6 +32,8 @@ function GameDetails() {
   const resetSelectedGame = useCallback(() =>
     (setSelectedGame({} as Game)), [setSelectedGame])
 
+  const hasFoundGame = !(Object.keys(selectedGame).length === 0 && selectedGame.constructor === Object);
+  console.log(hasFoundGame)
   return (
     <div>
       <GameContent className="container">
@@ -41,34 +43,36 @@ function GameDetails() {
             isMobile() ?
               <LoaderGameMobile /> : <LoaderGame />
           ) : (
-            <>
-              <GameInfo>
-                <header>
-                  <img src="/game-controler.svg" alt="logo" />
-                  <div>
-                    <strong>{selectedGame.name}</strong>
-                  </div>
-                </header>
-                <ul>
-                  <li>
-                    <span>Status</span>
-                    <strong>{selectedGame.status}</strong>
-                  </li>
-                  <li>
-                    <span>Iniciado em </span>
-                    <strong>{formartStartDate(selectedGame)}</strong>
-                  </li>
-                  <li>
-                    <span>Finalizado em</span>
-                    <strong>{formartEndDate(selectedGame)}</strong>
-                  </li>
-                </ul>
-              </GameInfo>
-              <ButtonGroup >
-                <button className="btn btn-purple btn-lg" onClick={() => edit(selectedGame)}>Editar</button>
-                <button className="btn btn-red btn-lg" onClick={() => remove(selectedGame.id)}>Deletar</button>
-              </ButtonGroup>
-            </>
+            hasFoundGame ? (
+              <>
+                <GameInfo>
+                  <header>
+                    <img src="/game-controler.svg" alt="logo" />
+                    <div>
+                      <strong>{selectedGame.name}</strong>
+                    </div>
+                  </header>
+                  <ul>
+                    <li>
+                      <span>Status</span>
+                      <strong>{selectedGame.status}</strong>
+                    </li>
+                    <li>
+                      <span>Iniciado em </span>
+                      <strong>{formartStartDate(selectedGame)}</strong>
+                    </li>
+                    <li>
+                      <span>Finalizado em</span>
+                      <strong>{formartEndDate(selectedGame)}</strong>
+                    </li>
+                  </ul>
+                </GameInfo>
+                <ButtonGroup >
+                  <button className="btn btn-purple btn-lg" onClick={() => edit(selectedGame)}>Editar</button>
+                  <button className="btn btn-red btn-lg" onClick={() => remove(selectedGame.id)}>Deletar</button>
+                </ButtonGroup>
+              </>
+            ) : <div className="text-white text-center" style={{fontSize: 18}}> Nenhum jogo encontrado</div>
           )}
         </Container>
 

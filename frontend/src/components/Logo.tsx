@@ -1,5 +1,4 @@
-import '../../styles/components/login.css';
-
+import '../styles/components/root.css'
 export function Logo(){
   return(
   <div className='logoContent'>
