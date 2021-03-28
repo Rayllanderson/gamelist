@@ -1,13 +1,16 @@
 import { useContext, useState } from "react";
 import { FiMail } from "react-icons/fi";
-import { Button } from "../../components/Button/Index";
-import { Input } from "../../components/Inputs/login/Input";
-import { LoaderCircle } from "../../components/Loaders/Index";
-import { LoadingContext } from "../../hooks/LoadingContext";
-import { ToastContext } from "../../hooks/ToastContext";
-import api from "../../services/api";
+import { LoaderCircle } from "../../../components/Loaders/Index";
+import { LoadingContext } from "../../../hooks/LoadingContext";
+import { ToastContext } from "../../../hooks/ToastContext";
+import { FiArrowLeft } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { Input } from '../../../components/Inputs/root/Input';
+import { Button } from '../../../components/Button/Index';
+import api from "../../../services/api";
 
-export default function Form() {
+
+export function ForgetPasswordForm() {
 
   const [email, setEmail] = useState('');
   const { addToast } = useContext(ToastContext);
@@ -60,4 +63,15 @@ export default function Form() {
       </div>
     </div>
   );
+}
+
+
+export function ForgetPasswordFooter() {
+  return (
+    <div className='links'>
+      <div className='d-flex justify-content-center'>
+        <Link to="/"><FiArrowLeft /> &nbsp; Voltar para o login</Link>
+      </div>
+    </div>
+  )
 }
