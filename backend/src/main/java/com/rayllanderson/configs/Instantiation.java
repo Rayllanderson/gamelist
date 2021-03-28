@@ -16,9 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Arrays;
 import java.util.Date;
 
-//@Configuration  implements CommandLineRunner
-public class Instantiation {
-/*
+@Configuration
+public class Instantiation implements CommandLineRunner{
+
     @Autowired
     private GameRepository gameRepository;
 
@@ -59,5 +59,4 @@ public class Instantiation {
 
         gameRepository.saveAll(Arrays.asList(g1, g2, g3, g4));
     }
-*/
 }

@@ -27,7 +27,8 @@ export default function Form() {
             description: "Sua nova senha foi enviada para o email cadastrado. Cheque sua caixa de emails.",
           })
         ).catch(err => {
-          const message = err.response.data.message ? err.response.data.message : 'Erro desconhecido';
+          console.log(err.response.data)
+          const message = err.response.data.message ? err.response.data.message : 'Função indísponível em produção.';
           addToast({
             type: 'error',
             title: 'Erro',

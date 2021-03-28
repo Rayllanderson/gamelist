@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/v1.0/users", "/api/v1.0/users/reset-password")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1.0/users/user-details").permitAll()
-//                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1.0/users", "/api/v1.0/users/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
