@@ -1,7 +1,7 @@
 .loader {
     animation-name: loader-delay;
     animation-delay: 0ms;
-    animation-duration: 2s;
+    animation-duration: 250ms;
 }
 
 @keyframes loader-delay {
