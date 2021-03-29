@@ -29,11 +29,10 @@ Game List é uma forma de organizar os jogos de seu interesse. Organizando-os em
 ### :coffee: Back end
 - [Java](https://www.oracle.com/br/java/)
 - JPA / Hibernate
-- [Spring](https://spring.io/)
-  - [Spring Boot](https://spring.io/projects/spring-boot)
-  - [Spring Framework](https://spring.io/projects/spring-framework)
-  - [Spring Data JPA](spring-data-jpa) 
-  - [Spring Security](https://spring.io/projects/spring-security)
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Spring Framework](https://spring.io/projects/spring-framework)
+- [Spring Data JPA](spring-data-jpa) 
+- [Spring Security](https://spring.io/projects/spring-security)
 - [Maven](https://maven.apache.org/)
 
 ### ⚛️ Front end
@@ -69,6 +68,8 @@ cd backend
 Pré-requisitos: npm / yarn
 
 💡 O Front End precisa que o Back End esteja sendo executado para funcionar.
+
+💡 Trocar a url da api em `frontend/src/services/api.ts` de `process.env.REACT_APP_API_URL` para `http://localhost:8080/api/v1.0`
 
 ```bash
 # clonar repositório
