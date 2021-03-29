@@ -31,7 +31,7 @@ Game List é uma forma de organizar os jogos de seu interesse. Organizando-os em
 - JPA / Hibernate
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Spring Framework](https://spring.io/projects/spring-framework)
-- [Spring Data JPA](spring-data-jpa) 
+- [Spring Data JPA](https://spring.io/projects/spring-data-jpa) 
 - [Spring Security](https://spring.io/projects/spring-security)
 - [Maven](https://maven.apache.org/)
 
