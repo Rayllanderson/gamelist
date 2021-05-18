@@ -6,7 +6,6 @@ import com.rayllanderson.gamelist.domain.dtos.user.UserDetailsDTO;
 import com.rayllanderson.gamelist.domain.entities.Role;
 import com.rayllanderson.gamelist.domain.entities.User;
 import com.rayllanderson.gamelist.domain.entities.enums.RoleType;
-import com.rayllanderson.gamelist.domain.exceptions.EmailExistsException;
 import com.rayllanderson.gamelist.domain.exceptions.UsernameExistsException;
 import com.rayllanderson.gamelist.domain.repositories.UserRepository;
 import com.rayllanderson.gamelist.domain.services.exceptions.ObjectNotFoundException;
@@ -111,10 +110,6 @@ public class UserService {
     /**
      * Use this method if you want to update ONLY password.
      *
-     * @param user
-     * @param userId
-     *
-     * @return
      *
      * @throws IllegalArgumentException if password is empty or null
      */
@@ -140,11 +135,11 @@ public class UserService {
     }
 
     private void updateData(UserDetailsDTO source, UserDTO target) {
-        BeanUtils.copyProperties(source, target, "id", "password", "username");
+        BeanUtils.copyProperties(source, target, "id", "password", "username", "roles");
     }
 
     private void updatePassword(UserDTO source, UserDTO target) {
-        BeanUtils.copyProperties(source, target, "id", "name", "email", "username");
+        BeanUtils.copyProperties(source, target, "id", "name", "email", "username", "roles");
     }
 
     private String generateNewPassword() {
