@@ -3,7 +3,6 @@ package com.rayllanderson.gamelist.api.controllers;
 import com.rayllanderson.gamelist.api.util.UserUtil;
 import com.rayllanderson.gamelist.domain.dtos.game.GameDTO;
 import com.rayllanderson.gamelist.domain.entities.enums.GameStatus;
-import com.rayllanderson.gamelist.domain.repositories.GameRepository;
 import com.rayllanderson.gamelist.domain.repositories.UserRepository;
 import com.rayllanderson.gamelist.domain.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1.0/games")
 public class GameController {
-
-    @Autowired
-    private GameRepository repository;
 
     @Autowired
     private UserRepository userRepository;

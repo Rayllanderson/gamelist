@@ -6,6 +6,7 @@ import com.rayllanderson.gamelist.domain.dtos.user.UserDetailsDTO;
 import com.rayllanderson.gamelist.domain.entities.Role;
 import com.rayllanderson.gamelist.domain.entities.User;
 import com.rayllanderson.gamelist.domain.entities.enums.RoleType;
+import com.rayllanderson.gamelist.domain.exceptions.EmailExistsException;
 import com.rayllanderson.gamelist.domain.exceptions.UsernameExistsException;
 import com.rayllanderson.gamelist.domain.repositories.UserRepository;
 import com.rayllanderson.gamelist.domain.services.exceptions.ObjectNotFoundException;
@@ -36,7 +37,7 @@ public class UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public UserDetailsDTO save(UserDTO userDto) throws IllegalArgumentException {
         Assert.usernameNotExists(userDto.getUsername(), repository);
-        Assert.emailNotExists(userDto.getEmail(), repository);
+        Assert.thatEmailNotExists(userDto.getEmail(), repository);
         Assert.validPassword(userDto);
         User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
@@ -52,7 +53,7 @@ public class UserService {
 
     public UserDetailsDTO registerAnAdmin(UserDTO userDto) throws IllegalArgumentException {
         Assert.usernameNotExists(userDto.getUsername(), repository);
-        Assert.emailNotExists(userDto.getEmail(), repository);
+        Assert.thatEmailNotExists(userDto.getEmail(), repository);
         Assert.validPassword(userDto);
         User user = fromDTO(userDto);
         user.addRole(new Role(RoleType.ROLE_USER));
@@ -101,7 +102,7 @@ public class UserService {
         UserDTO userFromDataBase = this.find(userId);
         boolean hasUpdateEmail = !Assert.sameField(user.getEmail(), userFromDataBase.getEmail());
         if (hasUpdateEmail) {
-            Assert.emailNotExists(user.getEmail(), repository);
+            Assert.thatEmailNotExists(user.getEmail(), repository);
         }
         updateData(user, userFromDataBase);
         return update(userFromDataBase);

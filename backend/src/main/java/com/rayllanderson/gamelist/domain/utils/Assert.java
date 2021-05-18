@@ -15,14 +15,8 @@ public class Assert {
         }
     }
 
-    public static void emailNotExists(String email, UserRepository userRepository){
-        boolean emailExists = userRepository.existsByEmail(email);
-        if(emailExists){
-            throw new EmailExistsException("Email já cadastrado. Tente outro.");
-        }
-    }
-
     public static boolean sameField(String newField, String oldField) {
+        if (newField == null || oldField == null) return false;
         return newField.equals(oldField);
     }
 
@@ -62,4 +56,12 @@ public class Assert {
         Assert.notBlank(user.getUsername(), "username");
     }
 
+    public static void thatEmailNotExists(String email, UserRepository repository) {
+        if (email == null) return;
+        if (email.isEmpty() || email.trim().isEmpty()) return;
+        boolean emailExists = repository.existsByEmail(email);
+        if(emailExists){
+            throw new EmailExistsException("Email já cadastrado. Tente outro.");
+        }
+    }
 }
